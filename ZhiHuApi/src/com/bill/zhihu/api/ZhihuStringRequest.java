@@ -8,6 +8,7 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
 /**
+ * 作为所有Request的基础，自定义UA
  * 
  * @author Bill Lv
  *

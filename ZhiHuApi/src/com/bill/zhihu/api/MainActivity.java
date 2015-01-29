@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
 //		CookieHandler.setDefault(manager);
 		queue = Volley.newRequestQueue(this, new HttpClientStack(
 				new DefaultHttpClient()));
+		ZhihuVolley.getInstance(this);
 //
 //		findViewById(R.id.login).setOnClickListener(new OnClickListener() {
 //
