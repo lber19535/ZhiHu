@@ -7,7 +7,11 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
-
+/**
+ * 
+ * @author Bill Lv
+ *
+ */
 public class ZhihuStringRequest extends StringRequest {
 
 	// User agent
