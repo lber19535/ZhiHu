@@ -28,27 +28,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-//		CookieManager manager = new CookieManager();
-//		manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
-//		CookieHandler.setDefault(manager);
 		queue = Volley.newRequestQueue(this, new HttpClientStack(
 				new DefaultHttpClient()));
 		ZhihuVolley.getInstance(this);
-//
-//		findViewById(R.id.login).setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				initZhihuHomePage();
-//			}
-//		});
-//		findViewById(R.id.home).setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				initZhihuHomePage();
-//			}
-//		});
+
 		initComHomePage();
 
 	}
