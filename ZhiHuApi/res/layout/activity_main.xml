@@ -32,4 +32,15 @@
         android:layout_marginTop="24dp"
         android:text="登陆" />
 
+    <ImageView
+        android:id="@+id/captcha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/captcha_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="captcha" />
+
 </RelativeLayout>
