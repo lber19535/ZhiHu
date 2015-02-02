@@ -4,5 +4,6 @@
     <string name="app_name">ZhiHu</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_default_title">知乎</string>
 
 </resources>
