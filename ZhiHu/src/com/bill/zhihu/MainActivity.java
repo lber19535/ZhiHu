@@ -1,12 +1,10 @@
 package com.bill.zhihu;
 
-import com.bill.zhihu.login.ActivityLogin;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.bill.zhihu.login.ActivityLogin;
 
 /**
  * 首页
