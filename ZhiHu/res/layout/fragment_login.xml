@@ -10,7 +10,7 @@
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:id="@+id/login_frame"
+            android:id="@+id/login_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="@dimen/global_margin_32"
@@ -45,7 +45,7 @@
                         android:layout_weight="3" >
 
                         <EditText
-                            android:id="@+id/login_name"
+                            android:id="@+id/login_account"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
@@ -94,6 +94,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/captcha_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/global_margin_16"
@@ -143,6 +144,7 @@
             android:layout_weight="1" >
 
             <Button
+                android:id="@+id/login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

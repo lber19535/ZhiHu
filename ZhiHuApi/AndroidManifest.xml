@@ -10,6 +10,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="com.bill.zhihu.api.permission.LOGIN"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -25,7 +29,15 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.bill.zhihu.api.service.LoginService" />
+        <service
+            android:name="com.bill.zhihu.api.service.LoginService"
+            android:exported="true"
+            android:permission="com.bill.zhihu.api.permission.LOGIN"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.bill.zhihu.api.service.login" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

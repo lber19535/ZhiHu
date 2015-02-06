@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bill.zhihu.login.ActivityLogin"
+            android:name="com.bill.zhihu.login.ActivityHome"
             android:label="@string/action_default_title" >
         </activity>
     </application>
