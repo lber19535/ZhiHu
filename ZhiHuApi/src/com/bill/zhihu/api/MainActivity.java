@@ -127,8 +127,8 @@ public class MainActivity extends Activity {
 			protected Map<String, String> getParams() throws AuthFailureError {
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("_xsrf", xsrf);
-				params.put("email", "lber19535@126.com");
-				params.put("password", "albaer19535");
+				params.put("email", "xxxx");
+				params.put("password", "xxx");
 				params.put("rememberme", "y");
 				params.put("captcha", captchaEdt.getText().toString().trim());
 				return params;

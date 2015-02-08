@@ -49,7 +49,6 @@ public class FragmentLogin extends Fragment {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			login = ILogin.Stub.asInterface(service);
-			System.out.println("onServiceConnected");
 		}
 	};
 
@@ -79,11 +78,11 @@ public class FragmentLogin extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					int code = login.login("hello", "world", "!");
+					int code = login.login(accountEdt.getEditableText()
+							.toString(), pwdEdt.getEditableText().toString(),
+							"");
 					System.out.println(code);
-					System.out.println(login.haveCaptcha());
 				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
