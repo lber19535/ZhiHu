@@ -5,28 +5,21 @@ import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.ImageRequest;
 import com.bill.zhihu.api.ZhihuLog;
 import com.bill.zhihu.api.ZhihuStringRequest;
 import com.bill.zhihu.api.ZhihuURL;
 import com.bill.zhihu.api.ZhihuVolley;
 import com.bill.zhihu.api.binder.aidl.ILogin;
-
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.os.IBinder;
-import android.os.RemoteException;
 
 /**
  * 登录服务 1.登录 2.登出 3.验证码
@@ -54,7 +47,7 @@ public class LoginService extends Service {
 		public boolean haveCaptcha() throws RemoteException {
 			return haveCaptcha;
 		}
-	};;
+	};
 
 	private String xsrf;
 	private String captcha;
@@ -66,7 +59,7 @@ public class LoginService extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		System.out.println("on bind");
+		ZhihuLog.d(TAG, "On Bind");
 		volley = ZhihuVolley.getInstance(this);
 		fetchKeyWords();
 		return mBinder;
@@ -104,6 +97,12 @@ public class LoginService extends Service {
 					@Override
 					public void onResponse(String response) {
 						ZhihuLog.d(TAG, "response " + response);
+						Document doc = Jsoup.parse(response);
+						String text = doc.select("div[class=failure]").text();
+						if (!text.isEmpty()) {
+							Toast.makeText(LoginService.this, text,
+									Toast.LENGTH_SHORT).show();
+						}
 					}
 
 				}, null) {
