@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.binder.aidl.ILogin;
@@ -78,9 +79,16 @@ public class FragmentLogin extends Fragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					int code = login.login(accountEdt.getEditableText()
-							.toString(), pwdEdt.getEditableText().toString(),
-							"");
+					String account = accountEdt.getEditableText().toString();
+					String pwd = pwdEdt.getEditableText().toString();
+					String captcha = captchaEdt.getEditableText().toString();
+
+					if (account.isEmpty() || pwd.isEmpty()) {
+						Toast.makeText(getActivity(), "请输入账号密码",
+								Toast.LENGTH_SHORT).show();
+					}
+
+					int code = login.login(account, pwd, captcha);
 					System.out.println(code);
 				} catch (RemoteException e) {
 					e.printStackTrace();
