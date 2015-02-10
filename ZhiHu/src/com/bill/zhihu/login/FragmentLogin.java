@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.binder.aidl.ILogin;
+import com.bill.zhihu.api.binder.aidl.ILoginService;
+import com.bill.zhihu.api.binder.aidl.ILoginServiceCallback;
 
 /**
  * 登录
@@ -39,17 +41,49 @@ public class FragmentLogin extends Fragment {
 
 	private View rootView;
 	private ILogin login;
+	private ILoginService loginService;
 
-	private ServiceConnection connection = new ServiceConnection() {
+	private ILoginServiceCallback callback = new ILoginServiceCallback.Stub() {
+
+		@Override
+		public void valueChanged(String captchaImgFilePath)
+				throws RemoteException {
+			System.out.println(captchaImgFilePath);
+
+		}
+	};
+
+	private ServiceConnection loginConnection = new ServiceConnection() {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
+			System.out.println("onServiceDisconnected");
 			login = null;
 		}
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
+			System.out.println("onServiceConnected");
 			login = ILogin.Stub.asInterface(service);
+		}
+	};
+	private ServiceConnection callbackConnection = new ServiceConnection() {
+		
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			System.out.println("onServiceDisconnected");
+			loginService = null;
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			System.out.println("onServiceConnected");
+			loginService = ILoginService.Stub.asInterface(service);
+			try {
+				loginService.registerCallback(callback);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
 		}
 	};
 
@@ -58,6 +92,7 @@ public class FragmentLogin extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_login, container, false);
 		initView();
+		bindService();
 		return rootView;
 	}
 
@@ -68,11 +103,6 @@ public class FragmentLogin extends Fragment {
 		loginBtn = (Button) rootView.findViewById(R.id.login_btn);
 		loginLayout = (RelativeLayout) rootView.findViewById(R.id.login_layout);
 
-		Intent intent = new Intent();
-		intent.setClassName("com.bill.zhihu.api",
-				"com.bill.zhihu.api.service.LoginService");
-		intent.setAction("com.bill.zhihu.api.service.login");
-		getActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE);
 
 		loginBtn.setOnClickListener(new OnClickListener() {
 
@@ -96,6 +126,24 @@ public class FragmentLogin extends Fragment {
 
 			}
 		});
+	}
+	
+	private void bindService(){
+		String[] classes = {ILogin.class.getName(), ILoginService.class.getName()};
+//		for (String string : classes) {
+			Intent intent1 = new Intent();
+			intent1.setClassName("com.bill.zhihu.api",
+					"com.bill.zhihu.api.service.LoginService");
+			intent1.setAction("com.bill.zhihu.api.service.login");
+			intent1.putExtra("CLASS", classes[0]);
+			getActivity().bindService(intent1, loginConnection, Context.BIND_AUTO_CREATE);
+			Intent intent2 = new Intent();
+			intent2.setClassName("com.bill.zhihu.api",
+					"com.bill.zhihu.api.service.LoginService");
+			intent2.setAction("com.bill.zhihu.api.service.login");
+			intent2.putExtra("CLASS", classes[1]);
+			getActivity().bindService(intent2, callbackConnection, Context.BIND_AUTO_CREATE);
+//		}
 
 	}
 

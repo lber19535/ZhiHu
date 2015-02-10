@@ -20,6 +20,8 @@ import com.bill.zhihu.api.ZhihuStringRequest;
 import com.bill.zhihu.api.ZhihuURL;
 import com.bill.zhihu.api.ZhihuVolley;
 import com.bill.zhihu.api.binder.aidl.ILogin;
+import com.bill.zhihu.api.binder.aidl.ILoginService;
+import com.bill.zhihu.api.binder.aidl.ILoginServiceCallback;
 
 /**
  * 登录服务 1.登录 2.登出 3.验证码
@@ -30,8 +32,28 @@ import com.bill.zhihu.api.binder.aidl.ILogin;
  *
  */
 public class LoginService extends Service {
-	
-	private ILogin.Stub mBinder = new ILogin.Stub() {
+
+	private ILoginServiceCallback callBack;
+
+	private ILoginService.Stub mLoginService = new ILoginService.Stub() {
+
+		@Override
+		public void unregisterCallback(ILoginServiceCallback cb)
+				throws RemoteException {
+			// TODO Auto-generated method stub
+			callBack = null;
+		}
+
+		@Override
+		public void registerCallback(ILoginServiceCallback cb)
+				throws RemoteException {
+			// TODO Auto-generated method stub
+			callBack = cb;
+
+		}
+	};
+
+	private ILogin.Stub mLogin = new ILogin.Stub() {
 
 		@Override
 		public int login(String account, String pwd, String captcha)
@@ -58,11 +80,26 @@ public class LoginService extends Service {
 	private static final String TAG = LoginService.class.getName();
 
 	@Override
+	public void onCreate() {
+		super.onCreate();
+		volley = ZhihuVolley.getInstance(this);
+	}
+
+	@Override
 	public IBinder onBind(Intent intent) {
 		ZhihuLog.d(TAG, "On Bind");
-		volley = ZhihuVolley.getInstance(this);
-		fetchKeyWords();
-		return mBinder;
+		String action = intent.getAction();
+		ZhihuLog.d(TAG, "action " + action);
+		String className = intent.getStringExtra("CLASS");
+		ZhihuLog.d(TAG, "className  " + className);
+		if (ILogin.class.getName().equals(className)) {
+			System.out.println("mLogin");
+			return mLogin;
+		} else if (ILoginService.class.getName().equals(className)) {
+			System.out.println("mLoginService");
+			return mLoginService;
+		}
+		return null;
 	}
 
 	private void fetchKeyWords() {
@@ -82,6 +119,12 @@ public class LoginService extends Service {
 							haveCaptcha = true;
 						}
 						ZhihuLog.d(TAG, "captcha url " + captcha);
+						try {
+							callBack.valueChanged("dadsad");
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
 					}
 
