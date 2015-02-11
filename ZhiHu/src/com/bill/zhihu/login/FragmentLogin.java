@@ -57,27 +57,27 @@ public class FragmentLogin extends Fragment {
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			System.out.println("onServiceDisconnected");
+			System.out.println("loginConnection onServiceDisconnected");
 			login = null;
 		}
 
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			System.out.println("onServiceConnected");
+			System.out.println("loginConnection onServiceConnected");
 			login = ILogin.Stub.asInterface(service);
 		}
 	};
 	private ServiceConnection callbackConnection = new ServiceConnection() {
-		
+
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
-			System.out.println("onServiceDisconnected");
+			System.out.println("callbackConnection onServiceDisconnected");
 			loginService = null;
 		}
-		
+
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			System.out.println("onServiceConnected");
+			System.out.println("callbackConnection onServiceConnected");
 			loginService = ILoginService.Stub.asInterface(service);
 			try {
 				loginService.registerCallback(callback);
@@ -103,7 +103,6 @@ public class FragmentLogin extends Fragment {
 		loginBtn = (Button) rootView.findViewById(R.id.login_btn);
 		loginLayout = (RelativeLayout) rootView.findViewById(R.id.login_layout);
 
-
 		loginBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -127,23 +126,27 @@ public class FragmentLogin extends Fragment {
 			}
 		});
 	}
-	
-	private void bindService(){
-		String[] classes = {ILogin.class.getName(), ILoginService.class.getName()};
-//		for (String string : classes) {
-			Intent intent1 = new Intent();
-			intent1.setClassName("com.bill.zhihu.api",
-					"com.bill.zhihu.api.service.LoginService");
-			intent1.setAction("com.bill.zhihu.api.service.login");
-			intent1.putExtra("CLASS", classes[0]);
-			getActivity().bindService(intent1, loginConnection, Context.BIND_AUTO_CREATE);
-			Intent intent2 = new Intent();
-			intent2.setClassName("com.bill.zhihu.api",
-					"com.bill.zhihu.api.service.LoginService");
-			intent2.setAction("com.bill.zhihu.api.service.login");
-			intent2.putExtra("CLASS", classes[1]);
-			getActivity().bindService(intent2, callbackConnection, Context.BIND_AUTO_CREATE);
-//		}
+
+	private void bindService() {
+		String[] classes = { ILogin.class.getName(),
+				ILoginService.class.getName() };
+		//		for (String string : classes) {
+		Intent intent1 = new Intent();
+		intent1.setClassName("com.bill.zhihu.api",
+				"com.bill.zhihu.api.service.LoginService");
+		intent1.setAction("com.bill.zhihu.api.service.login");
+		intent1.putExtra("CLASS", classes[0]);
+		getActivity().bindService(intent1, loginConnection,
+				Context.BIND_AUTO_CREATE);
+
+		Intent intent2 = new Intent();
+		intent2.setClassName("com.bill.zhihu.api",
+				"com.bill.zhihu.api.service.LoginService");
+		intent2.setAction("com.bill.zhihu.api.service.login");
+		intent2.putExtra("CLASS", classes[1]);
+		getActivity().bindService(intent2, callbackConnection,
+				Context.BIND_AUTO_CREATE);
+		//		}
 
 	}
 

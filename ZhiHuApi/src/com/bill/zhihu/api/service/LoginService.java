@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response.Listener;
+import com.bill.jeson.Jeson;
+import com.bill.zhihu.api.TopFeedListParams;
 import com.bill.zhihu.api.ZhihuLog;
 import com.bill.zhihu.api.ZhihuStringRequest;
 import com.bill.zhihu.api.ZhihuURL;
@@ -139,7 +141,7 @@ public class LoginService extends Service {
 
 					@Override
 					public void onResponse(String response) {
-						ZhihuLog.d(TAG, "response " + response);
+						ZhihuLog.d(TAG, "login response " + response);
 						Document doc = Jsoup.parse(response);
 						String text = doc.select("div[class=failure]").text();
 						if (!text.isEmpty()) {
@@ -158,6 +160,36 @@ public class LoginService extends Service {
 				params.put("rememberme", "y");
 				if (haveCaptcha) {
 					params.put("captcha", captcha);
+				}
+				return params;
+			}
+		};
+		volley.addQueue(request);
+	}
+	private void topStoreFeedList(long blockId) {
+		ZhihuStringRequest request = new ZhihuStringRequest(Method.POST,
+				ZhihuURL.MORE_STORY, new Listener<String>() {
+			
+			@Override
+			public void onResponse(String response) {
+				ZhihuLog.d(TAG, "topStoreFeedList response " + response);
+			}
+			
+		}, null) {
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError {
+				Map<String, String> params = new HashMap<String, String>();
+				params.put("_xsrf", xsrf);
+				params.put("method", "next");
+				TopFeedListParams mTopFeedListParams = new TopFeedListParams();
+				mTopFeedListParams.setAction("next");
+				mTopFeedListParams.setBlockId(1L);
+				mTopFeedListParams.setOffset(16);
+				try {
+					params.put("params", Jeson.bean2String(mTopFeedListParams));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				return params;
 			}
