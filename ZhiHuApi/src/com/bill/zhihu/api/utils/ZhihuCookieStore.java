@@ -39,6 +39,7 @@ public class ZhihuCookieStore implements CookieStore {
 
 	@Override
 	public void addCookie(Cookie cookie) {
+		System.out.println(cookie.toString());
 
 		String name = cookie.getName() + cookie.getDomain();
 
@@ -47,7 +48,6 @@ public class ZhihuCookieStore implements CookieStore {
 		} else {
 			cookies.remove(name);
 		}
-
 		Editor editor = sp.edit();
 		editor.putString(COOKIE_STORE_NAMES,
 				TextUtils.join(",", cookies.keySet()));

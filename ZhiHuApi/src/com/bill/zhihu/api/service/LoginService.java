@@ -79,6 +79,7 @@ public class LoginService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		volley = ZhihuVolley.getInstance(this);
+		fetchKeyWords();
 	}
 
 	@Override

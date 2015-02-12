@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.Volley;
+import com.bill.zhihu.api.utils.ZhihuCookieStore;
 
 /**
  * 单例，所有request由一个request queue统一管理
@@ -19,10 +20,16 @@ public class ZhihuVolley {
 
 	private RequestQueue queue;
 	private static ZhihuVolley zhihuVolley;
+	private DefaultHttpClient client;
 
 	private ZhihuVolley(Context mContext) {
-		queue = Volley.newRequestQueue(mContext, new HttpClientStack(
-				new DefaultHttpClient()));
+
+		ZhihuCookieStore cookieStore = new ZhihuCookieStore(mContext);
+
+		client = new DefaultHttpClient();
+		client.setCookieStore(cookieStore);
+
+		queue = Volley.newRequestQueue(mContext, new HttpClientStack(client));
 	}
 
 	public static ZhihuVolley getInstance(Context mContext) {
