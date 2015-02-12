@@ -22,7 +22,6 @@ import com.bill.zhihu.api.ZhihuStringRequest;
 import com.bill.zhihu.api.ZhihuURL;
 import com.bill.zhihu.api.ZhihuVolley;
 import com.bill.zhihu.api.binder.aidl.ILogin;
-import com.bill.zhihu.api.binder.aidl.ILoginService;
 import com.bill.zhihu.api.binder.aidl.ILoginServiceCallback;
 
 /**
@@ -37,39 +36,34 @@ public class LoginService extends Service {
 
 	private ILoginServiceCallback callBack;
 
-	private ILoginService.Stub mLoginService = new ILoginService.Stub() {
-
-		@Override
-		public void unregisterCallback(ILoginServiceCallback cb)
-				throws RemoteException {
-			// TODO Auto-generated method stub
-			callBack = null;
-		}
-
-		@Override
-		public void registerCallback(ILoginServiceCallback cb)
-				throws RemoteException {
-			// TODO Auto-generated method stub
-			callBack = cb;
-
-		}
-	};
-
 	private ILogin.Stub mLogin = new ILogin.Stub() {
 
 		@Override
-		public int login(String account, String pwd, String captcha)
+		public void login(String account, String pwd, String captcha)
 				throws RemoteException {
 			ZhihuLog.d(TAG, "account " + account);
 			ZhihuLog.d(TAG, "pwd " + pwd);
 			ZhihuLog.d(TAG, "captcha " + captcha);
 			loginWeb(account, pwd, captcha);
-			return 2333;
 		}
 
 		@Override
 		public boolean haveCaptcha() throws RemoteException {
 			return haveCaptcha;
+		}
+
+		@Override
+		public void registerCallback(ILoginServiceCallback cb)
+				throws RemoteException {
+			callBack = cb;
+
+		}
+
+		@Override
+		public void unregisterCallback(ILoginServiceCallback cb)
+				throws RemoteException {
+			callBack = cb;
+
 		}
 	};
 
@@ -90,18 +84,7 @@ public class LoginService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		ZhihuLog.d(TAG, "On Bind");
-		String action = intent.getAction();
-		ZhihuLog.d(TAG, "action " + action);
-		String className = intent.getStringExtra("CLASS");
-		ZhihuLog.d(TAG, "className  " + className);
-		if (ILogin.class.getName().equals(className)) {
-			System.out.println("mLogin");
-			return mLogin;
-		} else if (ILoginService.class.getName().equals(className)) {
-			System.out.println("mLoginService");
-			return mLoginService;
-		}
-		return null;
+		return mLogin;
 	}
 
 	private void fetchKeyWords() {
@@ -166,16 +149,17 @@ public class LoginService extends Service {
 		};
 		volley.addQueue(request);
 	}
+
 	private void topStoreFeedList(long blockId) {
 		ZhihuStringRequest request = new ZhihuStringRequest(Method.POST,
 				ZhihuURL.MORE_STORY, new Listener<String>() {
-			
-			@Override
-			public void onResponse(String response) {
-				ZhihuLog.d(TAG, "topStoreFeedList response " + response);
-			}
-			
-		}, null) {
+
+					@Override
+					public void onResponse(String response) {
+						ZhihuLog.d(TAG, "topStoreFeedList response " + response);
+					}
+
+				}, null) {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
 				Map<String, String> params = new HashMap<String, String>();
