@@ -23,9 +23,9 @@ import android.text.TextUtils;
  */
 public class ZhihuCookieStore implements CookieStore {
 
-	private static final String COOKIE_FILE_NAME = "zhihu_cookies";
-	private static final String TAG = ZhihuCookieStore.class.getName();
-	private static final String COOKIE_STORE_NAMES = "cookies_names";
+	private final String COOKIE_FILE_NAME = "zhihu_cookies";
+	private final String TAG = getClass().getName();
+	private final String COOKIE_STORE_NAMES = "cookies_names";
 	private SharedPreferences sp;
 
 	private ConcurrentHashMap<String, Cookie> cookies;

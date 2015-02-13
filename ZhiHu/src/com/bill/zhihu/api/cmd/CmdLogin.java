@@ -8,11 +8,18 @@ import org.jsoup.nodes.Document;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
-import com.android.volley.Response.Listener;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.bill.zhihu.api.ZhihuLog;
 import com.bill.zhihu.api.ZhihuStringRequest;
 import com.bill.zhihu.api.ZhihuURL;
 
+/**
+ * 登陆
+ * 
+ * @author Bill Lv
+ *
+ */
 public class CmdLogin extends Command {
 
 	private CallbackListener listener;
@@ -29,7 +36,7 @@ public class CmdLogin extends Command {
 	public void exec() {
 
 		ZhihuStringRequest request = new ZhihuStringRequest(Method.POST,
-				ZhihuURL.LOGIN, new Listener<String>() {
+				ZhihuURL.LOGIN, new Response.Listener<String>() {
 
 					@Override
 					public void onResponse(String response) {
@@ -39,7 +46,14 @@ public class CmdLogin extends Command {
 						listener.callback(text);
 					}
 
-				}, null) {
+				}, new Response.ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						ZhihuLog.d(TAG, error.getMessage());
+					}
+
+				}) {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
 				Map<String, String> params = new HashMap<String, String>();

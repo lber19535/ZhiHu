@@ -5,9 +5,9 @@ import com.bill.zhihu.api.ZhihuVolley;
 
 public abstract class Command {
 
-	protected String TAG = getClass().getName();
+	protected final String TAG = getClass().getName();
 	protected ZhihuVolley volley;
-	protected String xsrf;
+	protected static String xsrf;
 
 	public Command() {
 		volley = ZhihuVolley.getInstance(ZhihuApp.getContext());

@@ -13,6 +13,12 @@ import com.bill.zhihu.api.ZhihuLog;
 import com.bill.zhihu.api.ZhihuStringRequest;
 import com.bill.zhihu.api.ZhihuURL;
 
+/**
+ * 知乎post过程中需要一个xsrf参数
+ * 
+ * @author Bill Lv
+ *
+ */
 public class CmdFetchXSRF extends Command {
 
 	private CallbackListener listener;
