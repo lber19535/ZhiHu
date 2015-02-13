@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -34,7 +35,6 @@ public class ZhihuCookieStore implements CookieStore {
 		sp = mContext.getSharedPreferences(COOKIE_FILE_NAME,
 				Context.MODE_PRIVATE);
 		cookies = new ConcurrentHashMap<>();
-
 	}
 
 	@Override

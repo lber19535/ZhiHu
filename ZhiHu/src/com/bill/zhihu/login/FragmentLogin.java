@@ -112,7 +112,7 @@ public class FragmentLogin extends Fragment {
 
 	private void bindService() {
 		Intent intent = new Intent();
-		intent.setClassName("com.bill.zhihu.api",
+		intent.setClassName("com.bill.zhihu",
 				"com.bill.zhihu.api.service.LoginService");
 		intent.setAction("com.bill.zhihu.api.service.login");
 		getActivity().bindService(intent, loginConnection,
