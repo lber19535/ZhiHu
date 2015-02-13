@@ -2,8 +2,6 @@ package com.bill.zhihu.login;
 
 import android.app.Fragment;
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -19,8 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bill.zhihu.R;
+import com.bill.zhihu.api.ZhihuLog;
 import com.bill.zhihu.api.binder.aidl.ILogin;
 import com.bill.zhihu.api.binder.aidl.ILoginServiceCallback;
+import com.bill.zhihu.api.cmd.CmdLogin;
 
 /**
  * 登录
@@ -30,6 +30,8 @@ import com.bill.zhihu.api.binder.aidl.ILoginServiceCallback;
  */
 
 public class FragmentLogin extends Fragment {
+
+	private static final String TAG = "FragmentLogin";
 
 	private Button loginBtn;
 	private EditText accountEdt;
@@ -76,7 +78,7 @@ public class FragmentLogin extends Fragment {
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_login, container, false);
 		initView();
-		bindService();
+//		bindService();
 		return rootView;
 	}
 
@@ -91,33 +93,36 @@ public class FragmentLogin extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				try {
-					String account = accountEdt.getEditableText().toString();
-					String pwd = pwdEdt.getEditableText().toString();
-					String captcha = captchaEdt.getEditableText().toString();
+				String account = accountEdt.getEditableText().toString();
+				String pwd = pwdEdt.getEditableText().toString();
+				String captcha = captchaEdt.getEditableText().toString();
 
-					if (account.isEmpty() || pwd.isEmpty()) {
-						Toast.makeText(getActivity(), "请输入账号密码",
-								Toast.LENGTH_SHORT).show();
-					}
-
-					login.login(account, pwd, captcha);
-				} catch (RemoteException e) {
-					e.printStackTrace();
+				if (account.isEmpty() || pwd.isEmpty()) {
+					Toast.makeText(getActivity(), "请输入账号密码", Toast.LENGTH_SHORT)
+							.show();
 				}
+
+				CmdLogin login = new CmdLogin(account, pwd);
+				login.setOnCmdCallBack(new CmdLogin.CallbackListener() {
+
+					@Override
+					public void callback(String code) {
+						ZhihuLog.d(TAG, code);
+					}
+				});
 
 			}
 		});
 	}
 
-	private void bindService() {
-		Intent intent = new Intent();
-		intent.setClassName("com.bill.zhihu",
-				"com.bill.zhihu.api.service.LoginService");
-		intent.setAction("com.bill.zhihu.api.service.login");
-		getActivity().bindService(intent, loginConnection,
-				Context.BIND_AUTO_CREATE);
-
-	}
+//	private void bindService() {
+//		Intent intent = new Intent();
+//		intent.setClassName("com.bill.zhihu",
+//				"com.bill.zhihu.api.service.LoginService");
+//		intent.setAction("com.bill.zhihu.api.service.login");
+//		getActivity().bindService(intent, loginConnection,
+//				Context.BIND_AUTO_CREATE);
+//
+//	}
 
 }

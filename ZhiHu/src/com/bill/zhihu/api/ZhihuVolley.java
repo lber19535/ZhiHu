@@ -1,13 +1,19 @@
 package com.bill.zhihu.api;
 
+import java.io.File;
+
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.widget.Toast;
 
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HttpClientStack;
-import com.android.volley.toolbox.Volley;
 import com.bill.zhihu.api.utils.ZhihuCookieStore;
 
 /**
@@ -18,18 +24,35 @@ import com.bill.zhihu.api.utils.ZhihuCookieStore;
  */
 public class ZhihuVolley {
 
+	private static final String DEFAULT_CACHE_DIR = "zhihu_cache";
+	private static final int DEFAULT_THREAD_POOL_SIZE = 1;
+
 	private RequestQueue queue;
 	private static ZhihuVolley zhihuVolley;
 	private DefaultHttpClient client;
+	private Context mContext;
+	private ConnectivityManager cm;
 
 	private ZhihuVolley(Context mContext) {
+
+		this.mContext = mContext;
 
 		ZhihuCookieStore cookieStore = new ZhihuCookieStore(mContext);
 
 		client = new DefaultHttpClient();
 		client.setCookieStore(cookieStore);
 
-		queue = Volley.newRequestQueue(mContext, new HttpClientStack(client));
+		File cacheDir = new File(mContext.getCacheDir(), DEFAULT_CACHE_DIR);
+		Network network = new BasicNetwork(new HttpClientStack(client));
+
+		// 由于同一个cookie不能被多线程同时操作，所以把同一时间执行的线程限制为1
+		queue = new RequestQueue(new DiskBasedCache(cacheDir), network,
+				DEFAULT_THREAD_POOL_SIZE);
+		queue.start();
+
+		cm = (ConnectivityManager) mContext
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+
 	}
 
 	public static ZhihuVolley getInstance(Context mContext) {
@@ -40,7 +63,11 @@ public class ZhihuVolley {
 	}
 
 	public <T> void addQueue(Request<T> request) {
-		queue.add(request);
+		if (cm.getActiveNetworkInfo() != null) {
+			queue.add(request);
+		} else {
+			Toast.makeText(mContext, "请检查网络", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public RequestQueue getQueue() {

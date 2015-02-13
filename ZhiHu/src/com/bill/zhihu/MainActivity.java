@@ -2,8 +2,13 @@ package com.bill.zhihu;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
+import com.bill.zhihu.api.ZhihuApi;
+import com.bill.zhihu.api.cmd.CmdFetchXSRF;
 import com.bill.zhihu.login.ActivityHome;
 
 /**
@@ -18,9 +23,20 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Intent intent = new Intent(this, ActivityHome.class);
-		startActivity(intent);
-		finish();
+		CmdFetchXSRF cmdFetchXSRF = new CmdFetchXSRF();
+		cmdFetchXSRF.setOnCmdCallBack(new CmdFetchXSRF.CallbackListener() {
+
+			@Override
+			public void callback(String xsrf) {
+				Intent intent = new Intent(MainActivity.this,
+						ActivityHome.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
+		ZhihuApi.execCmd(cmdFetchXSRF);
+
 	}
 
 }
