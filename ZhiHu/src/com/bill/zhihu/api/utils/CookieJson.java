@@ -6,11 +6,13 @@ import com.bill.jeson.annotation.JsonObject;
 @JsonObject
 public class CookieJson {
 	@JsonField
+	private String name;
+	@JsonField
 	private String comment;
 	@JsonField(name = "comment_url")
 	private String commentUrl;
 	@JsonField
-	private String version;
+	private int version;
 	@JsonField
 	private String domain;
 	@JsonField(name = "expiry_date")
@@ -19,6 +21,22 @@ public class CookieJson {
 	private String path;
 	@JsonField
 	private String value;
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getComment() {
 		return comment;
@@ -34,14 +52,6 @@ public class CookieJson {
 
 	public void setCommentUrl(String commentUrl) {
 		this.commentUrl = commentUrl;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public String getDomain() {

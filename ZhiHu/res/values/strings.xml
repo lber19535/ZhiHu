@@ -10,5 +10,8 @@
     <string name="login_pwd">密码</string>
     <string name="login_btn">登录</string>
     <string name="login_captcha">验证码</string>
+    <!-- 提示 -->
+    <string name="cache_delete_toast">有些缓存文件无法删除，请稍后再试</string>
+    
 
 </resources>
