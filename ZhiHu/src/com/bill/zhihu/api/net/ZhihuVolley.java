@@ -7,7 +7,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.http.AndroidHttpClient;
 import android.widget.Toast;
 
 import com.android.volley.Network;
@@ -30,7 +29,6 @@ public class ZhihuVolley {
 
 	private RequestQueue queue;
 	private static ZhihuVolley zhihuVolley;
-	private AndroidHttpClient client;
 	private Context mContext;
 	private ConnectivityManager cm;
 
@@ -40,7 +38,6 @@ public class ZhihuVolley {
 
 		CookieStore cookieStore = new ZhihuCookieStore();
 
-		//		client = AndroidHttpClient.newInstance(UA);
 		DefaultHttpClient client = new DefaultHttpClient();
 		client.setCookieStore(cookieStore);
 

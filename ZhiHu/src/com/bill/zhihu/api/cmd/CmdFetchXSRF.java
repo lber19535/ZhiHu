@@ -3,11 +3,7 @@ package com.bill.zhihu.api.cmd;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import com.android.volley.Response.Listener;
-import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
 import com.bill.zhihu.api.utils.ZhihuLog;
@@ -22,13 +18,9 @@ import com.bill.zhihu.api.utils.ZhihuURL;
 public class CmdFetchXSRF extends Command {
 
 	private CallbackListener listener;
-	private SharedPreferences sp;
 
 	public CmdFetchXSRF() {
-		sp = PreferenceManager.getDefaultSharedPreferences(ZhihuApp
-				.getContext());
-		xsrf = sp.getString(ZhihuApi.XSRF, null);
-
+		xsrf = ZhihuApi.getXSRF();
 	}
 
 	@Override
@@ -46,7 +38,7 @@ public class CmdFetchXSRF extends Command {
 	}
 
 	private void fetchKeyWords() {
-		ZhihuStringRequest request = new ZhihuStringRequest(ZhihuURL.HOME_PAGE,
+		ZhihuStringRequest request = new ZhihuStringRequest(ZhihuURL.HOST,
 				new Listener<String>() {
 
 					@Override
@@ -55,7 +47,7 @@ public class CmdFetchXSRF extends Command {
 						xsrf = doc.select("input[name=_xsrf]").attr("value");
 						ZhihuLog.d(TAG, "_xsrf " + xsrf);
 						listener.callback(xsrf);
-						sp.edit().putString(ZhihuApi.XSRF, xsrf);
+						ZhihuApi.setXSRF(xsrf);
 					}
 
 				}, null);

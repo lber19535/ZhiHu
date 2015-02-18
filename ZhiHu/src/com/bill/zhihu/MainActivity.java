@@ -34,7 +34,6 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(MainActivity.this,
 						ActivityHome.class);
 				startActivity(intent);
-				sp.edit().putString("_xsrf", xsrf);
 				finish();
 			}
 		});

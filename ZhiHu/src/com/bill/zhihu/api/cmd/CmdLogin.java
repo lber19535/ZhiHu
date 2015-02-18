@@ -41,6 +41,7 @@ public class CmdLogin extends Command {
 					@Override
 					public void onResponse(String response) {
 						ZhihuLog.d(TAG, "login response " + response);
+
 						Document doc = Jsoup.parse(response);
 						String text = doc.select("div[class=failure]").text();
 						listener.callback(text);
@@ -66,6 +67,15 @@ public class CmdLogin extends Command {
 				//				}
 				return params;
 			}
+
+			@Override
+			public Map<String, String> getHeaders() throws AuthFailureError {
+				// TODO Auto-generated method stub
+				Map<String, String> headers = super.getHeaders();
+				headers.put("X-Requested-With", "XMLHttpRequest");
+				return headers;
+			}
+
 		};
 		volley.addQueue(request);
 

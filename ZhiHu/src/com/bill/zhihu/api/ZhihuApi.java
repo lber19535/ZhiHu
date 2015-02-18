@@ -3,7 +3,9 @@ package com.bill.zhihu.api;
 import java.io.File;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.bill.zhihu.R;
@@ -13,9 +15,11 @@ import com.bill.zhihu.api.net.ZhihuCookieStore;
 
 public class ZhihuApi {
 
-	public static final String XSRF = "_xsrf";
+	private static final String XSRF = "_xsrf";
 	private static Context mContext = ZhihuApp.getContext();
 	private static Resources res = mContext.getResources();
+	private static SharedPreferences sp = PreferenceManager
+			.getDefaultSharedPreferences(ZhihuApp.getContext());
 
 	public static void execCmd(Command cmd) {
 		cmd.exec();
@@ -43,4 +47,18 @@ public class ZhihuApi {
 		return usableSpace / 1024f;
 	}
 
+	public static void setXSRF(String xsrf) {
+		sp.edit().putString(XSRF, xsrf).commit();
+	}
+
+	/**
+	 * if don't have xsrf or don't fetch xsrf value return null
+	 * 
+	 * @return
+	 */
+	public static String getXSRF() {
+		sp = PreferenceManager.getDefaultSharedPreferences(ZhihuApp
+				.getContext());
+		return sp.getString(ZhihuApi.XSRF, null);
+	}
 }

@@ -2,7 +2,6 @@ package com.bill.zhihu.api.net;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
