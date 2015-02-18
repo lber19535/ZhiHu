@@ -14,9 +14,8 @@ import android.widget.Toast;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
-import com.bill.zhihu.api.ZhihuLog;
-import com.bill.zhihu.api.binder.aidl.ILogin;
 import com.bill.zhihu.api.cmd.CmdLogin;
+import com.bill.zhihu.api.utils.ZhihuLog;
 
 /**
  * 登录
@@ -37,7 +36,6 @@ public class FragmentLogin extends Fragment {
 	private RelativeLayout loginLayout;
 
 	private View rootView;
-	private ILogin login;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

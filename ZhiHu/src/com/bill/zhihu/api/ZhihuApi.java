@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.bill.zhihu.R;
 import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.api.cmd.Command;
-import com.bill.zhihu.api.utils.ZhihuCookieStore;
+import com.bill.zhihu.api.net.ZhihuCookieStore;
 
 public class ZhihuApi {
 
@@ -22,7 +22,7 @@ public class ZhihuApi {
 	}
 
 	public static void clearCookies() {
-		new ZhihuCookieStore(mContext).clear();
+		new ZhihuCookieStore().clear();
 	}
 
 	public static void clearCache() {

@@ -33,16 +33,6 @@
             android:name="com.bill.zhihu.login.ActivityHome"
             android:label="@string/action_default_title" >
         </activity>
-
-        <service
-            android:name="com.bill.zhihu.api.service.LoginService"
-            android:exported="true"
-            android:permission="com.bill.zhihu.api.permission.LOGIN"
-            android:process=":remote" >
-            <intent-filter>
-                <action android:name="com.bill.zhihu.api.service.login" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>

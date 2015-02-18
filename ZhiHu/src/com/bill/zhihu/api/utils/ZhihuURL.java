@@ -1,4 +1,4 @@
-package com.bill.zhihu.api;
+package com.bill.zhihu.api.utils;
 
 public class ZhihuURL {
 

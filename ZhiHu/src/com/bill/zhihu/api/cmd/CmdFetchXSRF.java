@@ -9,9 +9,9 @@ import android.preference.PreferenceManager;
 import com.android.volley.Response.Listener;
 import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.api.ZhihuApi;
-import com.bill.zhihu.api.ZhihuLog;
-import com.bill.zhihu.api.ZhihuStringRequest;
-import com.bill.zhihu.api.ZhihuURL;
+import com.bill.zhihu.api.net.ZhihuStringRequest;
+import com.bill.zhihu.api.utils.ZhihuLog;
+import com.bill.zhihu.api.utils.ZhihuURL;
 
 /**
  * 知乎post过程中需要一个xsrf参数
@@ -28,16 +28,16 @@ public class CmdFetchXSRF extends Command {
 		sp = PreferenceManager.getDefaultSharedPreferences(ZhihuApp
 				.getContext());
 		xsrf = sp.getString(ZhihuApi.XSRF, null);
+
+	}
+
+	@Override
+	public void exec() {
 		if (xsrf == null) {
 			fetchKeyWords();
 		} else {
 			listener.callback(xsrf);
 		}
-	}
-
-	@Override
-	public void exec() {
-		fetchKeyWords();
 	}
 
 	@Override

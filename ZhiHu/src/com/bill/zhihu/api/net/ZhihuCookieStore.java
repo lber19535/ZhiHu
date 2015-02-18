@@ -1,11 +1,9 @@
-package com.bill.zhihu.api.utils;
+package com.bill.zhihu.api.net;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,18 +11,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.http.client.CookieStore;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.cookie.BasicClientCookie;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.bill.jeson.Jeson;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.text.TextUtils;
+
+import com.bill.jeson.Jeson;
+import com.bill.zhihu.ZhihuApp;
+import com.bill.zhihu.api.utils.ZhihuLog;
 
 /**
  * 持久化cookies数据
+ * 
  * 
  * @author Bill Lv
  *
@@ -36,13 +34,17 @@ public class ZhihuCookieStore implements CookieStore {
 	private final String COOKIE_STORE_NAMES = "cookies_names";
 	private SharedPreferences sp;
 	private Set<String> cookiesNames;
+	private List<Cookie> cookieList;
 
 	private ConcurrentHashMap<String, Cookie> cookies;
 
-	public ZhihuCookieStore(Context mContext) {
-		sp = mContext.getSharedPreferences(COOKIE_FILE_NAME,
+	public ZhihuCookieStore() {
+		ZhihuLog.d(TAG, "cookie store is init");
+		sp = ZhihuApp.getContext().getSharedPreferences(COOKIE_FILE_NAME,
 				Context.MODE_PRIVATE);
 		cookies = new ConcurrentHashMap<>();
+		cookieList = new ArrayList<>();
+
 		cookiesNames = sp.getStringSet(COOKIE_STORE_NAMES,
 				new HashSet<String>());
 		for (String name : cookiesNames) {
@@ -54,7 +56,12 @@ public class ZhihuCookieStore implements CookieStore {
 				try {
 					value = Jeson.createBean(CookieJson.class, cookieJson);
 					BasicClientCookie cookie = new BasicClientCookie(name,
-							Jeson.bean2String(value));
+							value.getValue());
+					cookie.setComment(value.getComment());
+					cookie.setDomain(value.getDomain());
+					cookie.setExpiryDate(new Date(value.getExpiryDate()));
+					cookie.setPath(value.getPath());
+					cookie.setVersion(value.getVersion());
 					cookies.put(name, cookie);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -62,11 +69,15 @@ public class ZhihuCookieStore implements CookieStore {
 				}
 			}
 		}
+		cookieList.addAll(cookies.values());
 	}
 
+	/*
+	 * 将cookie内容转换成json字符串存在本地
+	 */
 	@Override
 	public void addCookie(Cookie cookie) {
-		System.out.println(cookie.toString());
+		ZhihuLog.d(TAG, "add cookie " + cookie.getValue());
 		// 获得存储的时候用到的key name
 		String name = cookie.getName() + cookie.getDomain();
 
@@ -80,7 +91,9 @@ public class ZhihuCookieStore implements CookieStore {
 		json.setName(cookie.getName());
 		json.setCommentUrl(cookie.getCommentURL());
 		json.setDomain(cookie.getDomain());
-		json.setExpiryDate(cookie.getExpiryDate().getTime());
+		if (cookie.getExpiryDate() != null) {
+			json.setExpiryDate(cookie.getExpiryDate().getTime());
+		}
 		json.setPath(cookie.getPath());
 		json.setValue(cookie.getValue());
 		json.setVersion(cookie.getVersion());
@@ -102,6 +115,7 @@ public class ZhihuCookieStore implements CookieStore {
 
 	@Override
 	public void clear() {
+		ZhihuLog.d(TAG, "clear all cookies");
 		Editor editor = sp.edit();
 		editor.clear();
 		editor.commit();
@@ -110,6 +124,8 @@ public class ZhihuCookieStore implements CookieStore {
 
 	@Override
 	public boolean clearExpired(Date date) {
+		ZhihuLog.d(TAG, "clear expired cookies");
+
 		boolean clear = false;
 		Editor editor = sp.edit();
 		Set<Entry<String, Cookie>> cookiesEntry = cookies.entrySet();
@@ -130,7 +146,8 @@ public class ZhihuCookieStore implements CookieStore {
 
 	@Override
 	public List<Cookie> getCookies() {
-		return new ArrayList<>(cookies.values());
+		ZhihuLog.d(TAG, "get cookie list");
+		return cookieList;
 	}
 
 }

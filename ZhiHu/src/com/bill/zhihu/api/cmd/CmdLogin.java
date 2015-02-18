@@ -10,9 +10,9 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.bill.zhihu.api.ZhihuLog;
-import com.bill.zhihu.api.ZhihuStringRequest;
-import com.bill.zhihu.api.ZhihuURL;
+import com.bill.zhihu.api.net.ZhihuStringRequest;
+import com.bill.zhihu.api.utils.ZhihuLog;
+import com.bill.zhihu.api.utils.ZhihuURL;
 
 /**
  * 登陆

@@ -1,4 +1,4 @@
-package com.bill.zhihu.api;
+package com.bill.zhihu.api.utils;
 
 import android.util.Log;
 

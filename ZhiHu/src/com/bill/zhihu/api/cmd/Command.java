@@ -1,7 +1,7 @@
 package com.bill.zhihu.api.cmd;
 
 import com.bill.zhihu.ZhihuApp;
-import com.bill.zhihu.api.ZhihuVolley;
+import com.bill.zhihu.api.net.ZhihuVolley;
 
 public abstract class Command {
 

@@ -1,12 +1,14 @@
-package com.bill.zhihu.api;
+package com.bill.zhihu.api.net;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
+
 /**
  * 作为所有Request的基础，自定义UA
  * 
@@ -15,10 +17,9 @@ import com.android.volley.toolbox.StringRequest;
  */
 public class ZhihuStringRequest extends StringRequest {
 
+	private final Listener<String> mListener;
 	// User agent
 	private static final String UA = "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19";
-
-	private final Listener<String> mListener;
 
 	public ZhihuStringRequest(int method, String url,
 			Listener<String> listener, ErrorListener errorListener) {

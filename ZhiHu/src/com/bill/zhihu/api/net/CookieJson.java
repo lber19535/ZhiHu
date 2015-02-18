@@ -1,4 +1,4 @@
-package com.bill.zhihu.api.utils;
+package com.bill.zhihu.api.net;
 
 import com.bill.jeson.annotation.JsonField;
 import com.bill.jeson.annotation.JsonObject;
