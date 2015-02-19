@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.cmd.CmdFetchXSRF;
+import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.login.ActivityHome;
 
 /**
@@ -17,6 +18,8 @@ import com.bill.zhihu.login.ActivityHome;
  *
  */
 public class MainActivity extends Activity {
+
+	private final String TAG = getClass().getName();
 
 	private SharedPreferences sp;
 
@@ -31,6 +34,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void callback(String xsrf) {
+				ZhihuLog.d(TAG, "xsrf " + xsrf);
 				Intent intent = new Intent(MainActivity.this,
 						ActivityHome.class);
 				startActivity(intent);

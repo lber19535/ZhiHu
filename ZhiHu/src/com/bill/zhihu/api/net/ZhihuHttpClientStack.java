@@ -1,4 +1,4 @@
-package com.bill.zhihu.api;
+package com.bill.zhihu.api.net;
 
 import java.io.IOException;
 import java.net.URI;

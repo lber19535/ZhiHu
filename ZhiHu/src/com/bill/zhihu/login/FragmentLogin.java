@@ -1,6 +1,7 @@
 package com.bill.zhihu.login;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ public class FragmentLogin extends Fragment {
 	private EditText captchaEdt;
 	private LinearLayout captchaLayout;
 	private RelativeLayout loginLayout;
+	private ImageView captchaIv;
 
 	private View rootView;
 
@@ -51,6 +54,7 @@ public class FragmentLogin extends Fragment {
 		captchaEdt = (EditText) rootView.findViewById(R.id.login_captcha);
 		loginBtn = (Button) rootView.findViewById(R.id.login_btn);
 		loginLayout = (RelativeLayout) rootView.findViewById(R.id.login_layout);
+		captchaIv = (ImageView) rootView.findViewById(R.id.login_captcha_img);
 
 		loginBtn.setOnClickListener(new OnClickListener() {
 
@@ -65,12 +69,24 @@ public class FragmentLogin extends Fragment {
 							.show();
 				}
 
-				CmdLogin login = new CmdLogin(account, pwd);
+				
+				CmdLogin login = new CmdLogin(account, pwd, captcha);
 				login.setOnCmdCallBack(new CmdLogin.CallbackListener() {
 
 					@Override
-					public void callback(String code) {
+					public void callback(int code, Bitmap captcha) {
 						ZhihuLog.d(TAG, code);
+						switch (code) {
+							case CmdLogin.LOGIN_SUCCESS:
+
+								break;
+							case CmdLogin.LOGIN_FAILED:
+								captchaIv.setImageBitmap(captcha);
+								break;
+
+							default:
+								break;
+						}
 					}
 				});
 				ZhihuApi.execCmd(login);

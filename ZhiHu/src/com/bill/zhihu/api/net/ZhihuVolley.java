@@ -14,7 +14,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
-import com.bill.zhihu.api.ZhihuHttpClientStack;
 
 /**
  * 单例，所有request由一个request queue统一管理

@@ -31,10 +31,9 @@ public class ZhihuCookieStore implements CookieStore {
 
 	private final String COOKIE_FILE_NAME = "zhihu_cookies";
 	private final String TAG = getClass().getName();
-	private final String COOKIE_STORE_NAMES = "cookies_names";
+	private final String COOKIE_KEYS = "cookie_keys";
 	private SharedPreferences sp;
 	private Set<String> cookiesNames;
-	private List<Cookie> cookieList;
 
 	private ConcurrentHashMap<String, Cookie> cookies;
 
@@ -43,18 +42,22 @@ public class ZhihuCookieStore implements CookieStore {
 		sp = ZhihuApp.getContext().getSharedPreferences(COOKIE_FILE_NAME,
 				Context.MODE_PRIVATE);
 		cookies = new ConcurrentHashMap<>();
-		cookieList = new ArrayList<>();
-
-		cookiesNames = sp.getStringSet(COOKIE_STORE_NAMES,
-				new HashSet<String>());
+		/*
+		 * cookie的所有key存在一个string set中
+		 * cookie的key-value以sharedpreference中的key-value形式存在，value再保存的
+		 * 时候会被转换成json对象
+		 * 
+		 * 初始化的时候先去取到cookie的所有key，然后再根据key去取json对象然后再赋值到cookie对象中
+		 */
+		cookiesNames = sp.getStringSet(COOKIE_KEYS, new HashSet<String>());
 		for (String name : cookiesNames) {
-			CookieJson value = null;
 			String cookieJson = sp.getString(name, "");
 			if (cookieJson.isEmpty()) {
 				continue;
 			} else {
 				try {
-					value = Jeson.createBean(CookieJson.class, cookieJson);
+					CookieJson value = Jeson.createBean(CookieJson.class,
+							cookieJson);
 					BasicClientCookie cookie = new BasicClientCookie(name,
 							value.getValue());
 					cookie.setComment(value.getComment());
@@ -69,7 +72,6 @@ public class ZhihuCookieStore implements CookieStore {
 				}
 			}
 		}
-		cookieList.addAll(cookies.values());
 	}
 
 	/*
@@ -101,7 +103,7 @@ public class ZhihuCookieStore implements CookieStore {
 		Editor editor = sp.edit();
 
 		cookiesNames.add(name);
-		editor.putStringSet(COOKIE_STORE_NAMES, cookiesNames);
+		editor.putStringSet(COOKIE_KEYS, cookiesNames);
 		try {
 			// 将java bean转成json字符串
 			editor.putString(name, Jeson.bean2String(json));
@@ -134,9 +136,7 @@ public class ZhihuCookieStore implements CookieStore {
 			Cookie cookie = entry.getValue();
 			if (cookie.isExpired(date)) {
 				cookies.remove(name);
-
 				editor.remove(name);
-
 				clear = true;
 			}
 		}
@@ -147,7 +147,7 @@ public class ZhihuCookieStore implements CookieStore {
 	@Override
 	public List<Cookie> getCookies() {
 		ZhihuLog.d(TAG, "get cookie list");
-		return cookieList;
+		return new ArrayList<Cookie>(cookies.values());
 	}
 
 }

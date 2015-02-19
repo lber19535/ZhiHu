@@ -3,6 +3,13 @@ package com.bill.zhihu.api.net;
 import com.bill.jeson.annotation.JsonField;
 import com.bill.jeson.annotation.JsonObject;
 
+/**
+ * 将cookie持久化的时候转为json存在本地，读取的时候再从本地读出来
+ * 
+ * @author Bill Lv
+ *
+ */
+
 @JsonObject
 public class CookieJson {
 	@JsonField
