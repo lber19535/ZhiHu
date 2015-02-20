@@ -65,11 +65,11 @@ public class FragmentLogin extends Fragment {
 				String captcha = captchaEdt.getEditableText().toString();
 
 				if (account.isEmpty() || pwd.isEmpty()) {
-					Toast.makeText(getActivity(), "请输入账号密码", Toast.LENGTH_SHORT)
-							.show();
+					Toast.makeText(getActivity(),
+							getResources().getString(R.string.account_empty),
+							Toast.LENGTH_SHORT).show();
 				}
 
-				
 				CmdLogin login = new CmdLogin(account, pwd, captcha);
 				login.setOnCmdCallBack(new CmdLogin.CallbackListener() {
 

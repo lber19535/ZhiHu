@@ -2,7 +2,6 @@ package com.bill.zhihu;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Resources;
 
 public class ZhihuApp extends Application {
 
@@ -20,10 +19,5 @@ public class ZhihuApp extends Application {
 
 		return mContext;
 	}
-
-	//	public static String getString(int id) {
-	//		Resources res = mContext.getResources();
-	//		return res.getString(id);
-	//	}
 
 }
