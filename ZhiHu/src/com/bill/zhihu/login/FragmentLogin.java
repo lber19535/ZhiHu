@@ -10,13 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.cmd.CmdLogin;
+import com.bill.zhihu.api.utils.ToastUtil;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
 /**
@@ -34,8 +33,6 @@ public class FragmentLogin extends Fragment {
 	private EditText accountEdt;
 	private EditText pwdEdt;
 	private EditText captchaEdt;
-	private LinearLayout captchaLayout;
-	private RelativeLayout loginLayout;
 	private ImageView captchaIv;
 
 	private View rootView;
@@ -53,8 +50,10 @@ public class FragmentLogin extends Fragment {
 		pwdEdt = (EditText) rootView.findViewById(R.id.login_pwd);
 		captchaEdt = (EditText) rootView.findViewById(R.id.login_captcha);
 		loginBtn = (Button) rootView.findViewById(R.id.login_btn);
-		loginLayout = (RelativeLayout) rootView.findViewById(R.id.login_layout);
 		captchaIv = (ImageView) rootView.findViewById(R.id.login_captcha_img);
+
+		//先登录一次以获取提交时所需的cookie
+		login("", "", null);
 
 		loginBtn.setOnClickListener(new OnClickListener() {
 
@@ -68,31 +67,36 @@ public class FragmentLogin extends Fragment {
 					Toast.makeText(getActivity(),
 							getResources().getString(R.string.account_empty),
 							Toast.LENGTH_SHORT).show();
+					return;
 				}
-
-				CmdLogin login = new CmdLogin(account, pwd, captcha);
-				login.setOnCmdCallBack(new CmdLogin.CallbackListener() {
-
-					@Override
-					public void callback(int code, Bitmap captcha) {
-						ZhihuLog.d(TAG, code);
-						switch (code) {
-							case CmdLogin.LOGIN_SUCCESS:
-
-								break;
-							case CmdLogin.LOGIN_FAILED:
-								captchaIv.setImageBitmap(captcha);
-								break;
-
-							default:
-								break;
-						}
-					}
-				});
-				ZhihuApi.execCmd(login);
+				login(account, pwd, captcha);
 
 			}
 		});
+	}
+
+	private void login(String account, String pwd, String captcha) {
+		CmdLogin login = new CmdLogin(account, pwd, captcha);
+		login.setOnCmdCallBack(new CmdLogin.CallbackListener() {
+
+			@Override
+			public void callback(int code, Bitmap captcha) {
+				ZhihuLog.d(TAG, code);
+				switch (code) {
+					case CmdLogin.LOGIN_SUCCESS:
+						ToastUtil.showShortToast(getResources().getString(
+								R.string.login_success));
+						break;
+					case CmdLogin.LOGIN_FAILED:
+						captchaIv.setImageBitmap(captcha);
+						break;
+
+					default:
+						break;
+				}
+			}
+		});
+		ZhihuApi.execCmd(login);
 	}
 
 }

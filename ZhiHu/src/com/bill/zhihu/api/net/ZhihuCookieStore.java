@@ -84,9 +84,11 @@ public class ZhihuCookieStore implements CookieStore {
 		String name = cookie.getName() + cookie.getDomain();
 
 		if (cookie.isExpired(new Date())) {
-			cookies.put(name, cookie);
-		} else {
+			ZhihuLog.d(TAG, "expired");
 			cookies.remove(name);
+		} else {
+			ZhihuLog.d(TAG, "not expired");
+			cookies.put(name, cookie);
 		}
 		// 将cookie转化成java bean
 		CookieJson json = new CookieJson();

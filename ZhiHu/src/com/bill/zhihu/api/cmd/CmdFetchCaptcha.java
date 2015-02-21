@@ -10,6 +10,12 @@ import com.bill.zhihu.api.net.ZhihuImageRequest;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
+/**
+ * 获取验证码
+ * 
+ * @author Bill Lv
+ *
+ */
 public class CmdFetchCaptcha extends Command {
 
 	private CallbackListener linstener;

@@ -123,7 +123,7 @@ public class CmdLogin extends Command {
 				params.put("email", account);
 				params.put("password", pwd);
 				params.put("rememberme", "y");
-				if (haveCaptcha) {
+				if (haveCaptcha && captcha != null) {
 					params.put("captcha", captcha);
 				}
 				for (String value : params.values()) {
