@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.cmd.CmdFetchXSRF;
 import com.bill.zhihu.api.utils.ZhihuLog;
-import com.bill.zhihu.login.ActivityHome;
+import com.bill.zhihu.login.ActivityLogin;
 
 /**
  * 首页
@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 			public void callback(String xsrf) {
 				ZhihuLog.d(TAG, "xsrf " + xsrf);
 				Intent intent = new Intent(MainActivity.this,
-						ActivityHome.class);
+						ActivityLogin.class);
 				startActivity(intent);
 				finish();
 			}

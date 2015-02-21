@@ -6,15 +6,19 @@ import com.bill.jeson.annotation.JsonObject;
 @JsonObject
 public class LoginRequestMsg {
 
-	@JsonField(defaultValue = "null")
+	@JsonField(defaultValue = "")
 	private String captcha;
+	@JsonField(defaultValue = "")
+	private String email;
 
-	public String getCaptcha() {
-		return captcha;
-	}
-
-	public void setCaptcha(String captcha) {
-		this.captcha = captcha;
+	public String getMsg() {
+		if (!captcha.isEmpty()) {
+			return captcha;
+		} else if (!email.isEmpty()) {
+			return email;
+		} else {
+			return null;
+		}
 	}
 
 }

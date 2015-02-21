@@ -1,6 +1,7 @@
 package com.bill.zhihu.login;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.cmd.CmdLogin;
 import com.bill.zhihu.api.utils.ToastUtil;
 import com.bill.zhihu.api.utils.ZhihuLog;
+import com.bill.zhihu.home.ActivityHome;
 
 /**
  * 登录
@@ -86,6 +88,14 @@ public class FragmentLogin extends Fragment {
 					case CmdLogin.LOGIN_SUCCESS:
 						ToastUtil.showShortToast(getResources().getString(
 								R.string.login_success));
+						Intent intent = new Intent(getActivity(),
+								ActivityHome.class);
+						startActivity(intent);
+						getActivity().overridePendingTransition(
+								R.anim.activity_login_home_in_transition,
+								R.anim.activity_login_home_out_transition);
+						getActivity().finish();
+
 						break;
 					case CmdLogin.LOGIN_FAILED:
 						captchaIv.setImageBitmap(captcha);

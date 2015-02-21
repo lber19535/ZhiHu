@@ -3,6 +3,8 @@ package com.bill.zhihu.api.cmd;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import android.graphics.Bitmap;
 
 import com.android.volley.AuthFailureError;
@@ -57,9 +59,10 @@ public class CmdLogin extends Command {
 					public void onResponse(String response) {
 						ZhihuLog.d(TAG, "login response " + response);
 						try {
-							LoginRequestCode code = Jeson.createBean(
-									LoginRequestCode.class, response);
-							switch (code.getRequestCode()) {
+							JSONObject responseJson = new JSONObject(response);
+							int loginStatus = responseJson.getInt("r");
+							// 由于登陆成功和失败返回的json对象结构不一样，所以要先判断是否登陆成功
+							switch (loginStatus) {
 								case LOGIN_SUCCESS:
 									listener.callback(LOGIN_SUCCESS, null);
 									ToastUtil.showShortToast(ZhihuApp
@@ -67,6 +70,8 @@ public class CmdLogin extends Command {
 											.getString(R.string.login_success));
 									break;
 								case LOGIN_FAILED:
+									LoginRequestCode code = Jeson.createBean(
+											LoginRequestCode.class, response);
 									switch (code.getErrorCode()) {
 										case ERRCODE_INPUT_CAPTCHA:
 											haveCaptcha = true;
@@ -92,15 +97,12 @@ public class CmdLogin extends Command {
 									ZhihuApi.execCmd(captcha);
 
 									ToastUtil.showShortToast(code.getMsg()
-											.getCaptcha());
+											.getMsg());
 									break;
 								default:
 									break;
 							}
 
-							if (code.getRequestCode() == 0) {
-
-							}
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

@@ -30,9 +30,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bill.zhihu.login.ActivityHome"
+            android:name="com.bill.zhihu.login.ActivityLogin"
             android:label="@string/action_default_title" >
         </activity>
+        <activity android:name="com.bill.zhihu.home.ActivityHome" />
     </application>
 
 </manifest>

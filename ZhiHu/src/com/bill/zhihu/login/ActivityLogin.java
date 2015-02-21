@@ -12,7 +12,7 @@ import com.bill.zhihu.activity.BaseActivity;
  * @author Bill Lv
  *
  */
-public class ActivityHome extends BaseActivity {
+public class ActivityLogin extends BaseActivity {
 
 	private Fragment loginFragment;
 
