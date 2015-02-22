@@ -32,9 +32,13 @@ public class CmdLogin extends Command {
 	public static final int LOGIN_SUCCESS = 0;
 	public static final int LOGIN_FAILED = 1;
 
+	// 请输入验证码
 	private static final int ERRCODE_INPUT_CAPTCHA = 269;
+	// 验证码错误
 	private static final int ERRCODE_CAPTCHA_ERROR = 270;
+	// 密码长度错误
 	private static final int ERRCODE_PWD_LENGTH_ERROR = 4000;
+	// 账号或密码错误
 	private static final int ERRCODE_PWD_ACCOUNT_ERROR = 4038;
 
 	private CallbackListener listener;
