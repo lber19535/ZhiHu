@@ -1,11 +1,15 @@
 package com.bill.zhihu.api.cmd;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.graphics.Bitmap;
@@ -49,6 +53,20 @@ public class CmdTopFeed extends Command {
 						try {
 							JSONArray array = new JSONObject(response)
 									.getJSONArray("msg");
+							for (int i = 0; i < array.length(); i++) {
+								String html = array.getString(i);
+								Document doc = Jsoup.parse(html);
+								// feed-item/feed-item-inner/avatar 赞或关注问题的人，来自哪个tag的头像
+								Elements eles = doc.select("div").select("div")
+										.select("div").select("a");
+
+								String title = eles.attr("title");
+								String peopleHomePage = eles.attr("herf");
+								String headImgUrl = eles.select("a")
+										.attr("src");
+								// feed-item/feed-item-inner/feed-main/source content表示是来自，
+								// 还是问题被很多人关注，还是赞了什么问题或者是关注
+							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
