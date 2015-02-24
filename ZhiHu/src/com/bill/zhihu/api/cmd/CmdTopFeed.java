@@ -57,13 +57,24 @@ public class CmdTopFeed extends Command {
 								String html = array.getString(i);
 								Document doc = Jsoup.parse(html);
 								// feed-item/feed-item-inner/avatar 赞或关注问题的人，来自哪个tag的头像
-								Elements eles = doc.select("div").select("div")
-										.select("div").select("a");
+								Elements eles = doc.select("div")
+										.select("div[class=feed-item-inner]")
+										.select("div[class=avatar]")
+										.select("a").select("img");
+								String avatarImgUrl = eles.first().attr("src");
 
-								String title = eles.attr("title");
-								String peopleHomePage = eles.attr("herf");
-								String headImgUrl = eles.select("a")
-										.attr("src");
+								eles = doc.select("div")
+										.select("div[class=feed-item-inner]")
+										.select("div[class=feed-main]")
+										.select("div[class=source]");
+								String peopleName = eles.first().select("a")
+										.text();
+								String peopleHomePageUrl = eles.first()
+										.select("a").attr("href");
+								String time = eles.first()
+										.select("span[class=time]")
+										.attr("href");
+
 								// feed-item/feed-item-inner/feed-main/source content表示是来自，
 								// 还是问题被很多人关注，还是赞了什么问题或者是关注
 							}
