@@ -1,7 +1,6 @@
 package com.bill.zhihu.api.cmd;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -9,7 +8,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.graphics.Bitmap;
@@ -19,8 +17,11 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.bill.jeson.Jeson;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
+import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
+import com.bill.zhihu.home.TopFeedListParams;
 
 /**
  * 知乎time line
@@ -31,6 +32,13 @@ import com.bill.zhihu.api.utils.ZhihuURL;
 public class CmdTopFeed extends Command {
 
 	private CallbackListener listener;
+	private TopFeedListParams params;
+
+	public CmdTopFeed(long blockId, int offset) {
+		params = new TopFeedListParams();
+		params.setBlockId(blockId);
+		params.setOffset(offset);
+	}
 
 	@Override
 	public void exec() {
@@ -39,6 +47,7 @@ public class CmdTopFeed extends Command {
 				ZhihuURL.MORE_STORY, new Listener<String>() {
 					@Override
 					public void onResponse(String response) {
+						ZhihuLog.d(TAG, response);
 						/*
 						 * 结构是{r:0, msg:[array]}
 						 * 
@@ -57,12 +66,14 @@ public class CmdTopFeed extends Command {
 								String html = array.getString(i);
 								Document doc = Jsoup.parse(html);
 								// feed-item/feed-item-inner/avatar 赞或关注问题的人，来自哪个tag的头像
+								//title
 								Elements eles = doc.select("div")
 										.select("div[class=feed-item-inner]")
 										.select("div[class=avatar]")
 										.select("a").select("img");
 								String avatarImgUrl = eles.first().attr("src");
 
+								// source
 								eles = doc.select("div")
 										.select("div[class=feed-item-inner]")
 										.select("div[class=feed-main]")
@@ -74,6 +85,17 @@ public class CmdTopFeed extends Command {
 								String time = eles.first()
 										.select("span[class=time]")
 										.attr("href");
+
+								//content
+								eles = doc.select("div")
+										.select("div[class=feed-item-inner]")
+										.select("div[class=feed-main]")
+										.select("div[class=content]");
+
+								String questionTitle = eles.select("h2")
+										.select("a").text();
+								String questionUrl = eles.select("h2")
+										.select("a").attr("herf");
 
 								// feed-item/feed-item-inner/feed-main/source content表示是来自，
 								// 还是问题被很多人关注，还是赞了什么问题或者是关注
@@ -103,8 +125,12 @@ public class CmdTopFeed extends Command {
 			protected Map<String, String> getParams() throws AuthFailureError {
 				Map<String, String> params = new HashMap<String, String>();
 				params.put("_xsrf", xsrf);
-				params.put("params",
-						"{\"action\":\"next\",\"block_id\":1424618591,\"offset\":17}");
+				try {
+					params.put("params", Jeson.bean2String(params));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				params.put("method", "next");
 				return params;
 			}

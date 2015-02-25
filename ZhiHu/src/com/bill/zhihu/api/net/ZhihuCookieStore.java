@@ -81,7 +81,7 @@ public class ZhihuCookieStore implements CookieStore {
 	public void addCookie(Cookie cookie) {
 		ZhihuLog.d(TAG, "add cookie " + cookie.getValue());
 		// 获得存储的时候用到的key name
-		String name = cookie.getName() + cookie.getDomain();
+		String name = cookie.getName();
 
 		if (cookie.isExpired(new Date())) {
 			ZhihuLog.d(TAG, "expired");

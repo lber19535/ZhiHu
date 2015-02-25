@@ -7,19 +7,11 @@ import com.bill.jeson.annotation.JsonObject;
 public class TopFeedListParams {
 
 	@JsonField
-	private String action;
+	private final String action = "next";
 	@JsonField
 	private long blockId;
 	@JsonField
 	private int offset;
-
-	public String getAction() {
-		return action;
-	}
-
-	public void setAction(String action) {
-		this.action = action;
-	}
 
 	public long getBlockId() {
 		return blockId;
