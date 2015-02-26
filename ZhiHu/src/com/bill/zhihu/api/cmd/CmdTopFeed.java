@@ -18,7 +18,9 @@ import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.bill.jeson.Jeson;
+import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
+import com.bill.zhihu.api.utils.NetConstant;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 import com.bill.zhihu.home.TopFeedListParams;
@@ -32,12 +34,12 @@ import com.bill.zhihu.home.TopFeedListParams;
 public class CmdTopFeed extends Command {
 
 	private CallbackListener listener;
-	private TopFeedListParams params;
+	private TopFeedListParams topFeedParams;
 
 	public CmdTopFeed(long blockId, int offset) {
-		params = new TopFeedListParams();
-		params.setBlockId(blockId);
-		params.setOffset(offset);
+		topFeedParams = new TopFeedListParams();
+		topFeedParams.setBlockId(blockId);
+		topFeedParams.setOffset(offset);
 	}
 
 	@Override
@@ -124,11 +126,12 @@ public class CmdTopFeed extends Command {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
 				Map<String, String> params = new HashMap<String, String>();
-				params.put("_xsrf", xsrf);
+				ZhihuLog.d(TAG, "xsrf " + xsrf);
+				params.put(NetConstant.XSRF, xsrf);
 				try {
-					params.put("params", Jeson.bean2String(params));
+					ZhihuLog.d(TAG, "params " + Jeson.bean2String(topFeedParams));
+					params.put("params", Jeson.bean2String(topFeedParams));
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				params.put("method", "next");

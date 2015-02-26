@@ -8,7 +8,7 @@ public class TopFeedListParams {
 
 	@JsonField
 	private final String action = "next";
-	@JsonField
+	@JsonField(name = "block_id")
 	private long blockId;
 	@JsonField
 	private int offset;

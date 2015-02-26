@@ -1,6 +1,7 @@
 package com.bill.zhihu.home;
 
 import com.bill.zhihu.api.ZhihuApi;
+import com.bill.zhihu.api.cmd.CmdFetchHomePage;
 import com.bill.zhihu.api.cmd.CmdTopFeed;
 
 import android.app.Fragment;
@@ -21,7 +22,11 @@ public class FragmentHome extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		CmdTopFeed cmdTopFeed = new CmdTopFeed(System.currentTimeMillis(), 0);
+		CmdFetchHomePage homePage = new CmdFetchHomePage();
+		ZhihuApi.execCmd(homePage);
+
+		CmdTopFeed cmdTopFeed = new CmdTopFeed(
+				System.currentTimeMillis() / 1000, 0);
 		ZhihuApi.execCmd(cmdTopFeed);
 
 		return super.onCreateView(inflater, container, savedInstanceState);

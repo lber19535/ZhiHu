@@ -1,6 +1,7 @@
 package com.bill.zhihu.api.cmd;
 
 import com.bill.zhihu.ZhihuApp;
+import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.net.ZhihuVolley;
 
 public abstract class Command {
@@ -11,7 +12,7 @@ public abstract class Command {
 
 	public Command() {
 		volley = ZhihuVolley.getInstance(ZhihuApp.getContext());
-
+		xsrf = ZhihuApi.getXSRF();
 	}
 
 	abstract public void exec();
