@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.bill.zhihu.R;
 import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.api.cmd.Command;
+import com.bill.zhihu.api.net.ZhihuCookieManager;
 import com.bill.zhihu.api.net.ZhihuCookieStore;
 
 public class ZhihuApi {
@@ -25,10 +26,16 @@ public class ZhihuApi {
 		cmd.exec();
 	}
 
+	/**
+	 * 清除cookies
+	 */
 	public static void clearCookies() {
 		new ZhihuCookieStore().clear();
 	}
 
+	/**
+	 * 清除缓存
+	 */
 	public static void clearCache() {
 		File cacheDir = mContext.getCacheDir();
 		File[] cacheFiles = cacheDir.listFiles();
@@ -41,6 +48,11 @@ public class ZhihuApi {
 		}
 	}
 
+	/**
+	 * 获取缓存可用空间
+	 * 
+	 * @return kb
+	 */
 	public static float getCacheUsableSpace() {
 		File cacheDir = mContext.getCacheDir();
 		long usableSpace = cacheDir.getUsableSpace();
@@ -59,6 +71,10 @@ public class ZhihuApi {
 	public static String getXSRF() {
 		sp = PreferenceManager.getDefaultSharedPreferences(ZhihuApp
 				.getContext());
-		return sp.getString(ZhihuApi.XSRF, null);
+		if (ZhihuCookieManager.haveCookieName(ZhihuApi.XSRF)) {
+			return ZhihuCookieManager.getCookieValue(ZhihuApi.XSRF);
+		} else {
+			return sp.getString(ZhihuApi.XSRF, null);
+		}
 	}
 }

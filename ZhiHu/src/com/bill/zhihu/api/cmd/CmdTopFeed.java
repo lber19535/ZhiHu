@@ -18,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.bill.jeson.Jeson;
-import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
 import com.bill.zhihu.api.utils.NetConstant;
 import com.bill.zhihu.api.utils.ZhihuLog;
@@ -111,9 +110,8 @@ public class CmdTopFeed extends Command {
 				}, new Response.ErrorListener() {
 
 					@Override
-					public void onErrorResponse(VolleyError arg0) {
-						// TODO Auto-generated method stub
-
+					public void onErrorResponse(VolleyError error) {
+						ZhihuLog.d(TAG, error);
 					}
 				}) {
 			@Override
