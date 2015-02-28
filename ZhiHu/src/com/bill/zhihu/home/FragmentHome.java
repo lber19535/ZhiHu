@@ -25,9 +25,9 @@ public class FragmentHome extends Fragment {
 		CmdFetchHomePage homePage = new CmdFetchHomePage();
 		ZhihuApi.execCmd(homePage);
 
-		CmdTopFeed cmdTopFeed = new CmdTopFeed(
-				System.currentTimeMillis() / 1000, 20);
-		ZhihuApi.execCmd(cmdTopFeed);
+//		CmdTopFeed cmdTopFeed = new CmdTopFeed(
+//				System.currentTimeMillis() / 1000, 20);
+//		ZhihuApi.execCmd(cmdTopFeed);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
