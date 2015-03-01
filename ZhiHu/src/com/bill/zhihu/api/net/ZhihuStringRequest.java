@@ -40,6 +40,11 @@ public class ZhihuStringRequest extends StringRequest {
 	public Map<String, String> getHeaders() throws AuthFailureError {
 		Map<String, String> header = new HashMap<String, String>();
 		header.put("User-Agent", NetConstant.UA);
+//		header.put("User-Agent", NetConstant.UA);
+//		header.put("User-Agent", NetConstant.UA);
+//		header.put("User-Agent", NetConstant.UA);
+//		header.put("User-Agent", NetConstant.UA);
+//		header.put("User-Agent", NetConstant.UA);
 		return header;
 	}
 
