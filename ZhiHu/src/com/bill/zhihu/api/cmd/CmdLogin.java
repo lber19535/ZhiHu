@@ -118,7 +118,7 @@ public class CmdLogin extends Command {
 
 					@Override
 					public void onErrorResponse(VolleyError error) {
-						ZhihuLog.d(TAG, error.getMessage());
+						ZhihuLog.d(TAG, error);
 					}
 
 				}) {
@@ -143,6 +143,9 @@ public class CmdLogin extends Command {
 				// TODO Auto-generated method stub
 				Map<String, String> headers = super.getHeaders();
 				headers.put("X-Requested-With", "XMLHttpRequest");
+				headers.put("Referer", "http://www.zhihu.com/#signin");
+				headers.put("Host", "www.zhihu.com");
+				headers.put("Accept", "*/*");
 				return headers;
 			}
 
