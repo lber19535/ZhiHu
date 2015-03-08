@@ -22,5 +22,8 @@
     <!-- 登陆界面 -->
     <dimen name="login_corner_radius">5dp</dimen>
     <dimen name="login_line">1dp</dimen>
+    <!-- 首页 -->
+    <dimen name="time_line_list_header_img_size">24dp</dimen>
+    
 
 </resources>
