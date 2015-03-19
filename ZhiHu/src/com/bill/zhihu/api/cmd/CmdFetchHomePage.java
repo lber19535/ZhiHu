@@ -98,6 +98,10 @@ public class CmdFetchHomePage extends Command {
                             System.out.println("question " + question);
                             System.out.println("questionUrl " + questionUrl);
                             System.out.println("voteCount " + voteCount);
+                            
+                            // 是否包含feed-question-detail-item 来确定是否有是否只有问题还是也有回答
+                            boolean onlyQuestion = !contentElements.select("div").hasClass("feed-question-detail-item");
+                            System.out.println("onlyQuestion " + onlyQuestion);
 
                             TimeLineItem item = new TimeLineItem();
                             item.setAvatarHome(avatarHome);
@@ -112,6 +116,7 @@ public class CmdFetchHomePage extends Command {
                             item.setVoteCount(voteCount);
                             item.setQuestion(question);
                             item.setQuestionUrl(questionUrl);
+                            item.setOnlyQuestion(onlyQuestion);
                             
 
                             timelineItems.add(item);

@@ -1,5 +1,7 @@
 package com.bill.zhihu.api.bean;
 
+import java.lang.reflect.Field;
+
 /**
  * timeline item内容
  * 
@@ -8,116 +10,146 @@ package com.bill.zhihu.api.bean;
  */
 public class TimeLineItem {
 
-    private String avatarName;
-    private String avatarImgUrl;
-    private String avatarHome;
-    // 话题，人，专栏
-    private String source;
-    private String sourceUrl;
-    private String timeStamp;
-    private String timeTips;
-    // 赞同，关注，来自
-    private String typeString;
-    private boolean isTopic;
+	private String avatarName;
+	private String avatarImgUrl;
+	private String avatarHome;
+	// 话题，人，专栏
+	private String source;
+	private String sourceUrl;
+	private String timeStamp;
+	private String timeTips;
+	// 赞同，关注，来自
+	private String typeString;
+	private boolean isTopic;
+	// item是否只是个问题
+	private boolean onlyQuestion;
 
-    private String question;
-    private String questionUrl;
-    private String voteCount;
+	private String question;
+	private String questionUrl;
+	private String voteCount;
 
-    public String getAvatarName() {
-        return avatarName;
-    }
+	public boolean isOnlyQuestion() {
+		return onlyQuestion;
+	}
 
-    public void setAvatarName(String avatarName) {
-        this.avatarName = avatarName;
-    }
+	public void setOnlyQuestion(boolean onlyQuestion) {
+		this.onlyQuestion = onlyQuestion;
+	}
 
-    public String getAvatarImgUrl() {
-        return avatarImgUrl;
-    }
+	public String getAvatarName() {
+		return avatarName;
+	}
 
-    public void setAvatarImgUrl(String avatarImgUrl) {
-        this.avatarImgUrl = avatarImgUrl;
-    }
+	public void setAvatarName(String avatarName) {
+		this.avatarName = avatarName;
+	}
 
-    public String getAvatarHome() {
-        return avatarHome;
-    }
+	public String getAvatarImgUrl() {
+		return avatarImgUrl;
+	}
 
-    public void setAvatarHome(String avatarHome) {
-        this.avatarHome = avatarHome;
-    }
+	public void setAvatarImgUrl(String avatarImgUrl) {
+		this.avatarImgUrl = avatarImgUrl;
+	}
 
-    public String getSource() {
-        return source;
-    }
+	public String getAvatarHome() {
+		return avatarHome;
+	}
 
-    public void setSource(String source) {
-        this.source = source;
-    }
+	public void setAvatarHome(String avatarHome) {
+		this.avatarHome = avatarHome;
+	}
 
-    public String getSourceUrl() {
-        return sourceUrl;
-    }
+	public String getSource() {
+		return source;
+	}
 
-    public void setSourceUrl(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
-    }
+	public void setSource(String source) {
+		this.source = source;
+	}
 
-    public String getTimeStamp() {
-        return timeStamp;
-    }
+	public String getSourceUrl() {
+		return sourceUrl;
+	}
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
-    }
+	public void setSourceUrl(String sourceUrl) {
+		this.sourceUrl = sourceUrl;
+	}
 
-    public String getTimeTips() {
-        return timeTips;
-    }
+	public String getTimeStamp() {
+		return timeStamp;
+	}
 
-    public void setTimeTips(String timeTips) {
-        this.timeTips = timeTips;
-    }
+	public void setTimeStamp(String timeStamp) {
+		this.timeStamp = timeStamp;
+	}
 
-    public String getTypeString() {
-        return typeString;
-    }
+	public String getTimeTips() {
+		return timeTips;
+	}
 
-    public void setTypeString(String typeString) {
-        this.typeString = typeString;
-    }
+	public void setTimeTips(String timeTips) {
+		this.timeTips = timeTips;
+	}
 
-    public boolean isTopic() {
-        return isTopic;
-    }
+	public String getTypeString() {
+		return typeString;
+	}
 
-    public void setTopic(boolean isTopic) {
-        this.isTopic = isTopic;
-    }
+	public void setTypeString(String typeString) {
+		this.typeString = typeString;
+	}
 
-    public String getQuestion() {
-        return question;
-    }
+	public boolean isTopic() {
+		return isTopic;
+	}
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
+	public void setTopic(boolean isTopic) {
+		this.isTopic = isTopic;
+	}
 
-    public String getQuestionUrl() {
-        return questionUrl;
-    }
+	public String getQuestion() {
+		return question;
+	}
 
-    public void setQuestionUrl(String questionUrl) {
-        this.questionUrl = questionUrl;
-    }
+	public void setQuestion(String question) {
+		this.question = question;
+	}
 
-    public String getVoteCount() {
-        return voteCount;
-    }
+	public String getQuestionUrl() {
+		return questionUrl;
+	}
 
-    public void setVoteCount(String voteCount) {
-        this.voteCount = voteCount;
-    }
+	public void setQuestionUrl(String questionUrl) {
+		this.questionUrl = questionUrl;
+	}
+
+	public String getVoteCount() {
+		return voteCount;
+	}
+
+	public void setVoteCount(String voteCount) {
+		this.voteCount = voteCount;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		Field[] fields = this.getClass().getDeclaredFields();
+		for (Field field : fields) {
+			sb.append(field.getName());
+			try {
+				sb.append(field.get(this).toString());
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 
 }
