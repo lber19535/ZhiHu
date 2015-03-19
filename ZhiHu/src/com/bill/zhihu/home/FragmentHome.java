@@ -1,7 +1,10 @@
 package com.bill.zhihu.home;
 
+import java.util.List;
+
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
+import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdFetchHomePage;
 import com.bill.zhihu.api.cmd.CmdTopFeed;
 
@@ -21,27 +24,25 @@ import android.webkit.WebView;
  */
 public class FragmentHome extends Fragment {
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_home_page,
-				container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home_page,
+                container, false);
 
-		CmdFetchHomePage homePage = new CmdFetchHomePage();
-		homePage.setOnCmdCallBack(new CmdFetchHomePage.CallbackListener() {
+        CmdFetchHomePage homePage = new CmdFetchHomePage();
+        homePage.setOnCmdCallBack(new CmdFetchHomePage.CallbackListener() {
 
-			@Override
-			public void callback(String homepage) {
-				
-				
-				
-				
-			}
-		});
-		ZhihuApi.execCmd(homePage);
+            @Override
+            public void callback(List<TimeLineItem> timelineItems) {
 
-		return rootView;
-	}
+            }
+
+        });
+        ZhihuApi.execCmd(homePage);
+
+        return rootView;
+    }
 
 }
