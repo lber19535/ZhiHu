@@ -102,6 +102,7 @@ public class CmdFetchHomePage extends Command {
                             // 是否包含feed-question-detail-item 来确定是否有是否只有问题还是也有回答
                             boolean onlyQuestion = !contentElements.select("div").hasClass("feed-question-detail-item");
                             System.out.println("onlyQuestion " + onlyQuestion);
+                            String answer = contentElements.select("div[class=zh-summary summary clearfix]").text();
 
                             TimeLineItem item = new TimeLineItem();
                             item.setAvatarHome(avatarHome);
@@ -117,10 +118,11 @@ public class CmdFetchHomePage extends Command {
                             item.setQuestion(question);
                             item.setQuestionUrl(questionUrl);
                             item.setOnlyQuestion(onlyQuestion);
-                            
+                            item.setAnswerSummary(answer);
 
                             timelineItems.add(item);
                             System.out.println("------------");
+                            System.out.println("time line size is  " + timelineItems.size());
                         }
                         listener.callback(timelineItems);
 

@@ -3,6 +3,12 @@ package com.bill.zhihu.home;
 import com.bill.jeson.annotation.JsonField;
 import com.bill.jeson.annotation.JsonObject;
 
+/**
+ * top feed list 接口的post数据
+ * 
+ * @author Lv Beier
+ *
+ */
 @JsonObject
 public class TopFeedListParams {
 
