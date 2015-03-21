@@ -19,27 +19,22 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.bill.jeson.Jeson;
 import com.bill.zhihu.api.bean.TopFeedListParams;
+import com.bill.zhihu.api.bean.TopRefreshParams;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
 import com.bill.zhihu.api.utils.NetConstant;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
 /**
- * 知乎time line
+ * 知乎time line 下拉刷新
  * 
  * @author Bill Lv
  *
  */
-public class CmdTopFeed extends Command {
+public class CmdTopRefresh extends Command {
 
     private CallbackListener listener;
-    private TopFeedListParams topFeedParams;
-
-    public CmdTopFeed(long blockId, int offset) {
-        topFeedParams = new TopFeedListParams();
-        topFeedParams.setBlockId(blockId);
-        topFeedParams.setOffset(offset);
-    }
+    private TopRefreshParams topRefreshParams;
 
     @Override
     public void exec() {
@@ -130,9 +125,10 @@ public class CmdTopFeed extends Command {
                 ZhihuLog.d(TAG, "xsrf " + xsrf);
                 params.put(NetConstant.XSRF, xsrf);
                 try {
+                    TopRefreshParams topRefreshParams = new TopRefreshParams();
                     ZhihuLog.d(TAG,
-                            "params " + Jeson.bean2String(topFeedParams));
-                    params.put("params", Jeson.bean2String(topFeedParams));
+                            "params " + Jeson.bean2String(topRefreshParams));
+                    params.put("params", Jeson.bean2String(topRefreshParams));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

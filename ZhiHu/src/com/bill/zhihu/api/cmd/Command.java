@@ -6,21 +6,21 @@ import com.bill.zhihu.api.net.ZhihuVolley;
 
 public abstract class Command {
 
-	protected final String TAG = getClass().getName();
-	protected ZhihuVolley volley;
-	protected static String xsrf;
+    protected final String TAG = getClass().getName();
+    protected ZhihuVolley volley;
+    protected static String xsrf;
 
-	public Command() {
-		volley = ZhihuVolley.getInstance(ZhihuApp.getContext());
-		xsrf = ZhihuApi.getXSRF();
-	}
+    public Command() {
+        volley = ZhihuVolley.getInstance(ZhihuApp.getContext());
+        xsrf = ZhihuApi.getXSRF();
+    }
 
-	abstract public void exec();
+    abstract public void exec();
 
-	abstract public <T extends CommandCallback> void setOnCmdCallBack(T callback);
+    abstract public <T extends CommandCallback> void setOnCmdCallBack(T callback);
 
-	public interface CommandCallback {
+    public interface CommandCallback {
 
-	}
+    }
 
 }

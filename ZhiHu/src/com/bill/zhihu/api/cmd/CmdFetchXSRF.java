@@ -17,45 +17,45 @@ import com.bill.zhihu.api.utils.ZhihuURL;
  */
 public class CmdFetchXSRF extends Command {
 
-	private CallbackListener listener;
+    private CallbackListener listener;
 
-	public CmdFetchXSRF() {
-		xsrf = ZhihuApi.getXSRF();
-	}
+    public CmdFetchXSRF() {
+        xsrf = ZhihuApi.getXSRF();
+    }
 
-	@Override
-	public void exec() {
-		if (xsrf == null) {
-			fetchKeyWords();
-		} else {
-			listener.callback(xsrf);
-		}
-	}
+    @Override
+    public void exec() {
+        if (xsrf == null) {
+            fetchKeyWords();
+        } else {
+            listener.callback(xsrf);
+        }
+    }
 
-	@Override
-	public void setOnCmdCallBack(CommandCallback callback) {
-		this.listener = (CallbackListener) callback;
-	}
+    @Override
+    public void setOnCmdCallBack(CommandCallback callback) {
+        this.listener = (CallbackListener) callback;
+    }
 
-	private void fetchKeyWords() {
-		ZhihuStringRequest request = new ZhihuStringRequest(ZhihuURL.HOST,
-				new Listener<String>() {
+    private void fetchKeyWords() {
+        ZhihuStringRequest request = new ZhihuStringRequest(ZhihuURL.HOST,
+                new Listener<String>() {
 
-					@Override
-					public void onResponse(String response) {
-						Document doc = Jsoup.parse(response);
-						xsrf = doc.select("input[name=_xsrf]").attr("value");
-						ZhihuLog.d(TAG, "_xsrf " + xsrf);
-						listener.callback(xsrf);
-						ZhihuApi.setXSRF(xsrf);
-					}
+                    @Override
+                    public void onResponse(String response) {
+                        Document doc = Jsoup.parse(response);
+                        xsrf = doc.select("input[name=_xsrf]").attr("value");
+                        ZhihuLog.d(TAG, "_xsrf " + xsrf);
+                        listener.callback(xsrf);
+                        ZhihuApi.setXSRF(xsrf);
+                    }
 
-				}, null);
-		volley.addQueue(request);
-	}
+                }, null);
+        volley.addQueue(request);
+    }
 
-	public interface CallbackListener extends CommandCallback {
-		void callback(String xsrf);
-	}
+    public interface CallbackListener extends CommandCallback {
+        void callback(String xsrf);
+    }
 
 }

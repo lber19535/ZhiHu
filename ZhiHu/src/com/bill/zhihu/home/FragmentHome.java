@@ -5,7 +5,11 @@ import java.util.List;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +21,7 @@ import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdFetchHomePage;
+import com.bill.zhihu.api.cmd.CmdTopFeed;
 
 /**
  * 主页
@@ -27,8 +32,32 @@ import com.bill.zhihu.api.cmd.CmdFetchHomePage;
 public class FragmentHome extends Fragment {
 
     private ListView timelineLv;
+    private SwipeRefreshLayout refreshLayout;
+
     private List<TimeLineItem> timelineItems;
     private TimeLineAdapter adapter;
+    private Handler mHandler = new Handler();
+
+    // 刷新完毕
+    private final Runnable mRefreshDone = new Runnable() {
+
+        @Override
+        public void run() {
+            CmdTopFeed cmdTopFeed = new CmdTopFeed(timelineItems.get(
+                    timelineItems.size() - 1).getDataBlock(),
+                    timelineItems.size());
+            cmdTopFeed.setOnCmdCallBack(new CmdTopFeed.CallbackListener() {
+
+                @Override
+                public void callback(int code, Bitmap captch) {
+                    adapter.notifyDataSetChanged();
+                    refreshLayout.setRefreshing(false);
+                }
+            });
+            ZhihuApi.execCmd(cmdTopFeed);
+        }
+
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,10 +66,26 @@ public class FragmentHome extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home_page,
                 container, false);
-        adapter = new TimeLineAdapter(getActivity(), timelineItems);
         timelineLv = (ListView) rootView.findViewById(R.id.time_line_list);
+        refreshLayout = (SwipeRefreshLayout) rootView
+                .findViewById(R.id.swipe_to_refresh);
+        // 设置下拉刷新圆圈的颜色
+        refreshLayout.setColorSchemeResources(R.color.swipe_color1,
+                R.color.swipe_color2, R.color.swipe_color3,
+                R.color.swipe_color4);
 
+        adapter = new TimeLineAdapter(getActivity(), timelineItems);
         timelineLv.setAdapter(adapter);
+
+        // 下拉刷新监听器
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                mHandler.removeCallbacks(mRefreshDone);
+                mHandler.postDelayed(mRefreshDone, 5000);
+            }
+        });
 
         CmdFetchHomePage homePage = new CmdFetchHomePage();
         homePage.setOnCmdCallBack(new CmdFetchHomePage.CallbackListener() {
@@ -48,7 +93,6 @@ public class FragmentHome extends Fragment {
             @Override
             public void callback(List<TimeLineItem> timelineitems) {
                 timelineItems.addAll(timelineitems);
-                System.out.println("callback " + timelineItems.size());
                 adapter.notifyDataSetChanged();
             }
 
@@ -97,7 +141,6 @@ public class FragmentHome extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            System.out.println("getItemViewType");
             if (timelineItems.get(position).isOnlyQuestion()) {
                 return VIEW_TYPE_ONLY_QUESTION;
             } else {

@@ -19,37 +19,37 @@ import com.bill.zhihu.login.ActivityLogin;
  */
 public class MainActivity extends Activity {
 
-	private final String TAG = getClass().getName();
+    private final String TAG = getClass().getName();
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		boolean haveLogin = ZhihuCookieManager.haveCookieName("z_c0");
+        boolean haveLogin = ZhihuCookieManager.haveCookieName("z_c0");
 
-		if (haveLogin) {
-			ZhihuLog.d(TAG, "have login");
-			Intent intent = new Intent(this, ActivityHome.class);
-			startActivity(intent);
-			finish();
-			return;
-		}
+        if (haveLogin) {
+            ZhihuLog.d(TAG, "have login");
+            Intent intent = new Intent(this, ActivityHome.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
-		CmdFetchXSRF cmdFetchXSRF = new CmdFetchXSRF();
-		cmdFetchXSRF.setOnCmdCallBack(new CmdFetchXSRF.CallbackListener() {
+        CmdFetchXSRF cmdFetchXSRF = new CmdFetchXSRF();
+        cmdFetchXSRF.setOnCmdCallBack(new CmdFetchXSRF.CallbackListener() {
 
-			@Override
-			public void callback(String xsrf) {
-				ZhihuLog.d(TAG, "xsrf " + xsrf);
-				Intent intent = new Intent(MainActivity.this,
-						ActivityLogin.class);
-				startActivity(intent);
-				finish();
-			}
-		});
+            @Override
+            public void callback(String xsrf) {
+                ZhihuLog.d(TAG, "xsrf " + xsrf);
+                Intent intent = new Intent(MainActivity.this,
+                        ActivityLogin.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
-		ZhihuApi.execCmd(cmdFetchXSRF);
+        ZhihuApi.execCmd(cmdFetchXSRF);
 
-	}
+    }
 
 }

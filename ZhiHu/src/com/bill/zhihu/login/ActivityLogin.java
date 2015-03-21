@@ -14,17 +14,17 @@ import com.bill.zhihu.activity.BaseActivity;
  */
 public class ActivityLogin extends BaseActivity {
 
-	private Fragment loginFragment;
+    private Fragment loginFragment;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
-		
-		loginFragment = new FragmentLogin();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
-		toggleFragment(loginFragment);
+        loginFragment = new FragmentLogin();
 
-	}
+        toggleFragment(loginFragment);
+
+    }
 
 }

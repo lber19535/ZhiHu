@@ -29,6 +29,16 @@ public class TimeLineItem {
     private String voteCount;
     // 回答
     private String answerSummary;
+    // block标记
+    private long dataBlock;
+
+    public long getDataBlock() {
+        return dataBlock;
+    }
+
+    public void setDataBlock(long dataBlock) {
+        this.dataBlock = dataBlock;
+    }
 
     public String getAnswerSummary() {
         return answerSummary;

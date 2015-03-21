@@ -16,6 +16,7 @@
             android:layout_marginLeft="@dimen/global_margin_32"
             android:layout_marginRight="@dimen/global_margin_32"
             android:layout_weight="1"
+            android:animateLayoutChanges="true"
             android:background="@drawable/login_frame_bg"
             android:elevation="@dimen/global_padding_16" >
 

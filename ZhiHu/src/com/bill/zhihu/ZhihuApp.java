@@ -5,19 +5,19 @@ import android.content.Context;
 
 public class ZhihuApp extends Application {
 
-	private static final String TAG = "ZhihuApp";
+    private static final String TAG = "ZhihuApp";
 
-	private static Context mContext;
+    private static Context mContext;
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		mContext = this;
-	}
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mContext = this;
+    }
 
-	public static Context getContext() {
+    public static Context getContext() {
 
-		return mContext;
-	}
+        return mContext;
+    }
 
 }

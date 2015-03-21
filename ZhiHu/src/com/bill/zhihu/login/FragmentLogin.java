@@ -29,84 +29,93 @@ import com.bill.zhihu.home.ActivityHome;
 
 public class FragmentLogin extends Fragment {
 
-	private static final String TAG = "FragmentLogin";
+    private static final String TAG = "FragmentLogin";
 
-	private Button loginBtn;
-	private EditText accountEdt;
-	private EditText pwdEdt;
-	private EditText captchaEdt;
-	private ImageView captchaIv;
+    private Button loginBtn;
+    private EditText accountEdt;
+    private EditText pwdEdt;
+    private EditText captchaEdt;
+    private ImageView captchaIv;
+    // 输入账号的密码的layout
+    private View loginLayout;
 
-	private View rootView;
+    private View rootView;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_login, container, false);
-		initView();
-		return rootView;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        initView();
+        return rootView;
+    }
 
-	private void initView() {
-		accountEdt = (EditText) rootView.findViewById(R.id.login_account);
-		pwdEdt = (EditText) rootView.findViewById(R.id.login_pwd);
-		captchaEdt = (EditText) rootView.findViewById(R.id.login_captcha);
-		loginBtn = (Button) rootView.findViewById(R.id.login_btn);
-		captchaIv = (ImageView) rootView.findViewById(R.id.login_captcha_img);
+    private void initView() {
+        accountEdt = (EditText) rootView.findViewById(R.id.login_account);
+        pwdEdt = (EditText) rootView.findViewById(R.id.login_pwd);
+        captchaEdt = (EditText) rootView.findViewById(R.id.login_captcha);
+        loginBtn = (Button) rootView.findViewById(R.id.login_btn);
+        captchaIv = (ImageView) rootView.findViewById(R.id.login_captcha_img);
 
-		//先登录一次以获取提交时所需的cookie
-		login("", "", null);
+        loginLayout = rootView.findViewById(R.id.login_layout);
 
-		loginBtn.setOnClickListener(new OnClickListener() {
+        // 先登录一次以获取提交时所需的cookie
+        login("", "", null);
 
-			@Override
-			public void onClick(View v) {
-				String account = accountEdt.getEditableText().toString();
-				String pwd = pwdEdt.getEditableText().toString();
-				String captcha = captchaEdt.getEditableText().toString();
+        loginBtn.setOnClickListener(new OnClickListener() {
 
-				if (account.isEmpty() || pwd.isEmpty()) {
-					Toast.makeText(getActivity(),
-							getResources().getString(R.string.account_empty),
-							Toast.LENGTH_SHORT).show();
-					return;
-				}
-				login(account, pwd, captcha);
+            @Override
+            public void onClick(View v) {
+                String account = accountEdt.getEditableText().toString();
+                String pwd = pwdEdt.getEditableText().toString();
+                String captcha = captchaEdt.getEditableText().toString();
 
-			}
-		});
-	}
+                if (account.isEmpty() || pwd.isEmpty()) {
+                    Toast.makeText(getActivity(),
+                            getResources().getString(R.string.account_empty),
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                login(account, pwd, captcha);
 
-	private void login(String account, String pwd, String captcha) {
-		CmdLogin login = new CmdLogin(account, pwd, captcha);
-		login.setOnCmdCallBack(new CmdLogin.CallbackListener() {
+            }
+        });
+    }
 
-			@Override
-			public void callback(int code, Bitmap captcha) {
-				ZhihuLog.d(TAG, code);
-				switch (code) {
-					case CmdLogin.LOGIN_SUCCESS:
-						ToastUtil.showShortToast(getResources().getString(
-								R.string.login_success));
-						Intent intent = new Intent(getActivity(),
-								ActivityHome.class);
-						startActivity(intent);
-						getActivity().overridePendingTransition(
-								R.anim.activity_login_home_in_transition,
-								R.anim.activity_login_home_out_transition);
-						getActivity().finish();
+    private void login(String account, String pwd, String captcha) {
+        CmdLogin login = new CmdLogin(account, pwd, captcha);
+        login.setOnCmdCallBack(new CmdLogin.CallbackListener() {
 
-						break;
-					case CmdLogin.LOGIN_FAILED:
-						captchaIv.setImageBitmap(captcha);
-						break;
+            @Override
+            public void callback(int code, Bitmap captcha) {
+                ZhihuLog.d(TAG, code);
+                switch (code) {
+                    case CmdLogin.LOGIN_SUCCESS:
+                        ToastUtil.showShortToast(getResources().getString(
+                                R.string.login_success));
+                        Intent intent = new Intent(getActivity(),
+                                ActivityHome.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(
+                                R.anim.activity_login_home_in_transition,
+                                R.anim.activity_login_home_out_transition);
+                        getActivity().finish();
 
-					default:
-						break;
-				}
-			}
-		});
-		ZhihuApi.execCmd(login);
-	}
+                        break;
+                    case CmdLogin.LOGIN_FAILED:
+                        captchaIv.setImageBitmap(captcha);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+        ZhihuApi.execCmd(login);
+    }
+
+    private void loginSuccessAnime() {
+        // loginLayout
+        // loginBtn
+    }
 
 }

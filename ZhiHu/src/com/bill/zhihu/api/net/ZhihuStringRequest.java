@@ -17,35 +17,34 @@ import com.bill.zhihu.api.utils.NetConstant;
  */
 public class ZhihuStringRequest extends StringRequest {
 
-	private final Listener<String> mListener;
-	
+    private final Listener<String> mListener;
 
-	public ZhihuStringRequest(int method, String url,
-			Listener<String> listener, ErrorListener errorListener) {
-		super(method, url, listener, errorListener);
-		mListener = listener;
-	}
+    public ZhihuStringRequest(int method, String url,
+            Listener<String> listener, ErrorListener errorListener) {
+        super(method, url, listener, errorListener);
+        mListener = listener;
+    }
 
-	public ZhihuStringRequest(String url, Listener<String> listener,
-			ErrorListener errorListener) {
-		this(Method.GET, url, listener, errorListener);
-	}
+    public ZhihuStringRequest(String url, Listener<String> listener,
+            ErrorListener errorListener) {
+        this(Method.GET, url, listener, errorListener);
+    }
 
-	@Override
-	protected void deliverResponse(String response) {
-		mListener.onResponse(response);
-	}
+    @Override
+    protected void deliverResponse(String response) {
+        mListener.onResponse(response);
+    }
 
-	@Override
-	public Map<String, String> getHeaders() throws AuthFailureError {
-		Map<String, String> header = new HashMap<String, String>();
-		header.put("User-Agent", NetConstant.UA);
-//		header.put("User-Agent", NetConstant.UA);
-//		header.put("User-Agent", NetConstant.UA);
-//		header.put("User-Agent", NetConstant.UA);
-//		header.put("User-Agent", NetConstant.UA);
-//		header.put("User-Agent", NetConstant.UA);
-		return header;
-	}
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("User-Agent", NetConstant.UA);
+        // header.put("User-Agent", NetConstant.UA);
+        // header.put("User-Agent", NetConstant.UA);
+        // header.put("User-Agent", NetConstant.UA);
+        // header.put("User-Agent", NetConstant.UA);
+        // header.put("User-Agent", NetConstant.UA);
+        return header;
+    }
 
 }

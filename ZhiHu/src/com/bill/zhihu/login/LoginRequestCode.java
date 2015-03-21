@@ -12,37 +12,37 @@ import com.bill.jeson.annotation.JsonObject;
 @JsonObject
 public class LoginRequestCode {
 
-	@JsonField(name = "r")
-	private int requestCode;
+    @JsonField(name = "r")
+    private int requestCode;
 
-	@JsonField(name = "errcode")
-	private int errorCode = -1;
+    @JsonField(name = "errcode")
+    private int errorCode = -1;
 
-	@JsonField
-	private LoginRequestMsg msg;
+    @JsonField
+    private LoginRequestMsg msg;
 
-	public int getRequestCode() {
-		return requestCode;
-	}
+    public int getRequestCode() {
+        return requestCode;
+    }
 
-	public void setRequestCode(int requestCode) {
-		this.requestCode = requestCode;
-	}
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+    }
 
-	public int getErrorCode() {
-		return errorCode;
-	}
+    public int getErrorCode() {
+        return errorCode;
+    }
 
-	public void setErrorCode(int errorCode) {
-		this.errorCode = errorCode;
-	}
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+    }
 
-	public LoginRequestMsg getMsg() {
-		return msg;
-	}
+    public LoginRequestMsg getMsg() {
+        return msg;
+    }
 
-	public void setMsg(LoginRequestMsg msg) {
-		this.msg = msg;
-	}
+    public void setMsg(LoginRequestMsg msg) {
+        this.msg = msg;
+    }
 
 }

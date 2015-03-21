@@ -14,18 +14,18 @@ import com.bill.zhihu.api.utils.NetConstant;
 
 public class ZhihuImageRequest extends ImageRequest {
 
-	public ZhihuImageRequest(String url, Listener<Bitmap> listener,
-			int maxWidth, int maxHeight, Config decodeConfig,
-			ErrorListener errorListener) {
-		super(url, listener, maxWidth, maxHeight, decodeConfig, errorListener);
-	}
+    public ZhihuImageRequest(String url, Listener<Bitmap> listener,
+            int maxWidth, int maxHeight, Config decodeConfig,
+            ErrorListener errorListener) {
+        super(url, listener, maxWidth, maxHeight, decodeConfig, errorListener);
+    }
 
-	@Override
-	public Map<String, String> getHeaders() throws AuthFailureError {
-		Map<String, String> header = new HashMap<String, String>();
-		header.put("User-Agent", NetConstant.UA);
-		header.put("Accept", "image/webp,*/*;q=0.8");
-		return header;
-	}
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        Map<String, String> header = new HashMap<String, String>();
+        header.put("User-Agent", NetConstant.UA);
+        header.put("Accept", "image/webp,*/*;q=0.8");
+        return header;
+    }
 
 }

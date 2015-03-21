@@ -12,85 +12,85 @@ import com.bill.jeson.annotation.JsonObject;
 
 @JsonObject
 public class CookieJson {
-	@JsonField
-	private String name;
-	@JsonField
-	private String comment;
-	@JsonField(name = "comment_url")
-	private String commentUrl;
-	@JsonField
-	private int version;
-	@JsonField
-	private String domain;
-	@JsonField(name = "expiry_date")
-	private long expiryDate;
-	@JsonField
-	private String path;
-	@JsonField
-	private String value;
+    @JsonField
+    private String name;
+    @JsonField
+    private String comment;
+    @JsonField(name = "comment_url")
+    private String commentUrl;
+    @JsonField
+    private int version;
+    @JsonField
+    private String domain;
+    @JsonField(name = "expiry_date")
+    private long expiryDate;
+    @JsonField
+    private String path;
+    @JsonField
+    private String value;
 
-	public int getVersion() {
-		return version;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public String getCommentUrl() {
-		return commentUrl;
-	}
+    public String getCommentUrl() {
+        return commentUrl;
+    }
 
-	public void setCommentUrl(String commentUrl) {
-		this.commentUrl = commentUrl;
-	}
+    public void setCommentUrl(String commentUrl) {
+        this.commentUrl = commentUrl;
+    }
 
-	public String getDomain() {
-		return domain;
-	}
+    public String getDomain() {
+        return domain;
+    }
 
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
 
-	public long getExpiryDate() {
-		return expiryDate;
-	}
+    public long getExpiryDate() {
+        return expiryDate;
+    }
 
-	public void setExpiryDate(long expiryDate) {
-		this.expiryDate = expiryDate;
-	}
+    public void setExpiryDate(long expiryDate) {
+        this.expiryDate = expiryDate;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
 }
