@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HttpClientStack;
 
 /**
  * 单例，所有request由一个request queue统一管理
@@ -41,8 +42,7 @@ public class ZhihuVolley {
         client.setCookieStore(cookieStore);
 
         File cacheDir = new File(mContext.getCacheDir(), DEFAULT_CACHE_DIR);
-        Network network = new BasicNetwork(new ZhihuHttpClientStack(client,
-                cookieStore));
+        Network network = new BasicNetwork(new HttpClientStack(client));
 
         // 由于同一个cookie不能被多线程同时操作，所以把同一时间执行的线程限制为1
         queue = new RequestQueue(new DiskBasedCache(cacheDir), network,
