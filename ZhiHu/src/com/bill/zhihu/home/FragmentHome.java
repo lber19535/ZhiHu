@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,18 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdFetchHomePage;
-import com.bill.zhihu.api.cmd.CmdTopFeed;
 
 /**
  * 主页
@@ -48,18 +40,18 @@ public class FragmentHome extends Fragment {
 
         @Override
         public void run() {
-            CmdTopFeed cmdTopFeed = new CmdTopFeed(timelineItems.get(
-                    timelineItems.size() - 1).getDataBlock(),
-                    timelineItems.size());
-            cmdTopFeed.setOnCmdCallBack(new CmdTopFeed.CallbackListener() {
-
-                @Override
-                public void callback(int code, Bitmap captch) {
-                    adapter.notifyDataSetChanged();
-                    refreshLayout.setRefreshing(false);
-                }
-            });
-            ZhihuApi.execCmd(cmdTopFeed);
+            // CmdTopFeed cmdTopFeed = new CmdTopFeed(timelineItems.get(
+            // timelineItems.size() - 1).getDataBlock(),
+            // timelineItems.size());
+            // cmdTopFeed.setOnCmdCallBack(new CmdTopFeed.CallbackListener() {
+            //
+            // @Override
+            // public void callback(int code, Bitmap captch) {
+            // adapter.notifyDataSetChanged();
+            // refreshLayout.setRefreshing(false);
+            // }
+            // });
+            // ZhihuApi.execCmd(cmdTopFeed);
         }
 
     };
@@ -104,6 +96,7 @@ public class FragmentHome extends Fragment {
             }
         });
 
+        // 获取首页
         CmdFetchHomePage homePage = new CmdFetchHomePage();
         homePage.setOnCmdCallBack(new CmdFetchHomePage.CallbackListener() {
 

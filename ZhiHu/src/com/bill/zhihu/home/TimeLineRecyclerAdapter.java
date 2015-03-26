@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.bean.TimeLineItem;
+import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
+import com.bill.zhihu.api.bean.TimeLineItem.SourceType;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
 /**
@@ -51,7 +53,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (timelineItems.get(position).isOnlyQuestion()) {
+        if (timelineItems.get(position).getContentType() == ContentType.QUESTION) {
             return VIEW_TYPE_ONLY_QUESTION;
         } else {
             return VIEW_TYPE_ANSWER_QUESTION;
@@ -61,10 +63,25 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
     @Override
     public void onBindViewHolder(TimeLineViewHolder holder, int position) {
         TimeLineItem item = timelineItems.get(position);
-        SpannableStringBuilder ssb = new SpannableStringBuilder(item.getSource());
+        String sourceText = item.getSourceText();
+        String source = item.getSource();
+        int start = 0;
+        int end = 0;
+        if (item.getSourceType() == SourceType.LEFT) {
+            start = 0;
+            end = source.length();
+        } else {
+            if (source.contains(" ")) {
+                start = sourceText.indexOf(source.split(" ")[0]);
+            } else {
+                start = sourceText.indexOf(source);
+            }
+            end = sourceText.length();
+        }
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.CYAN);
-        ssb.setSpan(fcs, 0, ssb.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        
+        SpannableStringBuilder ssb = new SpannableStringBuilder(sourceText);
+        ssb.setSpan(fcs, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
         holder.fromTv.setText(ssb);
         holder.questionTv.setText(item.getQuestion());
 

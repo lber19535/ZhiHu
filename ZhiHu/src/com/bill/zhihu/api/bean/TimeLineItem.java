@@ -9,59 +9,90 @@ import java.lang.reflect.Field;
  *
  */
 public class TimeLineItem {
+    /*
+     * item分为三个部分
+     *
+     * |----------------------------------|
+     * |source                         avatar |
+     * |----------------------------------|
+     * |question                                 |
+     * |answer                                   |
+     * |----------------------------------|
+     *
+     */
 
-    private String avatarName;
+    /**
+     * 来源类型
+     * 
+     * @author Bill Lv
+     *
+     */
+    public static enum SourceType {
+        /**
+         * 变量在右边： 来自XXX
+         */
+        RIGHT,
+        /**
+         * 默认在左边，变量在左边 XXX回答/赞同/关注了该问题/回答，XXX关注了专栏/赞同了文章
+         */
+        LEFT,
+    }
+
+    /**
+     * content类型
+     * 
+     * @author Bill Lv
+     *
+     */
+    public static enum ContentType {
+        /**
+         * 只有问题
+         */
+        QUESTION,
+        /**
+         * 默认为问题+答案摘要
+         */
+        ANSWER
+    }
+
+    private SourceType sourceType = SourceType.LEFT;
+    private ContentType contentType = ContentType.ANSWER;
+
+    // 头像
     private String avatarImgUrl;
-    private String avatarHome;
-    // 话题，人，专栏
+
+    // source
     private String source;
+    // 来自/关注了/赞同了
+    private String sourceText;
     private String sourceUrl;
     private String timeStamp;
-    private String timeTips;
-    // 赞同，关注，来自
-    private String typeString;
-    private boolean isTopic;
-    // item是否只是个问题
-    private boolean onlyQuestion;
-    // 问题
+    // 人类可读的一个时间
+    private String time;
+
+    // 问题或文章标题
     private String question;
     private String questionUrl;
     private String voteCount;
     // 回答
     private String answerSummary;
     // block标记
-    private long dataBlock;
+    private String dataBlock;
 
-    public long getDataBlock() {
-        return dataBlock;
+    public SourceType getSourceType() {
+        return sourceType;
     }
 
-    public void setDataBlock(long dataBlock) {
-        this.dataBlock = dataBlock;
+    public void setSourceType(SourceType sourceType) {
+        this.sourceType = sourceType;
     }
 
-    public String getAnswerSummary() {
-        return answerSummary;
+    public ContentType getContentType() {
+        return contentType;
     }
 
-    public void setAnswerSummary(String answerSummary) {
-        this.answerSummary = answerSummary;
-    }
-
-    public boolean isOnlyQuestion() {
-        return onlyQuestion;
-    }
-
-    public void setOnlyQuestion(boolean onlyQuestion) {
-        this.onlyQuestion = onlyQuestion;
-    }
-
-    public String getAvatarName() {
-        return avatarName;
-    }
-
-    public void setAvatarName(String avatarName) {
-        this.avatarName = avatarName;
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
     }
 
     public String getAvatarImgUrl() {
@@ -72,20 +103,20 @@ public class TimeLineItem {
         this.avatarImgUrl = avatarImgUrl;
     }
 
-    public String getAvatarHome() {
-        return avatarHome;
-    }
-
-    public void setAvatarHome(String avatarHome) {
-        this.avatarHome = avatarHome;
-    }
-
     public String getSource() {
         return source;
     }
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public String getSourceText() {
+        return sourceText;
+    }
+
+    public void setSourceText(String sourceText) {
+        this.sourceText = sourceText;
     }
 
     public String getSourceUrl() {
@@ -104,28 +135,12 @@ public class TimeLineItem {
         this.timeStamp = timeStamp;
     }
 
-    public String getTimeTips() {
-        return timeTips;
+    public String getTime() {
+        return time;
     }
 
-    public void setTimeTips(String timeTips) {
-        this.timeTips = timeTips;
-    }
-
-    public String getTypeString() {
-        return typeString;
-    }
-
-    public void setTypeString(String typeString) {
-        this.typeString = typeString;
-    }
-
-    public boolean isTopic() {
-        return isTopic;
-    }
-
-    public void setTopic(boolean isTopic) {
-        this.isTopic = isTopic;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getQuestion() {
@@ -150,6 +165,22 @@ public class TimeLineItem {
 
     public void setVoteCount(String voteCount) {
         this.voteCount = voteCount;
+    }
+
+    public String getAnswerSummary() {
+        return answerSummary;
+    }
+
+    public void setAnswerSummary(String answerSummary) {
+        this.answerSummary = answerSummary;
+    }
+
+    public String getDataBlock() {
+        return dataBlock;
+    }
+
+    public void setDataBlock(String dataBlock) {
+        this.dataBlock = dataBlock;
     }
 
     @Override

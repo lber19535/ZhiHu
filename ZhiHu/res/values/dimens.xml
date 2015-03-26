@@ -1,6 +1,5 @@
 <resources>
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="global_margin_64">64dp</dimen>
@@ -12,6 +11,7 @@
     <dimen name="global_padding_16">16dp</dimen>
     <dimen name="global_padding_8">8dp</dimen>
     <dimen name="global_padding_4">4dp</dimen>
+    <dimen name="divider_size">1dp</dimen>
 
     <!-- 字号 -->
     <dimen name="font_14">14sp</dimen>
