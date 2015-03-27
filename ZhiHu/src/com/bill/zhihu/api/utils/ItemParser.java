@@ -1,6 +1,7 @@
 package com.bill.zhihu.api.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -10,7 +11,6 @@ import org.jsoup.select.Elements;
 
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
-import com.bill.zhihu.api.bean.TimeLineItem.SourceType;
 
 /**
  * 解析item
@@ -46,7 +46,6 @@ public class ItemParser {
     }
 
     public static class TimeLineItemBuilder {
-        private static final String SOURCE_FORM_TAG = "来自";
 
         private TimeLineItem item;
         private Element element;
@@ -83,37 +82,38 @@ public class ItemParser {
             // 来源
             Elements sourceElements = element
                     .select("div[class=feed-main]>div[class=source]");
-            String source = sourceElements.select("a").attr(
-                    "data-original_title");
+            // source 下每个tag a会代表一个source
+            Elements elements = sourceElements.select("a");
+            // source有时候会有多个
+            for (Element element : elements) {
+                String source = element.text();
+                String sourceUrl = element.attr("href");
+                // 当没有关注这个话题的时候网页上会出现一个隐藏的关注话题，当鼠标放过去才会显示出来
+                if (source.equals("关注话题")) {
+                    continue;
+                }
+                item.addSource(source);
+                item.addSourceUrl(sourceUrl);
+            }
             String time = sourceElements.select("span[class=time]").text();
-            String sourcetxt = sourceElements.text();
-            String sourceUrl = sourceElements.select("a").attr("href");
+            // 只要保留 来自/赞同了等关键字
+            String sourcetxt = sourceElements.text().replace("•", "")
+                    .replace("关注话题", "").replace(time, "");
             String timestamp = sourceElements.select("span[class=time]").attr(
                     "data-timestamp");
-            TimeLineItem.SourceType sourceType = SourceType.LEFT;
-            if (sourcetxt.contains(SOURCE_FORM_TAG)) {
-                sourceType = SourceType.RIGHT;
-            }
-            if (source.isEmpty()) {
-                Elements elements = sourceElements.select("a");
-                for (Element element : elements) {
-                    source += element.text() + " ";
-                }
-                source = source.subSequence(0, source.length() - 1).toString();
-            }
 
-            ZhihuLog.dValue(TAG, "source ", source);
-            ZhihuLog.dValue(TAG, "sourceUrl ", sourceUrl);
+            ZhihuLog.dValue(TAG, "source ",
+                    Arrays.toString(item.getSource().toArray()));
+            ZhihuLog.dValue(TAG, "sourceUrl ",
+                    Arrays.toString(item.getSourceUrls().toArray()));
             ZhihuLog.dValue(TAG, "sourcetxt ", sourcetxt);
             ZhihuLog.dValue(TAG, "timestamp ", timestamp);
             ZhihuLog.dValue(TAG, "time ", time);
 
-            item.setSource(source);
             item.setSourceText(sourcetxt);
-            item.setSourceUrl(sourceUrl);
             item.setTime(time);
             item.setTimeStamp(timestamp);
-            item.setSourceType(sourceType);
+            // item.setSourceType(sourceType);
 
             return this;
         }

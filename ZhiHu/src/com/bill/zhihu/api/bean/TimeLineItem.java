@@ -1,6 +1,8 @@
 package com.bill.zhihu.api.bean;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * timeline item内容
@@ -22,23 +24,6 @@ public class TimeLineItem {
      */
 
     /**
-     * 来源类型
-     * 
-     * @author Bill Lv
-     *
-     */
-    public static enum SourceType {
-        /**
-         * 变量在右边： 来自XXX
-         */
-        RIGHT,
-        /**
-         * 默认在左边，变量在左边 XXX回答/赞同/关注了该问题/回答，XXX关注了专栏/赞同了文章
-         */
-        LEFT,
-    }
-
-    /**
      * content类型
      * 
      * @author Bill Lv
@@ -55,17 +40,16 @@ public class TimeLineItem {
         ANSWER
     }
 
-    private SourceType sourceType = SourceType.LEFT;
     private ContentType contentType = ContentType.ANSWER;
 
     // 头像
     private String avatarImgUrl;
 
     // source
-    private String source;
+    private List<String> source = new ArrayList<String>();
     // 来自/关注了/赞同了
     private String sourceText;
-    private String sourceUrl;
+    private List<String> sourceUrls = new ArrayList<String>();
     private String timeStamp;
     // 人类可读的一个时间
     private String time;
@@ -78,14 +62,6 @@ public class TimeLineItem {
     private String answerSummary;
     // block标记
     private String dataBlock;
-
-    public SourceType getSourceType() {
-        return sourceType;
-    }
-
-    public void setSourceType(SourceType sourceType) {
-        this.sourceType = sourceType;
-    }
 
     public ContentType getContentType() {
         return contentType;
@@ -103,12 +79,12 @@ public class TimeLineItem {
         this.avatarImgUrl = avatarImgUrl;
     }
 
-    public String getSource() {
+    public List<String> getSource() {
         return source;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void addSource(String source) {
+        this.source.add(source);
     }
 
     public String getSourceText() {
@@ -119,12 +95,12 @@ public class TimeLineItem {
         this.sourceText = sourceText;
     }
 
-    public String getSourceUrl() {
-        return sourceUrl;
+    public List<String> getSourceUrls() {
+        return sourceUrls;
     }
 
-    public void setSourceUrl(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
+    public void addSourceUrl(String sourceUrl) {
+        this.sourceUrls.add(sourceUrl);
     }
 
     public String getTimeStamp() {

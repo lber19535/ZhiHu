@@ -48,7 +48,7 @@ public class FragmentHome extends Fragment {
             // @Override
             // public void callback(int code, Bitmap captch) {
             // adapter.notifyDataSetChanged();
-            // refreshLayout.setRefreshing(false);
+             refreshLayout.setRefreshing(false);
             // }
             // });
             // ZhihuApi.execCmd(cmdTopFeed);
