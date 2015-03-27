@@ -9,6 +9,7 @@
     <color name="grey_white">#EEEEEE</color>
     <color name="grey_light">#BDBDBD</color>
     <color name="grey">#9E9E9E</color>
+    <color name="grey_black">#212121</color>
     <!-- 下拉更新圆圈的颜色 -->
     <color name="swipe_color1">#ff0f9d58</color>
     <color name="swipe_color2">#ffdb4437</color>

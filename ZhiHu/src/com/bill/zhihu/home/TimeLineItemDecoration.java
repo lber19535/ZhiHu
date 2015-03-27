@@ -1,5 +1,8 @@
 package com.bill.zhihu.home;
 
+import com.bill.zhihu.R;
+import com.bill.zhihu.ZhihuApp;
+
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -27,6 +30,8 @@ public class TimeLineItemDecoration extends ItemDecoration {
     public TimeLineItemDecoration() {
         dividerPaint = new Paint();
         dividerPaint.setAntiAlias(true);
+        dividerPaint.setColor(ZhihuApp.getContext().getResources()
+                .getColor(R.color.grey));
         dividerRect = new Rect();
     }
 
