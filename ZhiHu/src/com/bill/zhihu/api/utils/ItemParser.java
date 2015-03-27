@@ -125,13 +125,15 @@ public class ItemParser {
          */
         public TimeLineItemBuilder setQuestion() {
             Elements contentElements = element.select("div[class=content]");
-            boolean haveAnswer = contentElements.hasClass("entry-body");
+            boolean haveAnswer = contentElements.select("div").hasClass(
+                    "entry-body");
 
             String question = contentElements.select("h2>a").text();
             String questionUrl = contentElements.select("a").attr("href");
 
             ZhihuLog.dValue(TAG, "question ", question);
             ZhihuLog.dValue(TAG, "questionUrl ", questionUrl);
+            ZhihuLog.dValue(TAG, "haveAnswer ", haveAnswer);
             item.setQuestion(question);
             item.setQuestionUrl(questionUrl);
             if (!haveAnswer) {
@@ -152,13 +154,11 @@ public class ItemParser {
             if (item.getContentType() == ContentType.QUESTION) {
                 return this;
             }
-            Elements answerElements = element
-                    .select("div[class=content]>div[class=entry-body]");
-            String answerSummary = answerElements
-                    .select("div[class=zm-item-answer-detail]>div[class=zm-item-rich-text]>div[class=zh-summary summary clearfix]")
-                    .text();
-            String voteCount = answerElements.select("[class=zm-item-vote]>a")
-                    .text();
+            Elements answerElements = element.select("div[class=content]");
+            String answerSummary = answerElements.select(
+                    "div[class=zh-summary summary clearfix]").text();
+            String voteCount = answerElements.select(
+                    "[class^=zm-item-vote-info]").attr("data-votecount");
 
             ZhihuLog.dValue(TAG, "answerSummary ", answerSummary);
             ZhihuLog.dValue(TAG, "voteCount ", voteCount);

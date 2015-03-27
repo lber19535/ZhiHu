@@ -31,7 +31,7 @@ public class CmdFetchHomePage extends Command {
 
                     @Override
                     public void onResponse(String response) {
-                        ZhihuLog.d(TAG, response);
+//                        ZhihuLog.d(TAG, response);
 
                         listener.callback(ItemParser.getTimeLineItems(response));
 

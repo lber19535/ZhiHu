@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- regular -->
     <color name="blue">#FF2196F3</color>
     <color name="blue_light">#FF42A5F5</color>
     <color name="blue_white">#FFE3F2FD</color>
     <color name="white">#FFFFFF</color>
-    
+    <color name="grey_white">#EEEEEE</color>
+    <color name="grey_light">#BDBDBD</color>
+    <color name="grey">#9E9E9E</color>
+    <!-- 下拉更新圆圈的颜色 -->
     <color name="swipe_color1">#ff0f9d58</color>
     <color name="swipe_color2">#ffdb4437</color>
     <color name="swipe_color3">#ff4285f4</color>

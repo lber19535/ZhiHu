@@ -1,7 +1,9 @@
 package com.bill.zhihu.home;
 
 import android.view.View;
+import android.widget.TextView;
 
+import com.bill.zhihu.R;
 import com.bill.zhihu.view.TimeLineItemOnClickListener;
 import com.bill.zhihu.view.TimeLineItemOnLongClickListener;
 
@@ -13,8 +15,13 @@ import com.bill.zhihu.view.TimeLineItemOnLongClickListener;
  */
 public class TimeLineWithAnswerViewHolder extends TimeLineViewHolder {
 
+    public TextView answerTv;
+    public TextView voteTv;
+
     public TimeLineWithAnswerViewHolder(View itemView) {
         super(itemView);
+        answerTv = (TextView) itemView.findViewById(R.id.answer);
+        voteTv = (TextView) itemView.findViewById(R.id.vote);
 
     }
 

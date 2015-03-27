@@ -79,6 +79,8 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
             break;
         case VIEW_TYPE_ANSWER_QUESTION:
             TimeLineWithAnswerViewHolder answerViewHolder = (TimeLineWithAnswerViewHolder) holder;
+            answerViewHolder.answerTv.setText(item.getAnswerSummary());
+            answerViewHolder.voteTv.setText(item.getVoteCount());
             break;
 
         default:

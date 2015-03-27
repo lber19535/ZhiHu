@@ -19,7 +19,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/from"
-                android:textSize="@dimen/font_16" />
+                android:textColor="@color/grey"
+                android:textSize="@dimen/font_14" />
 
             <ImageView
                 android:id="@+id/header"
@@ -36,7 +37,7 @@
             android:layout_below="@+id/avatar"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textSize="@dimen/font_22" />
+            android:textSize="@dimen/font_20" />
     </RelativeLayout>
 
 </LinearLayout>
