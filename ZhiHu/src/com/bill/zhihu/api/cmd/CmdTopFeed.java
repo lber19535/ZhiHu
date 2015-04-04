@@ -34,6 +34,7 @@ public class CmdTopFeed extends Command {
 
     private CallbackListener listener;
     private TopFeedListParams topFeedParams;
+    private ZhihuStringRequest request;
 
     public CmdTopFeed(long blockId, int offset) {
         topFeedParams = new TopFeedListParams();
@@ -44,8 +45,8 @@ public class CmdTopFeed extends Command {
     @Override
     public void exec() {
 
-        ZhihuStringRequest request = new ZhihuStringRequest(Method.POST,
-                ZhihuURL.MORE_STORY, new Listener<String>() {
+        request = new ZhihuStringRequest(Method.POST, ZhihuURL.MORE_STORY,
+                new Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         ZhihuLog.d(TAG, response);
@@ -151,6 +152,11 @@ public class CmdTopFeed extends Command {
 
     public interface CallbackListener extends CommandCallback {
         public void callback(int code, Bitmap captch);
+    }
+
+    @Override
+    public void cancel() {
+        request.cancel();
     }
 
 }

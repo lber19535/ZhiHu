@@ -70,6 +70,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
         holder.fromTv.setText(ssb);
         holder.questionTv.setText(item.getQuestion());
+        holder.loadImage(item.getAvatarImgUrl());
 
         int type = getItemViewType(position);
         ZhihuLog.dValue(TAG, "type", type);
@@ -117,9 +118,10 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
     @Override
     public void onViewRecycled(TimeLineViewHolder holder) {
-        // TODO Auto-generated method stub
         super.onViewRecycled(holder);
         System.out.println("onViewRecycled");
+        holder.avatarIv.setImageBitmap(null);
+        holder.cancelImageLoad();
     }
 
     @Override

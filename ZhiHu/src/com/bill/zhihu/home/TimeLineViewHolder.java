@@ -1,16 +1,17 @@
 package com.bill.zhihu.home;
 
-import com.bill.zhihu.R;
-import com.bill.zhihu.api.net.ZhihuImageRequest;
-import com.bill.zhihu.view.TimeLineItemOnClickListener;
-import com.bill.zhihu.view.TimeLineItemOnLongClickListener;
-
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bill.zhihu.R;
+import com.bill.zhihu.api.cmd.CmdFetchAvatarImage;
+import com.bill.zhihu.view.TimeLineItemOnClickListener;
+import com.bill.zhihu.view.TimeLineItemOnLongClickListener;
 
 /**
  * item之间相同的东西(来源，avatar，问题)放到这个父类中
@@ -24,11 +25,11 @@ public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
     public TextView questionTv;
     public TextView fromTv;
     public ImageView avatarIv;
-    
-    public ZhihuImageRequest request;
 
     protected TimeLineItemOnClickListener onClickListener;
     protected TimeLineItemOnLongClickListener onLongClickListener;
+
+    private CmdFetchAvatarImage avatarImage;
 
     public TimeLineViewHolder(View itemView) {
         super(itemView);
@@ -61,6 +62,25 @@ public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
         if (onClickListener != null) {
             onClickListener.onItemClickListener(v, getPosition());
         }
+    }
+
+    public void loadImage(String url) {
+        System.out.println(url);
+        avatarImage = new CmdFetchAvatarImage(url);
+        avatarImage
+                .setOnCmdCallBack(new CmdFetchAvatarImage.CallbackListener() {
+
+                    @Override
+                    public void callback(Bitmap captchaImg) {
+                        avatarIv.setImageBitmap(captchaImg);
+                    }
+                });
+        avatarImage.exec();
+
+    }
+
+    public void cancelImageLoad() {
+        avatarImage.cancel();
     }
 
 }

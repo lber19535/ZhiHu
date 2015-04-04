@@ -8,25 +8,16 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.bill.zhihu.api.net.ZhihuImageRequest;
 import com.bill.zhihu.api.utils.ZhihuLog;
-import com.bill.zhihu.api.utils.ZhihuURL;
 
-/**
- * 获取验证码
- * 
- * @author Bill Lv
- *
- */
-public class CmdFetchCaptcha extends Command {
+public class CmdFetchAvatarImage extends Command {
 
-    private CallbackListener linstener;
-    private long time;
-    private String url;
+    private CallbackListener listener;
     private ZhihuImageRequest request;
 
-    public CmdFetchCaptcha() {
-        time = System.currentTimeMillis();
-        url = ZhihuURL.CAPTCHA + "?r=" + time;
-        ZhihuLog.d(TAG, "captcha url " + url);
+    private String url;
+
+    public CmdFetchAvatarImage(String imgUrl) {
+        this.url = imgUrl;
     }
 
     @Override
@@ -34,9 +25,9 @@ public class CmdFetchCaptcha extends Command {
         request = new ZhihuImageRequest(url, new Listener<Bitmap>() {
 
             @Override
-            public void onResponse(Bitmap img) {
-                ZhihuLog.d(TAG, "fetch the captcha img");
-                linstener.callback(img);
+            public void onResponse(Bitmap avatarImg) {
+                ZhihuLog.d(TAG, "fetch the avaatar img");
+                listener.callback(avatarImg);
             }
         }, 0, 0, Config.ARGB_8888, new ErrorListener() {
 
@@ -59,11 +50,10 @@ public class CmdFetchCaptcha extends Command {
 
     @Override
     public <T extends CommandCallback> void setOnCmdCallBack(T callback) {
-        linstener = (CallbackListener) callback;
+        this.listener = (CallbackListener) callback;
     }
 
     public interface CallbackListener extends CommandCallback {
         public void callback(Bitmap captchaImg);
     }
-
 }

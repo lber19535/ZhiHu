@@ -26,6 +26,10 @@ public class ZhihuApi {
         cmd.exec();
     }
 
+    public static void cancelCmd(Command cmd) {
+        cmd.exec();
+    }
+
     /**
      * 清除cookies
      */
@@ -77,4 +81,5 @@ public class ZhihuApi {
             return sp.getString(ZhihuApi.XSRF, null);
         }
     }
+
 }

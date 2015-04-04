@@ -18,6 +18,7 @@ import com.bill.zhihu.api.utils.ZhihuURL;
 public class CmdFetchXSRF extends Command {
 
     private CallbackListener listener;
+    private ZhihuStringRequest request;
 
     public CmdFetchXSRF() {
         xsrf = ZhihuApi.getXSRF();
@@ -38,24 +39,28 @@ public class CmdFetchXSRF extends Command {
     }
 
     private void fetchKeyWords() {
-        ZhihuStringRequest request = new ZhihuStringRequest(ZhihuURL.HOST,
-                new Listener<String>() {
+        request = new ZhihuStringRequest(ZhihuURL.HOST, new Listener<String>() {
 
-                    @Override
-                    public void onResponse(String response) {
-                        Document doc = Jsoup.parse(response);
-                        xsrf = doc.select("input[name=_xsrf]").attr("value");
-                        ZhihuLog.d(TAG, "_xsrf " + xsrf);
-                        listener.callback(xsrf);
-                        ZhihuApi.setXSRF(xsrf);
-                    }
+            @Override
+            public void onResponse(String response) {
+                Document doc = Jsoup.parse(response);
+                xsrf = doc.select("input[name=_xsrf]").attr("value");
+                ZhihuLog.d(TAG, "_xsrf " + xsrf);
+                listener.callback(xsrf);
+                ZhihuApi.setXSRF(xsrf);
+            }
 
-                }, null);
+        }, null);
         volley.addQueue(request);
     }
 
     public interface CallbackListener extends CommandCallback {
         void callback(String xsrf);
+    }
+
+    @Override
+    public void cancel() {
+        request.cancel();
     }
 
 }

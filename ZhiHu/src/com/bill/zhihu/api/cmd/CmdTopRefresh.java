@@ -35,12 +35,13 @@ public class CmdTopRefresh extends Command {
 
     private CallbackListener listener;
     private TopRefreshParams topRefreshParams;
+    private ZhihuStringRequest request;
 
     @Override
     public void exec() {
 
-        ZhihuStringRequest request = new ZhihuStringRequest(Method.POST,
-                ZhihuURL.MORE_STORY, new Listener<String>() {
+        request = new ZhihuStringRequest(Method.POST, ZhihuURL.MORE_STORY,
+                new Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         ZhihuLog.d(TAG, response);
@@ -138,6 +139,11 @@ public class CmdTopRefresh extends Command {
         };
         volley.addQueue(request);
 
+    }
+
+    @Override
+    public void cancel() {
+        request.cancel();
     }
 
     @Override

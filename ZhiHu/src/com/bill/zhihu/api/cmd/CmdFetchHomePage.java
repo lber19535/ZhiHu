@@ -22,27 +22,27 @@ import com.bill.zhihu.api.utils.ZhihuURL;
 public class CmdFetchHomePage extends Command {
 
     private CallbackListener listener;
+    private ZhihuStringRequest request;
 
     @Override
     public void exec() {
         String url = ZhihuURL.HOST;
-        ZhihuStringRequest request = new ZhihuStringRequest(url,
-                new Listener<String>() {
+        request = new ZhihuStringRequest(url, new Listener<String>() {
 
-                    @Override
-                    public void onResponse(String response) {
-//                        ZhihuLog.d(TAG, response);
+            @Override
+            public void onResponse(String response) {
+                // ZhihuLog.d(TAG, response);
 
-                        listener.callback(ItemParser.getTimeLineItems(response));
+                listener.callback(ItemParser.getTimeLineItems(response));
 
-                    }
-                }, new ErrorListener() {
+            }
+        }, new ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        ZhihuLog.d(TAG, error);
-                    }
-                }) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ZhihuLog.d(TAG, error);
+            }
+        }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -66,6 +66,11 @@ public class CmdFetchHomePage extends Command {
 
     public interface CallbackListener extends CommandCallback {
         void callback(List<TimeLineItem> timelineItems);
+    }
+
+    @Override
+    public void cancel() {
+        request.cancel();
     }
 
 }
