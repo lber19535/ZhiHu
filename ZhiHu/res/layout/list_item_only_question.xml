@@ -12,7 +12,9 @@
         <RelativeLayout
             android:id="@+id/avatar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_item_bg"
+            android:clickable="true" >
 
             <TextView
                 android:id="@+id/from"
@@ -35,6 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/avatar"
+            android:background="@drawable/home_item_bg"
+            android:clickable="true"
             android:ellipsize="end"
             android:maxLines="3"
             android:textSize="@dimen/font_20" />
