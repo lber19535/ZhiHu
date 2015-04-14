@@ -10,7 +10,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.ImageRequest;
-import com.bill.zhihu.api.utils.NetConstant;
+import com.bill.zhihu.api.utils.NetConstants;
 
 public class ZhihuImageRequest extends ImageRequest {
 
@@ -23,7 +23,7 @@ public class ZhihuImageRequest extends ImageRequest {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> header = new HashMap<String, String>();
-        header.put("User-Agent", NetConstant.UA);
+        header.put("User-Agent", NetConstants.UA);
         header.put("Accept", "image/webp,*/*;q=0.8");
         return header;
     }

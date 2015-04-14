@@ -13,16 +13,16 @@ import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
 
 /**
- * 解析item
+ * 解析接口获取到的html或者xml
  * 
  * @author Bill Lv
  *
  */
-public class ItemParser {
+public class ZhihuApiParser {
 
-    private static final String TAG = "ItemParser";
+    private static final String TAG = "ZhihuApiParser";
 
-    public static List<TimeLineItem> getTimeLineItems(String content) {
+    public static List<TimeLineItem> parseTimeLineItems(String content) {
         List<TimeLineItem> timelineItems = new ArrayList<TimeLineItem>();
         Document doc = Jsoup.parse(content);
         // 获取问题列表

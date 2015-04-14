@@ -20,7 +20,7 @@ import com.android.volley.VolleyError;
 import com.bill.jeson.Jeson;
 import com.bill.zhihu.api.bean.TopFeedListParams;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
-import com.bill.zhihu.api.utils.NetConstant;
+import com.bill.zhihu.api.utils.NetConstants;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
@@ -128,7 +128,7 @@ public class CmdTopFeed extends Command {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 ZhihuLog.d(TAG, "xsrf " + xsrf);
-                params.put(NetConstant.XSRF, xsrf);
+                params.put(NetConstants.XSRF, xsrf);
                 try {
                     ZhihuLog.d(TAG,
                             "params " + Jeson.bean2String(topFeedParams));

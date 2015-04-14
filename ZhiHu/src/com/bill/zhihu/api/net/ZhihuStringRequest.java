@@ -7,7 +7,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.StringRequest;
-import com.bill.zhihu.api.utils.NetConstant;
+import com.bill.zhihu.api.utils.NetConstants;
 
 /**
  * 作为所有Request的基础，自定义UA
@@ -38,7 +38,7 @@ public class ZhihuStringRequest extends StringRequest {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> header = new HashMap<String, String>();
-        header.put("User-Agent", NetConstant.UA);
+        header.put("User-Agent", NetConstants.UA);
         return header;
     }
 

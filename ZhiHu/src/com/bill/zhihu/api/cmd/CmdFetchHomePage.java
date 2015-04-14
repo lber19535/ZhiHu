@@ -9,7 +9,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
-import com.bill.zhihu.api.utils.ItemParser;
+import com.bill.zhihu.api.utils.ZhihuApiParser;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
@@ -33,7 +33,7 @@ public class CmdFetchHomePage extends Command {
                     public void onResponse(String response) {
 //                        ZhihuLog.d(TAG, response);
 
-                        listener.callback(ItemParser.getTimeLineItems(response));
+                        listener.callback(ZhihuApiParser.parseTimeLineItems(response));
 
                     }
                 }, new ErrorListener() {
