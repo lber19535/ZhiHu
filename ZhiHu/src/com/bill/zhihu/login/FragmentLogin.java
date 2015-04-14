@@ -65,6 +65,8 @@ public class FragmentLogin extends Fragment {
 
             @Override
             public void onClick(View v) {
+                loginBtn.setClickable(false);
+
                 String account = accountEdt.getEditableText().toString();
                 String pwd = pwdEdt.getEditableText().toString();
                 String captcha = captchaEdt.getEditableText().toString();
@@ -89,25 +91,26 @@ public class FragmentLogin extends Fragment {
             public void callback(int code, Bitmap captcha) {
                 ZhihuLog.d(TAG, code);
                 switch (code) {
-                    case CmdLogin.LOGIN_SUCCESS:
-                        ToastUtil.showShortToast(getResources().getString(
-                                R.string.login_success));
-                        Intent intent = new Intent(getActivity(),
-                                ActivityHome.class);
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(
-                                R.anim.activity_login_home_in_transition,
-                                R.anim.activity_login_home_out_transition);
-                        getActivity().finish();
+                case CmdLogin.LOGIN_SUCCESS:
+                    ToastUtil.showShortToast(getResources().getString(
+                            R.string.login_success));
+                    Intent intent = new Intent(getActivity(),
+                            ActivityHome.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(
+                            R.anim.activity_login_home_in_transition,
+                            R.anim.activity_login_home_out_transition);
+                    getActivity().finish();
 
-                        break;
-                    case CmdLogin.LOGIN_FAILED:
-                        captchaIv.setImageBitmap(captcha);
-                        break;
+                    break;
+                case CmdLogin.LOGIN_FAILED:
+                    captchaIv.setImageBitmap(captcha);
+                    break;
 
-                    default:
-                        break;
+                default:
+                    break;
                 }
+                loginBtn.setClickable(true);
             }
         });
         ZhihuApi.execCmd(login);

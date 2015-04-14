@@ -47,6 +47,8 @@ public class CmdLogin extends Command {
     private String captcha;
     private static boolean haveCaptcha;
 
+    private ZhihuStringRequest request;
+
     public CmdLogin(String account, String pwd, String captcha) {
         this.account = account;
         this.pwd = pwd;
@@ -56,8 +58,8 @@ public class CmdLogin extends Command {
     @Override
     public void exec() {
 
-        ZhihuStringRequest request = new ZhihuStringRequest(Method.POST,
-                ZhihuURL.LOGIN, new Response.Listener<String>() {
+        request = new ZhihuStringRequest(Method.POST, ZhihuURL.LOGIN,
+                new Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
@@ -67,44 +69,44 @@ public class CmdLogin extends Command {
                             int loginStatus = responseJson.getInt("r");
                             // 由于登陆成功和失败返回的json对象结构不一样，所以要先判断是否登陆成功
                             switch (loginStatus) {
-                                case LOGIN_SUCCESS:
-                                    listener.callback(LOGIN_SUCCESS, null);
-                                    ToastUtil.showShortToast(ZhihuApp
-                                            .getContext().getResources()
-                                            .getString(R.string.login_success));
+                            case LOGIN_SUCCESS:
+                                listener.callback(LOGIN_SUCCESS, null);
+                                ToastUtil.showShortToast(ZhihuApp.getContext()
+                                        .getResources()
+                                        .getString(R.string.login_success));
+                                break;
+                            case LOGIN_FAILED:
+                                LoginRequestCode code = Jeson.createBean(
+                                        LoginRequestCode.class, response);
+                                switch (code.getErrorCode()) {
+                                case ERRCODE_INPUT_CAPTCHA:
+                                    haveCaptcha = true;
                                     break;
-                                case LOGIN_FAILED:
-                                    LoginRequestCode code = Jeson.createBean(
-                                            LoginRequestCode.class, response);
-                                    switch (code.getErrorCode()) {
-                                        case ERRCODE_INPUT_CAPTCHA:
-                                            haveCaptcha = true;
-                                            break;
-                                        case ERRCODE_CAPTCHA_ERROR:
-                                            break;
-                                        case ERRCODE_PWD_LENGTH_ERROR:
-                                            break;
-                                        case ERRCODE_PWD_ACCOUNT_ERROR:
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                    CmdFetchCaptcha captcha = new CmdFetchCaptcha();
-                                    captcha.setOnCmdCallBack(new CmdFetchCaptcha.CallbackListener() {
-
-                                        @Override
-                                        public void callback(Bitmap captchaImg) {
-                                            listener.callback(LOGIN_FAILED,
-                                                    captchaImg);
-                                        }
-                                    });
-                                    ZhihuApi.execCmd(captcha);
-
-                                    ToastUtil.showShortToast(code.getMsg()
-                                            .getMsg());
+                                case ERRCODE_CAPTCHA_ERROR:
+                                    break;
+                                case ERRCODE_PWD_LENGTH_ERROR:
+                                    break;
+                                case ERRCODE_PWD_ACCOUNT_ERROR:
                                     break;
                                 default:
                                     break;
+                                }
+                                CmdFetchCaptcha captcha = new CmdFetchCaptcha();
+                                captcha.setOnCmdCallBack(new CmdFetchCaptcha.CallbackListener() {
+
+                                    @Override
+                                    public void callback(Bitmap captchaImg) {
+                                        listener.callback(LOGIN_FAILED,
+                                                captchaImg);
+                                    }
+                                });
+                                ZhihuApi.execCmd(captcha);
+
+                                ToastUtil
+                                        .showShortToast(code.getMsg().getMsg());
+                                break;
+                            default:
+                                break;
                             }
 
                         } catch (Exception e) {
@@ -161,6 +163,11 @@ public class CmdLogin extends Command {
 
     public interface CallbackListener extends CommandCallback {
         public void callback(int code, Bitmap captch);
+    }
+
+    @Override
+    public void cancel() {
+        request.cancel();
     }
 
 }

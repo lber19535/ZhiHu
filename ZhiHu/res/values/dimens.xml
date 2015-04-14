@@ -21,13 +21,11 @@
     <dimen name="font_20">20sp</dimen>
     <dimen name="font_22">22sp</dimen>
     <!-- 登陆界面 -->
-    <dimen name="login_corner_radius">5dp</dimen>
+    <dimen name="login_corner_radius">1dp</dimen>
     <dimen name="login_line">1dp</dimen>
     <!-- 首页 -->
     <dimen name="time_line_list_header_img_size">24dp</dimen>
     <dimen name="vote_bg_radius">5dp</dimen>
     <dimen name="vote_width">38dp</dimen>
-    
-    
 
 </resources>
