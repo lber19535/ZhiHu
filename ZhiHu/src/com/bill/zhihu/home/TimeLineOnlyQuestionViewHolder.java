@@ -2,9 +2,6 @@ package com.bill.zhihu.home;
 
 import android.view.View;
 
-import com.bill.zhihu.view.TimeLineItemOnClickListener;
-import com.bill.zhihu.view.TimeLineItemOnLongClickListener;
-
 /**
  * 只显示问题的item
  * 

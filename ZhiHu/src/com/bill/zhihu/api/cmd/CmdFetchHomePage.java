@@ -68,4 +68,10 @@ public class CmdFetchHomePage extends Command {
         void callback(List<TimeLineItem> timelineItems);
     }
 
+    @Override
+    public void cancel() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

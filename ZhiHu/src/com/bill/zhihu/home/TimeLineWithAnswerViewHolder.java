@@ -4,8 +4,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.view.TimeLineItemOnClickListener;
-import com.bill.zhihu.view.TimeLineItemOnLongClickListener;
 
 /**
  * 显示问题+答案摘要的item

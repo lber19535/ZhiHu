@@ -6,8 +6,6 @@ import java.util.List;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +17,8 @@ import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdFetchHomePage;
+import com.bill.zhihu.view.SwipeRefreshLayout;
+import com.bill.zhihu.view.SwipeRefreshLayout.OnRefreshListener;
 
 /**
  * 主页
@@ -48,7 +48,7 @@ public class FragmentHome extends Fragment {
             // @Override
             // public void callback(int code, Bitmap captch) {
             // adapter.notifyDataSetChanged();
-             refreshLayout.setRefreshing(false);
+            refreshLayout.setRefreshing(false);
             // }
             // });
             // ZhihuApi.execCmd(cmdTopFeed);
@@ -85,14 +85,14 @@ public class FragmentHome extends Fragment {
         timelineRv.setLayoutManager(layoutManager);
         // divider
         timelineRv.addItemDecoration(new TimeLineItemDecoration());
-
+        
         // 下拉刷新监听器
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
 
             @Override
             public void onRefresh() {
                 mHandler.removeCallbacks(mRefreshDone);
-                mHandler.postDelayed(mRefreshDone, 0);
+                mHandler.postDelayed(mRefreshDone, 1000);
             }
         });
 

@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.cmd.CmdFetchAvatarImage;
-import com.bill.zhihu.view.TimeLineItemOnClickListener;
-import com.bill.zhihu.view.TimeLineItemOnLongClickListener;
 
 /**
  * item之间相同的东西(来源，avatar，问题)放到这个父类中

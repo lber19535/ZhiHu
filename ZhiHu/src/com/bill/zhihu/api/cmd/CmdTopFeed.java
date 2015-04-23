@@ -25,7 +25,7 @@ import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
 /**
- * 知乎time line
+ * 知乎time line 上拉加载更多
  * 
  * @author Bill Lv
  *

@@ -1,4 +1,4 @@
-package com.bill.zhihu.view;
+package com.bill.zhihu.home;
 
 import android.view.View;
 
