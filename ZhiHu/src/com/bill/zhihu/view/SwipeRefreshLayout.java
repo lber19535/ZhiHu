@@ -115,6 +115,10 @@ public class SwipeRefreshLayout extends ViewGroup {
     private boolean mNotify;
     private int mCircleWidth;
     private int mCircleHeight;
+
+    private boolean bottom = false;
+    private boolean top = false;
+
     // Whether the client has set a custom starting position;
     private boolean mUsingCustomStart;
     private Animation.AnimationListener mRefreshListener = new Animation.AnimationListener() {
@@ -261,6 +265,7 @@ public class SwipeRefreshLayout extends ViewGroup {
         // the absolute offset has to take into account that the circle starts
         // at an offset
         mSpinnerFinalOffset = DEFAULT_CIRCLE_TARGET * metrics.density;
+        System.out.println("mSpinnerFinalOffset is " + mSpinnerFinalOffset);
         mTotalDragDistance = mSpinnerFinalOffset;
     }
 
@@ -648,26 +653,22 @@ public class SwipeRefreshLayout extends ViewGroup {
         }
         System.out
                 .println("---------------onInterceptTouchEvent------------------");
-        System.out.println("mReturningToStart is " + mReturningToStart);
-        System.out.println("isEnabled is " + isEnabled());
-        System.out.println("canChildScrollUp is " + canChildScrollUp());
-        System.out.println("canChildScrollDown is " + canChildScrollDown());
-        System.out.println("-----------------------");
-        // if (!isEnabled() || mReturningToStart || canChildScrollUp()
-        // || mRefreshing) {
-        // Fail fast if we're not in a state where a swipe is possible
+
         if (!isEnabled() || mReturningToStart || canChildScrollDown()
                 && !canChildScrollUp()) {
             System.out.println("顶部");
+            top = true;
+            bottom = false;
         } else if (!isEnabled() || mReturningToStart || !canChildScrollDown()
                 && canChildScrollUp()) {
             System.out.println("底部");
+            top = false;
+            bottom = true;
         } else if (!isEnabled() || mReturningToStart || canChildScrollDown()
                 && canChildScrollUp()) {
-            // 既不是顶部也不是底部那么就不拦截事件
             return false;
         }
-        // }
+
         switch (action) {
         case MotionEvent.ACTION_DOWN:
             setTargetOffsetTopAndBottom(
@@ -691,10 +692,28 @@ public class SwipeRefreshLayout extends ViewGroup {
                 return false;
             }
             final float yDiff = y - mInitialDownY;
+            System.out.println("ydiff is " + yDiff);
+            System.out.println("mInitialDownY is " + mInitialDownY);
+            System.out.println("y is " + y);
+            if (top && yDiff < 0) {
+                return false;
+            }
+            if (bottom && yDiff > 0) {
+                return false;
+            }
+            System.out.println("---");
             if (yDiff > mTouchSlop && !mIsBeingDragged) {
                 mInitialMotionY = mInitialDownY + mTouchSlop;
+                System.out.println("mInitialMotionY is " + mInitialMotionY);
                 mIsBeingDragged = true;
                 mProgress.setAlpha(STARTING_PROGRESS_ALPHA);
+                setProgressViewOffset(false, 0, (int) mSpinnerFinalOffset);
+            }else {
+                mInitialMotionY = mInitialDownY + mTouchSlop;
+                System.out.println("mInitialMotionY is " + mInitialMotionY);
+                mIsBeingDragged = true;
+                mProgress.setAlpha(STARTING_PROGRESS_ALPHA);
+                setProgressViewOffset(false, 1000, 800);
             }
             break;
         case MotionEventCompat.ACTION_POINTER_UP:
@@ -734,38 +753,21 @@ public class SwipeRefreshLayout extends ViewGroup {
         if (mReturningToStart && action == MotionEvent.ACTION_DOWN) {
             mReturningToStart = false;
         }
-        System.out.println("---------------onTouchEvent------------------");
-        System.out.println("mReturningToStart is " + mReturningToStart);
-        System.out.println("isEnabled is " + isEnabled());
-        System.out.println("canChildScrollUp is " + canChildScrollUp());
-        System.out.println("canChildScrollDown is " + canChildScrollDown());
-        System.out.println("-------------------");
-        // if (!isEnabled() || mReturningToStart) {
-        // Fail fast if we're not in a state where a swipe is possible
-        // 对于在底部还是顶部判断
+
         if (!isEnabled() || mReturningToStart || canChildScrollDown()
-                && !canChildScrollUp()) {
-            System.out.println("顶部");
-        } else if (!isEnabled() || mReturningToStart || !canChildScrollDown()
-                && canChildScrollUp()) {
-            System.out.println("底部");
-        } else if (!isEnabled() || mReturningToStart || canChildScrollDown()
                 && canChildScrollUp()) {
             // 既不是顶部也不是底部那么就不拦截事件
             return false;
         }
-        // }
+        System.out.println("---------------onTouchEvent------------------");
         switch (action) {
         case MotionEvent.ACTION_DOWN:
-            System.out.println("action is ACTION_DOWN");
             mActivePointerId = MotionEventCompat.getPointerId(ev, 0);
             mIsBeingDragged = false;
             break;
         case MotionEvent.ACTION_MOVE: {
-            System.out.println("action is ACTION_MOVE");
             final int pointerIndex = MotionEventCompat.findPointerIndex(ev,
                     mActivePointerId);
-            System.out.println("pointerIndex is " + pointerIndex);
             if (pointerIndex < 0) {
                 Log.e(LOG_TAG,
                         "Got ACTION_MOVE event but have an invalid active pointer id.");
@@ -773,6 +775,8 @@ public class SwipeRefreshLayout extends ViewGroup {
             }
             final float y = MotionEventCompat.getY(ev, pointerIndex);
             final float overscrollTop = (y - mInitialMotionY) * DRAG_RATE;
+            System.out.println(" y is " + y);
+            System.out.println(" overscrollTop is " + overscrollTop);
             if (mIsBeingDragged) {
                 mProgress.showArrow(true);
                 float originalDragPercent = overscrollTop / mTotalDragDistance;
@@ -827,20 +831,15 @@ public class SwipeRefreshLayout extends ViewGroup {
             break;
         }
         case MotionEventCompat.ACTION_POINTER_DOWN: {
-            System.out.println("action is ACTION_POINTER_DOWN");
             final int index = MotionEventCompat.getActionIndex(ev);
-            System.out.println("index is " + index);
             mActivePointerId = MotionEventCompat.getPointerId(ev, index);
             break;
         }
         case MotionEventCompat.ACTION_POINTER_UP:
-            System.out.println("action is ACTION_POINTER_UP");
             onSecondaryPointerUp(ev);
             break;
         case MotionEvent.ACTION_UP:
-            System.out.println("action is ACTION_UP");
         case MotionEvent.ACTION_CANCEL: {
-            System.out.println("action is ACTION_CANCEL");
             if (mActivePointerId == INVALID_POINTER) {
                 if (action == MotionEvent.ACTION_UP) {
                     Log.e(LOG_TAG,
