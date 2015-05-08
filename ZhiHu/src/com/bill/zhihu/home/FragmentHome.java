@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,8 +20,8 @@ import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdFetchHomePage;
-import com.bill.zhihu.view.SwipeRefreshLayout;
-import com.bill.zhihu.view.SwipeRefreshLayout.OnRefreshListener;
+import com.bill.zhihu.api.cmd.CmdLoadMore;
+import com.bill.zhihu.api.cmd.CmdMoreNews;
 
 /**
  * 主页
@@ -33,6 +36,7 @@ public class FragmentHome extends Fragment {
 
     private List<TimeLineItem> timelineItems;
     private TimeLineRecyclerAdapter adapter;
+    private View rootView;
     private Handler mHandler = new Handler();
 
     // 刷新完毕
@@ -40,21 +44,14 @@ public class FragmentHome extends Fragment {
 
         @Override
         public void run() {
-            // CmdTopFeed cmdTopFeed = new CmdTopFeed(timelineItems.get(
-            // timelineItems.size() - 1).getDataBlock(),
-            // timelineItems.size());
-            // cmdTopFeed.setOnCmdCallBack(new CmdTopFeed.CallbackListener() {
-            //
-            // @Override
-            // public void callback(int code, Bitmap captch) {
-            // adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
-            // }
-            // });
-            // ZhihuApi.execCmd(cmdTopFeed);
         }
-
     };
+
+    public FragmentHome() {
+        timelineItems = new ArrayList<>();
+
+    }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -63,10 +60,29 @@ public class FragmentHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        timelineItems = new ArrayList<>();
 
-        View rootView = inflater.inflate(R.layout.fragment_home_page,
-                container, false);
+        rootView = inflater.inflate(R.layout.fragment_home_page, container,
+                false);
+
+        initView();
+
+        // 获取首页
+        CmdFetchHomePage homePage = new CmdFetchHomePage();
+        homePage.setOnCmdCallBack(new CmdFetchHomePage.CallbackListener() {
+
+            @Override
+            public void callback(List<TimeLineItem> timelineitems) {
+                timelineItems.addAll(timelineitems);
+                adapter.notifyDataSetChanged();
+            }
+
+        });
+        ZhihuApi.execCmd(homePage);
+
+        return rootView;
+    }
+
+    private void initView() {
         timelineRv = (RecyclerView) rootView.findViewById(R.id.time_line_list);
         refreshLayout = (SwipeRefreshLayout) rootView
                 .findViewById(R.id.swipe_to_refresh);
@@ -85,30 +101,36 @@ public class FragmentHome extends Fragment {
         timelineRv.setLayoutManager(layoutManager);
         // divider
         timelineRv.addItemDecoration(new TimeLineItemDecoration());
-        
+
         // 下拉刷新监听器
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
 
             @Override
             public void onRefresh() {
-                mHandler.removeCallbacks(mRefreshDone);
-                mHandler.postDelayed(mRefreshDone, 1000);
+                loadMoreNews();
+                // mHandler.removeCallbacks(mRefreshDone);
+                // mHandler.postDelayed(mRefreshDone, 1000);
             }
         });
+    }
 
-        // 获取首页
-        CmdFetchHomePage homePage = new CmdFetchHomePage();
-        homePage.setOnCmdCallBack(new CmdFetchHomePage.CallbackListener() {
+    /**
+     * 发出更多动态的请求，解析成功后清空之前的数据重新赋值
+     */
+    private void loadMoreNews() {
+        CmdMoreNews cmdMoreNews = new CmdMoreNews();
+        cmdMoreNews.setOnCmdCallBack(new CmdMoreNews.CallbackListener() {
 
             @Override
-            public void callback(List<TimeLineItem> timelineitems) {
-                timelineItems.addAll(timelineitems);
-                adapter.notifyDataSetChanged();
+            public void callback(List<TimeLineItem> items) {
+                if (items != null && !items.isEmpty()) {
+                    timelineItems.clear();
+                    timelineItems.addAll(items);
+                }
+                refreshLayout.setRefreshing(false);
             }
-
         });
-        ZhihuApi.execCmd(homePage);
-        return rootView;
+        ZhihuApi.execCmd(cmdMoreNews);
     }
 
 }

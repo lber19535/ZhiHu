@@ -30,13 +30,13 @@ import com.bill.zhihu.api.utils.ZhihuURL;
  * @author Bill Lv
  *
  */
-public class CmdTopFeed extends Command {
+public class CmdLoadMore extends Command {
 
     private CallbackListener listener;
     private TopFeedListParams topFeedParams;
     private ZhihuStringRequest request;
 
-    public CmdTopFeed(long blockId, int offset) {
+    public CmdLoadMore(long blockId, int offset) {
         topFeedParams = new TopFeedListParams();
         topFeedParams.setBlockId(blockId);
         topFeedParams.setOffset(offset);

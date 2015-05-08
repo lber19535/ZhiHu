@@ -10,7 +10,7 @@ import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
 public class TimeLineItemBuilder {
-    
+
     private static final String TAG = "TimeLineItemBuilder";
 
     private TimeLineItem item;
@@ -26,7 +26,7 @@ public class TimeLineItemBuilder {
      * 
      * @return
      */
-    public TimeLineItemBuilder setAvatar() {
+    private TimeLineItemBuilder setAvatar() {
         // avatar 头像
         Elements avatarElements = element
                 .select("div[class=feed-item-inner]>div[class=avatar]>a");
@@ -44,7 +44,7 @@ public class TimeLineItemBuilder {
      * 
      * @return
      */
-    public TimeLineItemBuilder setSource() {
+    private TimeLineItemBuilder setSource() {
         // 来源
         Elements sourceElements = element
                 .select("div[class=feed-main]>div[class=source]");
@@ -89,7 +89,7 @@ public class TimeLineItemBuilder {
      * 
      * @return
      */
-    public TimeLineItemBuilder setQuestion() {
+    private TimeLineItemBuilder setQuestion() {
         Elements contentElements = element.select("div[class=content]");
         boolean haveAnswer = contentElements.select("div").hasClass(
                 "entry-body");
@@ -116,15 +116,15 @@ public class TimeLineItemBuilder {
      * 
      * @return
      */
-    public TimeLineItemBuilder setAnswer() {
+    private TimeLineItemBuilder setAnswer() {
         if (item.getContentType() == ContentType.QUESTION) {
             return this;
         }
         Elements answerElements = element.select("div[class=content]");
         String answerSummary = answerElements.select(
                 "div[class=zh-summary summary clearfix]").text();
-        String voteCount = answerElements.select(
-                "[class^=zm-item-vote-info]").attr("data-votecount");
+        String voteCount = answerElements.select("[class^=zm-item-vote-info]")
+                .attr("data-votecount");
 
         ZhihuLog.dValue(TAG, "answerSummary ", answerSummary);
         ZhihuLog.dValue(TAG, "voteCount ", voteCount);
@@ -141,6 +141,7 @@ public class TimeLineItemBuilder {
      * @return
      */
     public TimeLineItem build() {
+        setAvatar().setSource().setQuestion().setAnswer();
         return item;
     }
 }

@@ -1,16 +1,13 @@
 package com.bill.zhihu.api.cmd;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import android.graphics.Bitmap;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
@@ -18,10 +15,11 @@ import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.bill.jeson.Jeson;
-import com.bill.zhihu.api.bean.TopFeedListParams;
-import com.bill.zhihu.api.bean.TopRefreshParams;
+import com.bill.zhihu.api.bean.MoreNewsParams;
+import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
 import com.bill.zhihu.api.utils.NetConstants;
+import com.bill.zhihu.api.utils.ZhihuApiParser;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
@@ -31,10 +29,9 @@ import com.bill.zhihu.api.utils.ZhihuURL;
  * @author Bill Lv
  *
  */
-public class CmdTopRefresh extends Command {
+public class CmdMoreNews extends Command {
 
     private CallbackListener listener;
-    private TopRefreshParams topRefreshParams;
     private ZhihuStringRequest request;
 
     @Override
@@ -45,6 +42,19 @@ public class CmdTopRefresh extends Command {
                     @Override
                     public void onResponse(String response) {
                         ZhihuLog.d(TAG, response);
+                        List<String> htmlItems = new ArrayList<String>();
+                        try {
+                            JSONArray msgs = new JSONObject(response).getJSONArray("msg");
+                            for (int i = 0; i < msgs.length(); i++) {
+                                String htmlItem = msgs.getString(i);
+                            }
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        
+                        ZhihuApiParser.parseTimeLineItems(response);
+                        listener.callback(null);
                     }
                 }, new Response.ErrorListener() {
 
@@ -62,14 +72,22 @@ public class CmdTopRefresh extends Command {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                /*
+                 * post data format:
+                 * 
+                 * params:{"action":"more"}
+                 * method:next
+                 * _xsrf:35f2fdf15b9b1fbc802041d14f6f75dd
+                 * 
+                 */
                 Map<String, String> params = new HashMap<String, String>();
                 ZhihuLog.d(TAG, "xsrf " + xsrf);
                 params.put(NetConstants.XSRF, xsrf);
                 try {
-                    TopRefreshParams topRefreshParams = new TopRefreshParams();
+                    MoreNewsParams moreNewsParams = new MoreNewsParams();
                     ZhihuLog.d(TAG,
-                            "params " + Jeson.bean2String(topRefreshParams));
-                    params.put("params", Jeson.bean2String(topRefreshParams));
+                            "params " + Jeson.bean2String(moreNewsParams));
+                    params.put("params", Jeson.bean2String(moreNewsParams));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -92,7 +110,7 @@ public class CmdTopRefresh extends Command {
     }
 
     public interface CallbackListener extends CommandCallback {
-        public void callback(int code, Bitmap captch);
+        public void callback(List<TimeLineItem> items);
     }
 
 }

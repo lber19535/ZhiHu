@@ -14,7 +14,7 @@ import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
 /**
- * 首页
+ * 首页，只在开始加载首页的时候使用
  * 
  * @author Bill Lv
  *
@@ -31,9 +31,10 @@ public class CmdFetchHomePage extends Command {
 
                     @Override
                     public void onResponse(String response) {
-//                        ZhihuLog.d(TAG, response);
+                        // ZhihuLog.d(TAG, response);
 
-                        listener.callback(ZhihuApiParser.parseTimeLineItems(response));
+                        listener.callback(ZhihuApiParser
+                                .parseTimeLineItems(response));
 
                     }
                 }, new ErrorListener() {
@@ -70,8 +71,7 @@ public class CmdFetchHomePage extends Command {
 
     @Override
     public void cancel() {
-        // TODO Auto-generated method stub
-        
+
     }
 
 }

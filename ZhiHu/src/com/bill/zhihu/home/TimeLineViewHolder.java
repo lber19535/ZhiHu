@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.cmd.CmdFetchAvatarImage;
+import com.bill.zhihu.api.utils.ZhihuLog;
 
 /**
  * item之间相同的东西(来源，avatar，问题)放到这个父类中
@@ -19,6 +20,8 @@ import com.bill.zhihu.api.cmd.CmdFetchAvatarImage;
  */
 public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
         OnLongClickListener {
+
+    private static final String TAG = "TimeLineViewHolder";
 
     public TextView questionTv;
     public TextView fromTv;
@@ -63,7 +66,7 @@ public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
     }
 
     public void loadImage(String url) {
-        System.out.println(url);
+        ZhihuLog.dValue(url, "avatar img url", url);
         avatarImage = new CmdFetchAvatarImage(url);
         avatarImage
                 .setOnCmdCallBack(new CmdFetchAvatarImage.CallbackListener() {
