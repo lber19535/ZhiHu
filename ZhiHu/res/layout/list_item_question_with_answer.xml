@@ -66,6 +66,7 @@
             android:layout_marginLeft="@dimen/global_margin_4"
             android:ellipsize="end"
             android:maxLines="3"
+            android:textColor="@color/grey_drak"
             android:textSize="@dimen/font_16" />
     </LinearLayout>
 

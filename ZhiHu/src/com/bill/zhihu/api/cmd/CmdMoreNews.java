@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.bill.jeson.Jeson;
+import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.MoreNewsParams;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
@@ -44,17 +45,19 @@ public class CmdMoreNews extends Command {
                         ZhihuLog.d(TAG, response);
                         List<String> htmlItems = new ArrayList<String>();
                         try {
-                            JSONArray msgs = new JSONObject(response).getJSONArray("msg");
+                            JSONArray msgs = new JSONObject(response)
+                                    .getJSONArray("msg");
                             for (int i = 0; i < msgs.length(); i++) {
                                 String htmlItem = msgs.getString(i);
+                                htmlItems.add(htmlItem);
                             }
+                            listener.callback(ZhihuApiParser
+                                    .parseTimeLineItems(htmlItems));
                         } catch (JSONException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        
-                        ZhihuApiParser.parseTimeLineItems(response);
-                        listener.callback(null);
+
                     }
                 }, new Response.ErrorListener() {
 

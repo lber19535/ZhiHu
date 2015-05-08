@@ -13,14 +13,12 @@ import java.util.List;
 public class TimeLineItem {
     /*
      * item分为三个部分
-     *
-     * |----------------------------------|
+     * 
+     * |----------------------------------| 
      * |source                         avatar |
+     * |----------------------------------| 
+     * |question |                 |answer |
      * |----------------------------------|
-     * |question                                 |
-     * |answer                                   |
-     * |----------------------------------|
-     *
      */
 
     /**
@@ -37,7 +35,11 @@ public class TimeLineItem {
         /**
          * 默认为问题+答案摘要
          */
-        ANSWER
+        ANSWER,
+        /**
+         * 加载更多
+         */
+        LOAD_MORE
     }
 
     private ContentType contentType = ContentType.ANSWER;

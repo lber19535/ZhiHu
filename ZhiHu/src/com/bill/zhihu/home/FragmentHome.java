@@ -127,6 +127,7 @@ public class FragmentHome extends Fragment {
                     timelineItems.clear();
                     timelineItems.addAll(items);
                 }
+                adapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
             }
         });

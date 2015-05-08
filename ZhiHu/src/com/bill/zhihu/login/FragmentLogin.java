@@ -78,6 +78,7 @@ public class FragmentLogin extends Fragment {
                     return;
                 }
                 login(account, pwd, captcha);
+//                loginSuccessAnime();
 
             }
         });

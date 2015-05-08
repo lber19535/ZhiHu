@@ -72,6 +72,9 @@ public class ZhihuCookieStore implements CookieStore {
                 }
             }
         }
+        // 清除过期的cookie
+        Date date = new Date(System.currentTimeMillis());
+        clearExpired(date);
     }
 
     /*

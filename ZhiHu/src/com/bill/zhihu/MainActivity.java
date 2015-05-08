@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.cmd.CmdFetchXSRF;
 import com.bill.zhihu.api.net.ZhihuCookieManager;
+import com.bill.zhihu.api.net.ZhihuCookieStore;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.home.ActivityHome;
 import com.bill.zhihu.login.ActivityLogin;
