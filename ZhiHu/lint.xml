@@ -2,5 +2,6 @@
 <lint>
     <issue id="NewApi">
         <ignore path="src/com/bill/zhihu/view/SwipeRefreshLayout.java" />
+        <ignore path="src/com/bill/zhihu/view/SwipyRefreshLayout.java" />
     </issue>
 </lint>

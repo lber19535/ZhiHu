@@ -65,7 +65,6 @@ public class ZhihuApiParser {
      */
     private static TimeLineItem parseTimeLineItem(String html) {
         Elements eles = Jsoup.parse(html).select("div[class^=feed-item]");
-        System.out.println(eles);
         Element element = eles.get(0);
         return parseTimeLineItem(element);
     }

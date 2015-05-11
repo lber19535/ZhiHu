@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdFetchHomePage;
 import com.bill.zhihu.api.cmd.CmdLoadMore;
-import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.view.SwipyRefreshLayout;
 import com.bill.zhihu.view.SwipyRefreshLayout.OnRefreshListener;
 import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
@@ -37,16 +35,6 @@ public class FragmentHome extends Fragment {
     private List<TimeLineItem> timelineItems;
     private TimeLineRecyclerAdapter adapter;
     private View rootView;
-    private Handler mHandler = new Handler();
-
-    // 刷新完毕
-    private final Runnable mRefreshDone = new Runnable() {
-
-        @Override
-        public void run() {
-            refreshLayout.setRefreshing(false);
-        }
-    };
 
     public FragmentHome() {
         timelineItems = new ArrayList<>();
@@ -64,7 +52,6 @@ public class FragmentHome extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_home_page, container,
                 false);
 
-        ZhihuLog.Debug = false;
         initView();
 
         loadHomePage();

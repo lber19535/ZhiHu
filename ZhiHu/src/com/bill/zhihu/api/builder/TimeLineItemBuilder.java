@@ -9,6 +9,12 @@ import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
+/**
+ * 简化生成item的过程
+ * 
+ * @author Bill Lv
+ *
+ */
 public class TimeLineItemBuilder {
 
     private static final String TAG = "TimeLineItemBuilder";
@@ -19,6 +25,9 @@ public class TimeLineItemBuilder {
     public TimeLineItemBuilder(Element element) {
         this.item = new TimeLineItem();
         this.element = element;
+
+        ZhihuLog.setDebugable(TAG, false);
+
     }
 
     /**

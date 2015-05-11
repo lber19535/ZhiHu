@@ -54,4 +54,33 @@ public class TextUtils {
         return ssb;
     }
 
+    /**
+     * 知乎赞同票数的缩略形式
+     * 
+     * @param num
+     * @return
+     */
+    public static String getSummaryNumber(int num) {
+        return getSummaryNumber(String.valueOf(num));
+    }
+
+    /**
+     * 知乎赞同票数的缩略形式
+     * 
+     * @param num
+     * @return
+     */
+    public static String getSummaryNumber(String num) {
+        int length = num.length();
+        if (length <= 3) {
+            return num;
+        } else if (length <= 6) {
+            return num.subSequence(0, length - 3) + "k";
+        } else if (length <= 9) {
+            return num.subSequence(0, length - 6) + "m";
+        }
+        return num;
+
+    }
+
 }
