@@ -55,6 +55,7 @@ public class TimeLineItem {
     private String timeStamp;
     // 人类可读的一个时间
     private String time;
+    private String dataOffset;
 
     // 问题或文章标题
     private String question;
@@ -159,6 +160,14 @@ public class TimeLineItem {
 
     public void setDataBlock(String dataBlock) {
         this.dataBlock = dataBlock;
+    }
+
+    public String getDataOffset() {
+        return dataOffset;
+    }
+
+    public void setDataOffset(String dataOffset) {
+        this.dataOffset = dataOffset;
     }
 
     @Override

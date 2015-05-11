@@ -32,10 +32,12 @@ public class TimeLineItemBuilder {
                 .select("div[class=feed-item-inner]>div[class=avatar]>a");
         String avatarImgUrl = avatarElements.select("img").attr("src");
         String blockId = element.attr("data-block");
+        String dataOffset = element.attr("data-offset");
         ZhihuLog.dValue(TAG, "avatarImgUrl ", avatarImgUrl);
         ZhihuLog.dValue(TAG, "blockId ", blockId);
         item.setAvatarImgUrl(avatarImgUrl);
         item.setDataBlock(blockId);
+        item.setDataOffset(dataOffset);
         return this;
     }
 
