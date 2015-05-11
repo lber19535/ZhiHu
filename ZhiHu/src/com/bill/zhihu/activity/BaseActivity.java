@@ -1,13 +1,13 @@
 package com.bill.zhihu.activity;
 
-import com.bill.zhihu.R;
-
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-public class BaseActivity extends Activity {
+import com.bill.zhihu.R;
+
+public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

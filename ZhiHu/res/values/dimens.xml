@@ -11,7 +11,7 @@
     <dimen name="global_padding_16">16dp</dimen>
     <dimen name="global_padding_8">8dp</dimen>
     <dimen name="global_padding_4">4dp</dimen>
-    <dimen name="divider_size">1dp</dimen>
+    <dimen name="divider_size">0.68dp</dimen>
 
     <!-- 字号 -->
     <dimen name="font_12">12sp</dimen>
@@ -25,7 +25,7 @@
     <dimen name="login_line">1dp</dimen>
     <!-- 首页 -->
     <dimen name="time_line_list_header_img_size">24dp</dimen>
-    <dimen name="vote_bg_radius">5dp</dimen>
+    <dimen name="vote_bg_radius">2dp</dimen>
     <dimen name="vote_width">38dp</dimen>
 
 </resources>

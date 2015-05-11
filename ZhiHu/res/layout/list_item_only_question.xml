@@ -41,6 +41,7 @@
             android:clickable="true"
             android:ellipsize="end"
             android:maxLines="3"
+            android:textColor="@android:color/black"
             android:textSize="@dimen/font_20" />
     </RelativeLayout>
 

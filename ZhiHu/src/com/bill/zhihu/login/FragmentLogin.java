@@ -75,10 +75,11 @@ public class FragmentLogin extends Fragment {
                     Toast.makeText(getActivity(),
                             getResources().getString(R.string.account_empty),
                             Toast.LENGTH_SHORT).show();
+                    loginBtn.setClickable(true);
                     return;
                 }
                 login(account, pwd, captcha);
-//                loginSuccessAnime();
+                // loginSuccessAnime();
 
             }
         });
