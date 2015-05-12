@@ -12,6 +12,8 @@ public class ActivityHome extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        initToolBar();
+
         toggleFragment(new FragmentHome());
     }
 

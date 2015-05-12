@@ -3,6 +3,7 @@
 
     <!-- regular -->
     <color name="blue">#FF2196F3</color>
+    <color name="blue_dark">#FF1565C0</color>
     <color name="blue_light">#FF42A5F5</color>
     <color name="blue_white">#FFE3F2FD</color>
     <color name="white">#FFFFFF</color>

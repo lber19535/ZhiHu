@@ -1,14 +1,19 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.bill.zhihu">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bill.zhihu">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <application android:name="com.bill.zhihu.ZhihuApp" android:allowBackup="true" android:label="@string/app_name"
-        android:icon="@mipmap/icon" android:theme="@style/AppTheme">
+
+    <application
+        android:name="com.bill.zhihu.ZhihuApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,9 +22,11 @@
         </activity>
         <activity
             android:name="com.bill.zhihu.login.ActivityLogin"
-            android:label="@string/action_default_title" >
-        </activity>
-        <activity android:name="com.bill.zhihu.home.ActivityHome" />
+            android:label="@string/action_default_title"></activity>
+        <activity
+            android:icon="@mipmap/icon"
+            android:name="com.bill.zhihu.home.ActivityHome"
+            android:label="@string/action_default_title" />
 
     </application>
 

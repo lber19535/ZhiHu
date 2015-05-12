@@ -1,4 +1,4 @@
-package zhihu.bill.com.zhihu;
+package com.bill.zhihu;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

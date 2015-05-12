@@ -21,9 +21,7 @@ public class ActivityLogin extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginFragment = new FragmentLogin();
-
-        toggleFragment(loginFragment);
+        initToolBar();
 
     }
 
