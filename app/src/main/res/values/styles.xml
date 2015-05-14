@@ -1,17 +1,66 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppTheme" parent="Theme.AppCompat">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        <!-- <item name="android:actionBarStyle">@style/DefaultActionBar</item> -->
     </style>
 
-    <style name="AppDarkTheme" parent="AppTheme">
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/grey_dark</item>
+    </style>
+
+    <style name="ImageView.Avatar" parent="AppTheme">
+        <item name="android:layout_width">@dimen/time_line_list_header_img_size</item>
+        <item name="android:layout_height">@dimen/time_line_list_header_img_size</item>
+        <item name="android:background">@color/avatar_default</item>
+    </style>
+
+    <style name="TextView.Light.QuestionAndArticle" parent="AppTheme.Light">
+        <item name="android:text">@string/question</item>
+        <item name="android:textColor">@color/question_article_text</item>
+        <item name="android:clickable">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:textSize">@dimen/font_18</item>
+        <item name="android:background">@drawable/home_item_bg</item>
+    </style>
+
+    <style name="TextView.Light.AnswerContent" parent="AppTheme.Light">
+        <item name="android:text">@string/content</item>
+        <item name="android:textColor">@color/content_summary</item>
+        <item name="android:clickable">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:textSize">@dimen/font_14</item>
+    </style>
+
+    <style name="TextView.Light.Subtitle" parent="AppTheme.Light">
+        <item name="android:textSize">@dimen/font_14</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:text">@string/from</item>
+    </style>
+
+    <style name="TextView.Vote" parent="AppTheme">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_12</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">@string/vote</item>
+        <item name="android:background">@drawable/vote_bg</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/vote_width</item>
+    </style>
+
+    <style name="Layout.Home.Item" parent="AppTheme.Light">
+        <item name="android:paddingLeft">@dimen/global_padding_16</item>
+        <item name="android:paddingRight">@dimen/global_padding_16</item>
+        <item name="android:paddingTop">@dimen/global_padding_8</item>
+        <item name="android:paddingBottom">@dimen/global_padding_8</item>
     </style>
 
 

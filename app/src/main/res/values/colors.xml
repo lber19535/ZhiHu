@@ -11,11 +11,16 @@
     <color name="grey_light">#BDBDBD</color>
     <color name="grey">#9E9E9E</color>
     <color name="grey_black">#212121</color>
-    <color name="grey_drak">#424242</color>
+    <color name="grey_dark">#424242</color>
+    <color name="black">#333333</color>
     <!-- 下拉更新圆圈的颜色 -->
     <color name="swipe_color1">#ff0f9d58</color>
     <color name="swipe_color2">#ffdb4437</color>
     <color name="swipe_color3">#ff4285f4</color>
     <color name="swipe_color4">#fff4b400</color>
+    <!-- avatar 默认颜色-->
+    <color name="avatar_default">@color/blue_white</color>
+    <color name="question_article_text">@color/black</color>
+    <color name="content_summary">#757575</color>
 
 </resources>

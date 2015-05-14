@@ -1,8 +1,5 @@
 package com.bill.zhihu.home;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,11 +18,13 @@ import com.bill.zhihu.view.SwipyRefreshLayout;
 import com.bill.zhihu.view.SwipyRefreshLayout.OnRefreshListener;
 import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 主页
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class FragmentHome extends Fragment {
 
@@ -43,11 +42,13 @@ public class FragmentHome extends Fragment {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    };
+    }
+
+    ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_home_page, container,
                 false);
@@ -84,8 +85,10 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                // TODO Auto-generated method stub
-                // loadMoreNews();
+                if (timelineItems.size() == 0){
+                    refreshLayout.setRefreshing(false);
+                    return;
+                }
                 if (direction == SwipyRefreshLayoutDirection.TOP) {
                     loadHomePage();
                 } else if (direction == SwipyRefreshLayoutDirection.BOTTOM) {

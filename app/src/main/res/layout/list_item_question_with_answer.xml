@@ -1,74 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.Home.Item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/global_padding_8" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/avatar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/home_item_bg"
-            android:clickable="true" >
+            android:clickable="true">
 
             <TextView
                 android:id="@+id/from"
+                style="@style/TextView.Light.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/from"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/font_14" />
+                android:paddingRight="@dimen/global_margin_4" />
 
             <ImageView
                 android:id="@+id/header"
-                android:layout_width="@dimen/time_line_list_header_img_size"
-                android:layout_height="@dimen/time_line_list_header_img_size"
+                style="@style/ImageView.Avatar"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/question"
+            style="@style/TextView.Light.QuestionAndArticle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/avatar"
-            android:background="@drawable/home_item_bg"
-            android:clickable="true"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/font_20" />
+            android:layout_marginTop="@dimen/question_margin_top" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/answer_margin_top"
         android:background="@drawable/home_item_bg"
-        android:clickable="true" >
+        android:clickable="true">
 
         <TextView
             android:id="@+id/vote"
-            android:layout_width="@dimen/vote_width"
-            android:layout_height="wrap_content"
-            android:background="@drawable/vote_bg"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_12" />
+            style="@style/TextView.Vote" />
 
         <TextView
             android:id="@+id/answer"
+            style="@style/TextView.Light.AnswerContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/global_margin_4"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:textColor="@color/grey_drak"
-            android:textSize="@dimen/font_16" />
+            android:layout_marginLeft="@dimen/global_margin_4" />
     </LinearLayout>
 
 </LinearLayout>

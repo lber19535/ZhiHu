@@ -16,5 +16,8 @@
     <string name="cache_delete_toast">有些缓存文件无法删除，请稍后再试</string>
     <!-- 首页 -->
     <string name="from">来自</string>
+    <string name="question">问题/文章标题</string>
+    <string name="vote">11</string>
+    <string name="content">回答缩略</string>
 
 </resources>

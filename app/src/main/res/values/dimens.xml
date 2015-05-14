@@ -26,6 +26,8 @@
     <!-- 首页 -->
     <dimen name="time_line_list_header_img_size">24dp</dimen>
     <dimen name="vote_bg_radius">2dp</dimen>
+    <dimen name="question_margin_top">@dimen/global_margin_4</dimen>
+    <dimen name="answer_margin_top">@dimen/global_margin_4</dimen>
     <dimen name="vote_width">38dp</dimen>
 
 </resources>

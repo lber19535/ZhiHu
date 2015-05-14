@@ -1,25 +1,29 @@
 package com.bill.zhihu.api.utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.bill.zhihu.api.bean.TimeLineItem;
+import com.bill.zhihu.api.builder.TimeLineItemBuilder;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.api.builder.TimeLineItemBuilder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 解析接口获取到的html或者xml
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class ZhihuApiParser {
 
     private static final String TAG = "ZhihuApiParser";
+
+    static {
+        ZhihuLog.setDebugable(TAG, true);
+    }
+
 
     public static List<TimeLineItem> parseTimeLineItems(String content) {
         List<TimeLineItem> timelineItems = new ArrayList<TimeLineItem>();
@@ -45,7 +49,7 @@ public class ZhihuApiParser {
 
     /**
      * 每一项html
-     * 
+     *
      * @param htmlItems
      * @return
      */
@@ -59,7 +63,7 @@ public class ZhihuApiParser {
 
     /**
      * 加载更多等接口返回的json中每一个item都是一个html，所以会用到直接把html转成item的
-     * 
+     *
      * @param html
      * @return
      */
