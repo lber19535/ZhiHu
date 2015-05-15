@@ -1,5 +1,7 @@
 package com.bill.zhihu.api.cmd;
 
+import android.os.AsyncTask;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
@@ -46,22 +48,36 @@ public class CmdLoadMore extends Command {
         request = new ZhihuStringRequest(Method.POST, ZhihuURL.MORE_STORY,
                 new Listener<String>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(final String response) {
 //                        ZhihuLog.d(TAG, response);
-                        List<String> htmlItems = new ArrayList<String>();
-                        try {
-                            JSONArray msgs = new JSONObject(response)
-                                    .getJSONArray("msg");
-                            for (int i = 0; i < msgs.length(); i++) {
-                                String htmlItem = msgs.getString(i);
-                                htmlItems.add(htmlItem);
+
+                        new AsyncTask<Void, Void, List<TimeLineItem>>() {
+                            @Override
+                            protected List<TimeLineItem> doInBackground(Void... params) {
+                                List<String> htmlItems = new ArrayList<String>();
+                                try {
+                                    JSONArray msgs = new JSONObject(response)
+                                            .getJSONArray("msg");
+                                    for (int i = 0; i < msgs.length(); i++) {
+                                        String htmlItem = msgs.getString(i);
+                                        htmlItems.add(htmlItem);
+                                    }
+                                    return ZhihuApiParser
+                                            .parseTimeLineItems(htmlItems);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                return ZhihuApiParser
+                                        .parseTimeLineItems(response);
                             }
-                            listener.callback(ZhihuApiParser
-                                    .parseTimeLineItems(htmlItems));
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+
+                            @Override
+                            protected void onPostExecute(List<TimeLineItem> items) {
+                                super.onPostExecute(items);
+                                listener.callback(items);
+                            }
+                        }.execute();
+
                     }
                 }, new Response.ErrorListener() {
 

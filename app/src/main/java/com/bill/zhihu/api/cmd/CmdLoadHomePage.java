@@ -1,5 +1,7 @@
 package com.bill.zhihu.api.cmd;
 
+import android.os.AsyncTask;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -15,9 +17,8 @@ import java.util.Map;
 
 /**
  * 首页，只在开始加载首页的时候使用
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class CmdLoadHomePage extends Command {
 
@@ -30,20 +31,30 @@ public class CmdLoadHomePage extends Command {
                 new Listener<String>() {
 
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(final String response) {
                         // ZhihuLog.d(TAG, response);
 
-                        listener.callback(ZhihuApiParser
-                                .parseTimeLineItems(response));
+                        new AsyncTask<Void, Void, List<TimeLineItem>>() {
+                            @Override
+                            protected List<TimeLineItem> doInBackground(Void... params) {
+                                return ZhihuApiParser
+                                        .parseTimeLineItems(response);
+                            }
 
+                            @Override
+                            protected void onPostExecute(List<TimeLineItem> items) {
+                                super.onPostExecute(items);
+                                listener.callback(items);
+                            }
+                        }.execute();
                     }
                 }, new ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        ZhihuLog.d(TAG, error);
-                    }
-                }) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ZhihuLog.d(TAG, error);
+            }
+        }) {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
