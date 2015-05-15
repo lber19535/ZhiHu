@@ -29,5 +29,6 @@
     <dimen name="question_margin_top">@dimen/global_margin_4</dimen>
     <dimen name="answer_margin_top">@dimen/global_margin_4</dimen>
     <dimen name="vote_width">38dp</dimen>
+    <dimen name="loading_wheel_size">40dp</dimen>
 
 </resources>

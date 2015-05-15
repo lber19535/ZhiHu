@@ -16,14 +16,14 @@ import com.bill.zhihu.api.utils.ZhihuURL;
  * @author Bill Lv
  *
  */
-public class CmdFetchCaptcha extends Command {
+public class CmdImgCaptcha extends Command {
 
     private CallbackListener linstener;
     private long time;
     private String url;
     private ZhihuImageRequest request;
 
-    public CmdFetchCaptcha() {
+    public CmdImgCaptcha() {
         time = System.currentTimeMillis();
         url = ZhihuURL.CAPTCHA + "?r=" + time;
         ZhihuLog.d(TAG, "captcha url " + url);

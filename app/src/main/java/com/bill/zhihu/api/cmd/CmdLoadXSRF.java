@@ -15,12 +15,12 @@ import com.bill.zhihu.api.utils.ZhihuURL;
  * @author Bill Lv
  *
  */
-public class CmdFetchXSRF extends Command {
+public class CmdLoadXSRF extends Command {
 
     private CallbackListener listener;
     private ZhihuStringRequest request;
 
-    public CmdFetchXSRF() {
+    public CmdLoadXSRF() {
         xsrf = ZhihuApi.getXSRF();
     }
 

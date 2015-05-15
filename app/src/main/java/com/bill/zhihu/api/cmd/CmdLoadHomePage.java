@@ -1,8 +1,5 @@
 package com.bill.zhihu.api.cmd;
 
-import java.util.List;
-import java.util.Map;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -13,13 +10,16 @@ import com.bill.zhihu.api.utils.ZhihuApiParser;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 首页，只在开始加载首页的时候使用
  * 
  * @author Bill Lv
  *
  */
-public class CmdFetchHomePage extends Command {
+public class CmdLoadHomePage extends Command {
 
     private CallbackListener listener;
 

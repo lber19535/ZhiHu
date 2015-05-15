@@ -1,14 +1,5 @@
 package com.bill.zhihu.api.cmd;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
@@ -23,11 +14,19 @@ import com.bill.zhihu.api.utils.ZhihuApiParser;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 知乎time line 上拉加载更多
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class CmdLoadMore extends Command {
 
@@ -66,11 +65,11 @@ public class CmdLoadMore extends Command {
                     }
                 }, new Response.ErrorListener() {
 
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        ZhihuLog.d(TAG, error);
-                    }
-                }) {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ZhihuLog.d(TAG, error);
+            }
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = super.getHeaders();

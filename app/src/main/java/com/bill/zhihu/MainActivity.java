@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.bill.zhihu.api.ZhihuApi;
-import com.bill.zhihu.api.cmd.CmdFetchXSRF;
+import com.bill.zhihu.api.cmd.CmdLoadXSRF;
 import com.bill.zhihu.api.net.ZhihuCookieManager;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.home.ActivityHome;
@@ -34,8 +34,8 @@ public class MainActivity extends Activity {
             return;
         }
 
-        CmdFetchXSRF cmdFetchXSRF = new CmdFetchXSRF();
-        cmdFetchXSRF.setOnCmdCallBack(new CmdFetchXSRF.CallbackListener() {
+        CmdLoadXSRF cmdFetchXSRF = new CmdLoadXSRF();
+        cmdFetchXSRF.setOnCmdCallBack(new CmdLoadXSRF.CallbackListener() {
 
             @Override
             public void callback(String xsrf) {

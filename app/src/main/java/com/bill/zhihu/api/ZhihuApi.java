@@ -1,15 +1,14 @@
 package com.bill.zhihu.api;
 
-import java.io.File;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
-import com.bill.zhihu.R;
 import com.bill.zhihu.ZhihuApp;
+import com.bill.zhihu.api.cmd.CmdLoadHomePage;
+import com.bill.zhihu.api.cmd.CmdLoadMore;
+import com.bill.zhihu.api.cmd.CmdLogin;
 import com.bill.zhihu.api.cmd.Command;
 import com.bill.zhihu.api.net.ZhihuCookieManager;
 import com.bill.zhihu.api.net.ZhihuCookieStore;
@@ -27,7 +26,7 @@ public class ZhihuApi {
     }
 
     public static void cancelCmd(Command cmd) {
-        cmd.exec();
+        cmd.cancel();
     }
 
     /**
@@ -37,31 +36,6 @@ public class ZhihuApi {
         new ZhihuCookieStore().clear();
     }
 
-    /**
-     * 清除缓存
-     */
-    public static void clearCache() {
-        File cacheDir = mContext.getCacheDir();
-        File[] cacheFiles = cacheDir.listFiles();
-        for (File file : cacheFiles) {
-            if (!file.delete()) {
-                Toast.makeText(mContext,
-                        res.getString(R.string.cache_delete_toast),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    /**
-     * 获取缓存可用空间
-     * 
-     * @return kb
-     */
-    public static float getCacheUsableSpace() {
-        File cacheDir = mContext.getCacheDir();
-        long usableSpace = cacheDir.getUsableSpace();
-        return usableSpace / 1024f;
-    }
 
     public static void setXSRF(String xsrf) {
         sp.edit().putString(XSRF, xsrf).commit();
@@ -69,7 +43,7 @@ public class ZhihuApi {
 
     /**
      * if don't have xsrf or don't fetch xsrf value return null
-     * 
+     *
      * @return
      */
     public static String getXSRF() {
@@ -82,4 +56,22 @@ public class ZhihuApi {
         }
     }
 
+
+    public static void loadHomePage(CmdLoadHomePage.CallbackListener listener) {
+        CmdLoadHomePage cmd = new CmdLoadHomePage();
+        cmd.setOnCmdCallBack(listener);
+        ZhihuApi.execCmd(cmd);
+    }
+
+    public static void loadMore(long blockId, int offset, CmdLoadMore.CallbackListener listener) {
+        CmdLoadMore loadMore = new CmdLoadMore(blockId, offset);
+        loadMore.setOnCmdCallBack(listener);
+        ZhihuApi.execCmd(loadMore);
+    }
+
+    public static void login(String account, String pwd, String captcha, CmdLogin.CallbackListener listener) {
+        CmdLogin login = new CmdLogin(account, pwd, captcha);
+        login.setOnCmdCallBack(listener);
+        ZhihuApi.execCmd(login);
+    }
 }

@@ -9,14 +9,14 @@ import com.android.volley.VolleyError;
 import com.bill.zhihu.api.net.ZhihuImageRequest;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
-public class CmdFetchAvatarImage extends Command {
+public class CmdLoadAvatarImage extends Command {
 
     private CallbackListener listener;
     private ZhihuImageRequest request;
 
     private String url;
 
-    public CmdFetchAvatarImage(String imgUrl) {
+    public CmdLoadAvatarImage(String imgUrl) {
         this.url = imgUrl;
     }
 

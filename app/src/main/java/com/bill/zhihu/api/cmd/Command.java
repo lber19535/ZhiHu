@@ -16,6 +16,7 @@ public abstract class Command {
     }
 
     abstract public void exec();
+
     abstract public void cancel();
 
     abstract public <T extends CommandCallback> void setOnCmdCallBack(T callback);

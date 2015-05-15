@@ -22,9 +22,8 @@ import com.bill.zhihu.home.ActivityHome;
 
 /**
  * 登录
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 
 public class FragmentLogin extends Fragment {
@@ -43,7 +42,7 @@ public class FragmentLogin extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_login, container, false);
         initView();
         return rootView;
@@ -86,36 +85,35 @@ public class FragmentLogin extends Fragment {
     }
 
     private void login(String account, String pwd, String captcha) {
-        CmdLogin login = new CmdLogin(account, pwd, captcha);
-        login.setOnCmdCallBack(new CmdLogin.CallbackListener() {
+        CmdLogin.CallbackListener listener = new CmdLogin.CallbackListener() {
 
             @Override
             public void callback(int code, Bitmap captcha) {
                 ZhihuLog.d(TAG, code);
                 switch (code) {
-                case CmdLogin.LOGIN_SUCCESS:
-                    ToastUtil.showShortToast(getResources().getString(
-                            R.string.login_success));
-                    Intent intent = new Intent(getActivity(),
-                            ActivityHome.class);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(
-                            R.anim.activity_login_home_in_transition,
-                            R.anim.activity_login_home_out_transition);
-                    getActivity().finish();
+                    case CmdLogin.LOGIN_SUCCESS:
+                        ToastUtil.showShortToast(getResources().getString(
+                                R.string.login_success));
+                        Intent intent = new Intent(getActivity(),
+                                ActivityHome.class);
+                        startActivity(intent);
+                        getActivity().overridePendingTransition(
+                                R.anim.activity_login_home_in_transition,
+                                R.anim.activity_login_home_out_transition);
+                        getActivity().finish();
 
-                    break;
-                case CmdLogin.LOGIN_FAILED:
-                    captchaIv.setImageBitmap(captcha);
-                    break;
+                        break;
+                    case CmdLogin.LOGIN_FAILED:
+                        captchaIv.setImageBitmap(captcha);
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
                 loginBtn.setClickable(true);
             }
-        });
-        ZhihuApi.execCmd(login);
+        };
+        ZhihuApi.login(account, pwd, captcha, listener);
     }
 
     private void loginSuccessAnime() {

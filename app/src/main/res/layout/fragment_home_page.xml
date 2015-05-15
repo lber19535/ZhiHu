@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:rf="http://schemas.android.com/apk/res-auto"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <com.bill.zhihu.view.SwipyRefreshLayout
         android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        rf:direction="both" >
+        rf:direction="both">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/time_line_list"
@@ -18,4 +19,12 @@
             android:background="@color/white" />
     </com.bill.zhihu.view.SwipyRefreshLayout>
 
-</LinearLayout>
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/loading_img"
+        android:layout_width="@dimen/loading_wheel_size"
+        android:layout_height="@dimen/loading_wheel_size"
+        android:layout_centerInParent="true"
+        wheel:matProg_barColor="@color/blue"
+        wheel:matProg_progressIndeterminate="true" />
+
+</RelativeLayout>

@@ -1,10 +1,5 @@
 package com.bill.zhihu.api.cmd;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import android.graphics.Bitmap;
 
 import com.android.volley.AuthFailureError;
@@ -20,6 +15,11 @@ import com.bill.zhihu.api.utils.ToastUtil;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 import com.bill.zhihu.login.LoginRequestCode;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 登陆
@@ -91,8 +91,8 @@ public class CmdLogin extends Command {
                                 default:
                                     break;
                                 }
-                                CmdFetchCaptcha captcha = new CmdFetchCaptcha();
-                                captcha.setOnCmdCallBack(new CmdFetchCaptcha.CallbackListener() {
+                                CmdImgCaptcha captcha = new CmdImgCaptcha();
+                                captcha.setOnCmdCallBack(new CmdImgCaptcha.CallbackListener() {
 
                                     @Override
                                     public void callback(Bitmap captchaImg) {

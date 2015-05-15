@@ -9,14 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.api.cmd.CmdFetchAvatarImage;
+import com.bill.zhihu.api.cmd.CmdLoadAvatarImage;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
 /**
  * item之间相同的东西(来源，avatar，问题)放到这个父类中
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
         OnLongClickListener {
@@ -30,7 +29,7 @@ public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
     protected TimeLineItemOnClickListener onClickListener;
     protected TimeLineItemOnLongClickListener onLongClickListener;
 
-    private CmdFetchAvatarImage avatarImage;
+    private CmdLoadAvatarImage avatarImage;
 
     public TimeLineViewHolder(View itemView) {
         super(itemView);
@@ -41,8 +40,8 @@ public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
     }
 
     public TimeLineViewHolder(View itemView,
-            TimeLineItemOnClickListener onClickListener,
-            TimeLineItemOnLongClickListener onLongClickListener) {
+                              TimeLineItemOnClickListener onClickListener,
+                              TimeLineItemOnLongClickListener onLongClickListener) {
         this(itemView);
         this.onClickListener = onClickListener;
         this.onLongClickListener = onLongClickListener;
@@ -67,9 +66,9 @@ public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
 
     public void loadImage(String url) {
         ZhihuLog.dValue(url, "avatar img url", url);
-        avatarImage = new CmdFetchAvatarImage(url);
+        avatarImage = new CmdLoadAvatarImage(url);
         avatarImage
-                .setOnCmdCallBack(new CmdFetchAvatarImage.CallbackListener() {
+                .setOnCmdCallBack(new CmdLoadAvatarImage.CallbackListener() {
 
                     @Override
                     public void callback(Bitmap captchaImg) {

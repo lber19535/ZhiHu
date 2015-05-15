@@ -1,5 +1,8 @@
 package com.bill.zhihu.home;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +15,13 @@ import android.widget.LinearLayout;
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.api.cmd.CmdFetchHomePage;
+import com.bill.zhihu.api.cmd.CmdLoadHomePage;
 import com.bill.zhihu.api.cmd.CmdLoadMore;
+import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.view.SwipyRefreshLayout;
 import com.bill.zhihu.view.SwipyRefreshLayout.OnRefreshListener;
 import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +33,8 @@ import java.util.List;
  */
 public class FragmentHome extends Fragment {
 
+    private static final String TAG = "FragmentHome";
+
     private RecyclerView timelineRv;
     private SwipyRefreshLayout refreshLayout;
 
@@ -35,16 +42,16 @@ public class FragmentHome extends Fragment {
     private TimeLineRecyclerAdapter adapter;
     private View rootView;
 
+    private ProgressWheel progressWheel;
+
     public FragmentHome() {
         timelineItems = new ArrayList<>();
-
+        ZhihuLog.setDebugable(TAG, true);
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-
-    ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,15 +62,20 @@ public class FragmentHome extends Fragment {
 
         initView();
 
+        playLoadingAnim();
+
         loadHomePage();
 
         return rootView;
+
     }
 
     private void initView() {
         timelineRv = (RecyclerView) rootView.findViewById(R.id.time_line_list);
         refreshLayout = (SwipyRefreshLayout) rootView
                 .findViewById(R.id.swipe_to_refresh);
+//        loadingImage = (ImageView) rootView.findViewById(R.id.loading_img);
+        progressWheel = (ProgressWheel) rootView.findViewById(R.id.loading_img);
         // 设置下拉刷新圆圈的颜色
         refreshLayout.setColorSchemeResources(R.color.swipe_color1,
                 R.color.swipe_color2, R.color.swipe_color3,
@@ -85,7 +97,7 @@ public class FragmentHome extends Fragment {
 
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                if (timelineItems.size() == 0){
+                if (timelineItems.isEmpty()) {
                     refreshLayout.setRefreshing(false);
                     return;
                 }
@@ -100,23 +112,24 @@ public class FragmentHome extends Fragment {
     }
 
     /**
-     * 发出更多动态的请求，解析成功后清空之前的数据重新赋值
+     * 首页初始加载动画
      */
-    private void loadMoreNews() {
-        // CmdMoreNews cmdMoreNews = new CmdMoreNews();
-        // cmdMoreNews.setOnCmdCallBack(new CmdMoreNews.CallbackListener() {
-        //
-        // @Override
-        // public void callback(List<TimeLineItem> items) {
-        // if (items != null && !items.isEmpty()) {
-        // timelineItems.clear();
-        // timelineItems.addAll(items);
-        // }
-        // adapter.notifyDataSetChanged();
-        // refreshLayout.setRefreshing(false);
-        // }
-        // });
-        // ZhihuApi.execCmd(cmdMoreNews);
+    private void playLoadingAnim() {
+        progressWheel.spin();
+    }
+
+    private void stopLoadingAnim() {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(progressWheel, "alpha", 1, 0);
+        animator.setDuration(500);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                progressWheel.stopSpinning();
+            }
+        });
+        animator.start();
+
     }
 
     /**
@@ -124,8 +137,7 @@ public class FragmentHome extends Fragment {
      */
     private void loadHomePage() {
 
-        CmdFetchHomePage homePage = new CmdFetchHomePage();
-        homePage.setOnCmdCallBack(new CmdFetchHomePage.CallbackListener() {
+        CmdLoadHomePage.CallbackListener listener = new CmdLoadHomePage.CallbackListener() {
 
             @Override
             public void callback(List<TimeLineItem> timelineitems) {
@@ -135,21 +147,28 @@ public class FragmentHome extends Fragment {
                 }
                 adapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
+                stopLoadingAnim();
             }
 
-        });
-        ZhihuApi.execCmd(homePage);
+        };
+
+        ZhihuApi.loadHomePage(listener);
+
     }
 
     /**
      * 上拉加载更多
      */
     private void loadMore() {
+
+        if (timelineItems.isEmpty())
+            return;
+
         TimeLineItem item = timelineItems.get(timelineItems.size() - 1);
         long blockId = Long.valueOf(item.getDataBlock());
         int offset = Integer.valueOf(item.getDataOffset());
-        CmdLoadMore loadMore = new CmdLoadMore(blockId, offset);
-        loadMore.setOnCmdCallBack(new CmdLoadMore.CallbackListener() {
+
+        CmdLoadMore.CallbackListener listener = new CmdLoadMore.CallbackListener() {
 
             @Override
             public void callback(List<TimeLineItem> timelineitems) {
@@ -162,8 +181,9 @@ public class FragmentHome extends Fragment {
                 refreshLayout.setRefreshing(false);
             }
 
-        });
-        ZhihuApi.execCmd(loadMore);
+        };
+        ZhihuApi.loadMore(blockId, offset, listener);
+
     }
 
 }
