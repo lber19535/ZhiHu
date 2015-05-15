@@ -1,23 +1,27 @@
 package com.bill.zhihu.api.builder;
 
-import java.util.Arrays;
+import com.bill.zhihu.api.bean.TimeLineItem;
+import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
+import com.bill.zhihu.api.bean.Url;
+import com.bill.zhihu.api.utils.ZhihuLog;
+import com.bill.zhihu.api.utils.ZhihuURL;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
-import com.bill.zhihu.api.utils.ZhihuLog;
+import java.util.Arrays;
 
 /**
  * 简化生成item的过程
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class TimeLineItemBuilder {
 
     private static final String TAG = "TimeLineItemBuilder";
+
+    private static final String COLUMN_FLAG = "post-link";
+    private static final String QUESTION_FLAG = "question_link";
 
     private TimeLineItem item;
     private Element element;
@@ -26,13 +30,13 @@ public class TimeLineItemBuilder {
         this.item = new TimeLineItem();
         this.element = element;
 
-        ZhihuLog.setDebugable(TAG, false);
+        ZhihuLog.setDebugable(TAG, true);
 
     }
 
     /**
      * 设置头像
-     * 
+     *
      * @return
      */
     private TimeLineItemBuilder setAvatar() {
@@ -52,7 +56,7 @@ public class TimeLineItemBuilder {
 
     /**
      * 设置来源，赞同了xxx回答，关注了xx问题/专栏，来自xxx
-     * 
+     *
      * @return
      */
     private TimeLineItemBuilder setSource() {
@@ -70,7 +74,7 @@ public class TimeLineItemBuilder {
                 continue;
             }
             item.addSource(source);
-            item.addSourceUrl(sourceUrl);
+            item.addSourceUrl(getUrl(element));
         }
         String time = sourceElements.select("span[class=time]").text();
         // 只要保留 来自/赞同了等关键字
@@ -97,7 +101,7 @@ public class TimeLineItemBuilder {
 
     /**
      * 问题或文章标题
-     * 
+     *
      * @return
      */
     private TimeLineItemBuilder setQuestion() {
@@ -108,11 +112,15 @@ public class TimeLineItemBuilder {
         String question = contentElements.select("h2>a").text();
         String questionUrl = contentElements.select("a").attr("href");
 
+        Element header = contentElements.select("h2>a").get(0);
+        ZhihuLog.d(TAG, header);
+        Url headerUrl = getUrl(header);
+
         ZhihuLog.dValue(TAG, "question ", question);
-        ZhihuLog.dValue(TAG, "questionUrl ", questionUrl);
+        ZhihuLog.dValue(TAG, "questionUrl ", header);
         ZhihuLog.dValue(TAG, "haveAnswer ", haveAnswer);
         item.setQuestion(question);
-        item.setQuestionUrl(questionUrl);
+        item.setQuestionUrl(headerUrl);
         if (!haveAnswer) {
             item.setContentType(ContentType.QUESTION);
         } else {
@@ -122,9 +130,65 @@ public class TimeLineItemBuilder {
         return this;
     }
 
+    private Url getUrl(Element element) {
+        Url.Type type = getUrlType(element);
+        String href = element.attr("href");
+        String url = "";
+        switch (type) {
+            // 网页上的url不完整 需要加知乎的host
+            case TOPIC:
+            case ANSWER:
+            case QUESTION:
+                url = ZhihuURL.HOST + href;
+                break;
+            case COLUMN:
+                // 网页上的url就是需要的url
+            case COLUMN_ARTICLE:
+            case PEOPLE:
+                url = href;
+                break;
+            case COMMENT:
+                break;
+        }
+        return getUrl(url, type);
+    }
+
+    /**
+     * 通过 class href等获取链接类型，评论类型的暂时还不知道怎么判断
+     *
+     * @param element
+     * @return
+     */
+    private Url.Type getUrlType(Element element) {
+        String href = element.attr("href");
+        boolean haveClass = element.hasAttr("class");
+        if (haveClass) {
+            if (element.hasClass("column_link")) {
+                return Url.Type.COLUMN;
+            } else if (element.hasClass("post-link")) {
+                return Url.Type.COLUMN_ARTICLE;
+            } else if (element.hasClass("zg-link")) {
+                return Url.Type.PEOPLE;
+            } else if (element.hasClass("question_link")) {
+                return Url.Type.QUESTION;
+            } else if (element.hasClass("toggle-expand") || element.hasClass("answer-date-link meta-item")) {
+                return Url.Type.ANSWER;
+            }
+        } else {
+            if (href.startsWith("/topic")) {
+                return Url.Type.TOPIC;
+            }
+        }
+        return Url.Type.UNKONW;
+    }
+
+    private Url getUrl(String url, Url.Type type) {
+        return new Url(url, type);
+    }
+
     /**
      * 答案摘要
-     * 
+     *
      * @return
      */
     private TimeLineItemBuilder setAnswer() {
@@ -137,9 +201,17 @@ public class TimeLineItemBuilder {
         String voteCount = answerElements.select("[class^=zm-item-vote-info]")
                 .attr("data-votecount");
 
+        Element toggleExpand = answerElements.select(
+                "div[class=zh-summary summary clearfix]>a").last();
+
         ZhihuLog.dValue(TAG, "answerSummary ", answerSummary);
         ZhihuLog.dValue(TAG, "voteCount ", voteCount);
+        ZhihuLog.dValue(TAG, "toggleExpand ", toggleExpand);
+        ZhihuLog.dValue(TAG, "toggleExpand ", toggleExpand);
 
+        Url url = getUrl(toggleExpand);
+
+        item.setAnswerUrl(url);
         item.setAnswerSummary(answerSummary.replace("显示全部", ""));
         item.setVoteCount(voteCount);
 
@@ -148,7 +220,7 @@ public class TimeLineItemBuilder {
 
     /**
      * 生成一个item
-     * 
+     *
      * @return
      */
     public TimeLineItem build() {

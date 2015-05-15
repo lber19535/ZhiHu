@@ -37,6 +37,7 @@
         <item name="android:clickable">true</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">3</item>
+        <item name="android:background">@drawable/home_item_bg</item>
         <item name="android:textSize">@dimen/font_14</item>
     </style>
 

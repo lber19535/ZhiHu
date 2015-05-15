@@ -6,9 +6,8 @@ import java.util.List;
 
 /**
  * timeline item内容
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class TimeLineItem {
     /*
@@ -21,48 +20,25 @@ public class TimeLineItem {
      * |----------------------------------|
      */
 
-    /**
-     * content类型
-     * 
-     * @author Bill Lv
-     *
-     */
-    public static enum ContentType {
-        /**
-         * 只有问题
-         */
-        QUESTION,
-        /**
-         * 默认为问题+答案摘要
-         */
-        ANSWER,
-        /**
-         * 加载更多
-         */
-        LOAD_MORE
-    }
-
     private ContentType contentType = ContentType.ANSWER;
-
     // 头像
     private String avatarImgUrl;
-
     // source
-    private List<String> source = new ArrayList<String>();
+    private List<String> source = new ArrayList<>();
     // 来自/关注了/赞同了
     private String sourceText;
-    private List<String> sourceUrls = new ArrayList<String>();
+    private List<Url> sourceUrls = new ArrayList<>();
     private String timeStamp;
     // 人类可读的一个时间
     private String time;
     private String dataOffset;
-
     // 问题或文章标题
     private String question;
-    private String questionUrl;
+    private Url questionUrl;
     private String voteCount;
     // 回答
     private String answerSummary;
+    private Url answerUrl;
     // block标记
     private String dataBlock;
 
@@ -98,12 +74,16 @@ public class TimeLineItem {
         this.sourceText = sourceText;
     }
 
-    public List<String> getSourceUrls() {
+    public List<Url> getSourceUrls() {
         return sourceUrls;
     }
 
-    public void addSourceUrl(String sourceUrl) {
-        this.sourceUrls.add(sourceUrl);
+    public void addSourceUrl(String sourceUrl, Url.Type type) {
+        this.sourceUrls.add(new Url(sourceUrl, type));
+    }
+
+    public void addSourceUrl(Url url) {
+        this.sourceUrls.add(url);
     }
 
     public String getTimeStamp() {
@@ -130,12 +110,20 @@ public class TimeLineItem {
         this.question = question;
     }
 
-    public String getQuestionUrl() {
+    public Url getQuestionUrl() {
         return questionUrl;
     }
 
-    public void setQuestionUrl(String questionUrl) {
+    public void setQuestionUrl(Url questionUrl) {
         this.questionUrl = questionUrl;
+    }
+
+    public Url getAnswerUrl() {
+        return answerUrl;
+    }
+
+    public void setAnswerUrl(Url answerUrl) {
+        this.answerUrl = answerUrl;
     }
 
     public String getVoteCount() {
@@ -188,6 +176,22 @@ public class TimeLineItem {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * content类型
+     *
+     * @author Bill Lv
+     */
+    public enum ContentType {
+        /**
+         * 只有问题
+         */
+        QUESTION,
+        /**
+         * 默认为问题+答案摘要
+         */
+        ANSWER,
     }
 
 }

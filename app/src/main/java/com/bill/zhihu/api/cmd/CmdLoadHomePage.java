@@ -76,13 +76,13 @@ public class CmdLoadHomePage extends Command {
         listener = (CallbackListener) callback;
     }
 
-    public interface CallbackListener extends CommandCallback {
-        void callback(List<TimeLineItem> timelineItems);
-    }
-
     @Override
     public void cancel() {
 
+    }
+
+    public interface CallbackListener extends CommandCallback {
+        void callback(List<TimeLineItem> timelineItems);
     }
 
 }

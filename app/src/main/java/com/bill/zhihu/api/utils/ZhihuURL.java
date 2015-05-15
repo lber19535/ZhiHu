@@ -7,5 +7,7 @@ public class ZhihuURL {
     public static final String CAPTCHA = HOST + "/captcha.gif";
     // 加载更多
     public static final String MORE_STORY = HOST + "/node/TopStory2FeedList";
+    // 专栏
+    public static final String COLUMN = "http://zhuanlan.zhihu.com/";
 
 }
