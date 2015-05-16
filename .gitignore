@@ -15,12 +15,20 @@ gen/
 # Gradle files
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
+
 .DS_Store
 /build
 /captures
 Thumbs.db
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+build/
+**/build/
 
 # Log Files
 *.log
