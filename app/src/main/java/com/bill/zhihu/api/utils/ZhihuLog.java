@@ -6,9 +6,8 @@ import android.util.Log;
 
 /**
  * 日志工具
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class ZhihuLog {
 
@@ -23,11 +22,13 @@ public class ZhihuLog {
 
     /**
      * 输出log
-     * 
+     *
      * @param TAG
      * @param msg
      */
     public static void d(String TAG, Object msg) {
+        if (msg == null)
+            msg = "null";
         if (haveLog(TAG)) {
             String logMsg = msg.toString();
             int logLength = logMsg.length();
@@ -45,18 +46,18 @@ public class ZhihuLog {
 
     /**
      * 简化输出变量的方法
-     * 
+     *
      * @param TAG
      * @param valueName
      * @param value
      */
     public static void dValue(String TAG, String valueName, Object value) {
-        d(TAG, valueName + " " + value.toString());
+        d(TAG, valueName + " " + value);
     }
 
     /**
      * 设置TAG是否要输出log
-     * 
+     *
      * @param TAG
      * @param able
      */

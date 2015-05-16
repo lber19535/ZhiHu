@@ -131,6 +131,10 @@ public class TimeLineItemBuilder {
     }
 
     private Url getUrl(Element element) {
+        if (element == null) {
+            return getUrl("null", Url.Type.ANSWER);
+        }
+
         Url.Type type = getUrlType(element);
         String href = element.attr("href");
         String url = "";
@@ -206,7 +210,6 @@ public class TimeLineItemBuilder {
 
         ZhihuLog.dValue(TAG, "answerSummary ", answerSummary);
         ZhihuLog.dValue(TAG, "voteCount ", voteCount);
-        ZhihuLog.dValue(TAG, "toggleExpand ", toggleExpand);
         ZhihuLog.dValue(TAG, "toggleExpand ", toggleExpand);
 
         Url url = getUrl(toggleExpand);
