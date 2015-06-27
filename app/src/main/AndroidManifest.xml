@@ -27,6 +27,10 @@
             android:icon="@mipmap/icon"
             android:name="com.bill.zhihu.home.ActivityHome"
             android:label="@string/action_default_title" />
+        <activity
+            android:icon="@mipmap/icon"
+            android:name="com.bill.zhihu.answer.ActivityAnswer"
+            android:label="@string/action_default_title" />
 
     </application>
 

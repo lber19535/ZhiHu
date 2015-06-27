@@ -57,6 +57,24 @@
         <item name="android:layout_width">@dimen/vote_width</item>
     </style>
 
+    <style name="TextView.AnswerHead" parent="AppTheme.Light">
+        <item name="android:textColor">@color/answer_head_name</item>
+        <item name="android:textSize">@dimen/font_16</item>
+    </style>
+
+    <style name="TextView.AnswerRemark" parent="TextView.AnswerHead">
+        <item name="android:textColor">@color/answer_head_remark</item>
+    </style>
+
+    <style name="TextView.AnswerHead.Vote" parent="TextView.AnswerRemark"></style>
+
+    <style name="Layout.Answer.BottomItem" parent="AppTheme.Light">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="Layout.Home.Item" parent="AppTheme.Light">
         <item name="android:paddingLeft">@dimen/global_padding_16</item>
         <item name="android:paddingRight">@dimen/global_padding_16</item>

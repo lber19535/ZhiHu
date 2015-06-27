@@ -22,5 +22,7 @@
     <color name="avatar_default">@color/blue_white</color>
     <color name="question_article_text">@color/black</color>
     <color name="content_summary">#757575</color>
-
+    <!-- answer head-->
+    <color name="answer_head_name">@color/black</color>
+    <color name="answer_head_remark">@color/content_summary</color>
 </resources>

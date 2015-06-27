@@ -19,5 +19,13 @@
     <string name="question">问题/文章标题</string>
     <string name="vote">11</string>
     <string name="content">回答缩略</string>
+    <!-- answer -->
+    <string name="share">分享</string>
+    <string name="thank">感谢</string>
+    <string name="useless">没有帮助</string>
+    <string name="comments">评论</string>
+    <string name="name">name</string>
+    <string name="remark">remark</string>
+    <string name="answer_vote">赞同</string>
 
 </resources>

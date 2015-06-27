@@ -3,6 +3,7 @@ package com.bill.zhihu.home;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.text.SpannableStringBuilder;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.ZhihuApp;
+import com.bill.zhihu.answer.ActivityAnswer;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
 import com.bill.zhihu.api.utils.TextUtils;
@@ -19,9 +21,8 @@ import com.bill.zhihu.api.utils.ZhihuLog;
 
 /**
  * recycler的适配器
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
@@ -39,11 +40,16 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
     private List<TimeLineItem> timelineItems;
     private LayoutInflater mInflater;
 
+    private Context mContext;
+
     public TimeLineRecyclerAdapter(Context context,
-            List<TimeLineItem> timelineItems) {
+                                   List<TimeLineItem> timelineItems) {
         this.timelineItems = timelineItems;
         this.mInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mContext = context;
+
+        ZhihuLog.setDebugable(TAG, true);
     }
 
     @Override
@@ -75,18 +81,21 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
         int type = getItemViewType(position);
         ZhihuLog.dValue(TAG, "type", type);
         switch (type) {
-        case VIEW_TYPE_ONLY_QUESTION:
-            TimeLineOnlyQuestionViewHolder questionViewHolder = (TimeLineOnlyQuestionViewHolder) holder;
-            break;
-        case VIEW_TYPE_ANSWER_QUESTION:
-            TimeLineWithAnswerViewHolder answerViewHolder = (TimeLineWithAnswerViewHolder) holder;
-            answerViewHolder.answerTv.setText(item.getAnswerSummary());
-            answerViewHolder.voteTv.setText(TextUtils.getSummaryNumber(item
-                    .getVoteCount()));
-            break;
+            case VIEW_TYPE_ONLY_QUESTION:
+                TimeLineOnlyQuestionViewHolder questionViewHolder = (TimeLineOnlyQuestionViewHolder) holder;
+                break;
+            case VIEW_TYPE_ANSWER_QUESTION:
+                TimeLineWithAnswerViewHolder answerViewHolder = (TimeLineWithAnswerViewHolder) holder;
+                ZhihuLog.dValue(TAG, "answerViewHolder", answerViewHolder);
+                ZhihuLog.dValue(TAG, "answerTv", answerViewHolder.answerTv);
+                ZhihuLog.dValue(TAG, "item.getAnswerSummary()", item.getAnswerSummary());
+                answerViewHolder.answerTv.setText(item.getAnswerSummary());
+                answerViewHolder.voteTv.setText(TextUtils.getSummaryNumber(item
+                        .getVoteCount()));
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
     }
 
@@ -127,23 +136,45 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
     @Override
     public TimeLineViewHolder onCreateViewHolder(ViewGroup container,
-            int viewType) {
+                                                 int viewType) {
         View itemView = null;
         TimeLineViewHolder holder = null;
         switch (viewType) {
-        case VIEW_TYPE_ONLY_QUESTION:
-            itemView = mInflater.inflate(R.layout.list_item_only_question,
-                    container, false);
-            holder = new TimeLineOnlyQuestionViewHolder(itemView);
-            break;
-        case VIEW_TYPE_ANSWER_QUESTION:
-            itemView = mInflater.inflate(
-                    R.layout.list_item_question_with_answer, container, false);
-            holder = new TimeLineWithAnswerViewHolder(itemView);
-            break;
+            case VIEW_TYPE_ONLY_QUESTION:
+                itemView = mInflater.inflate(R.layout.list_item_only_question,
+                        container, false);
+                holder = new TimeLineOnlyQuestionViewHolder(itemView, new TimeLineItemOnClickListener() {
+                    @Override
+                    public void onItemClickListener(View v, int position) {
+                        Intent intent = new Intent(mContext, ActivityAnswer.class);
+                        mContext.startActivity(intent);
+                    }
+                }, new TimeLineItemOnLongClickListener() {
+                    @Override
+                    public void onItemLongClickListener(View v, int position) {
 
-        default:
-            break;
+                    }
+                });
+                break;
+            case VIEW_TYPE_ANSWER_QUESTION:
+                itemView = mInflater.inflate(
+                        R.layout.list_item_question_with_answer, container, false);
+                holder = new TimeLineWithAnswerViewHolder(itemView, new TimeLineItemOnClickListener() {
+                    @Override
+                    public void onItemClickListener(View v, int position) {
+                        Intent intent = new Intent(mContext, ActivityAnswer.class);
+                        mContext.startActivity(intent);
+                    }
+                }, new TimeLineItemOnLongClickListener() {
+                    @Override
+                    public void onItemLongClickListener(View v, int position) {
+
+                    }
+                });
+                break;
+
+            default:
+                break;
         }
         return holder;
     }

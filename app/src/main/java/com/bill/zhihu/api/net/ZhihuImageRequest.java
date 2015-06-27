@@ -25,6 +25,7 @@ public class ZhihuImageRequest extends ImageRequest {
         Map<String, String> header = new HashMap<String, String>();
         header.put("User-Agent", NetConstants.UA);
         header.put("Accept", "image/webp,*/*;q=0.8");
+        header.put("Accept-Encoding", "gzip, deflate");
         return header;
     }
 

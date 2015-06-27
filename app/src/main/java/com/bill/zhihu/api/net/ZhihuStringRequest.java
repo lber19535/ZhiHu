@@ -15,7 +15,7 @@ import com.bill.zhihu.api.utils.NetConstants;
  * @author Bill Lv
  *
  */
-public class ZhihuStringRequest extends StringRequest {
+public class ZhihuStringRequest extends GzipStringRequest {
 
     private final Listener<String> mListener;
 
@@ -39,6 +39,7 @@ public class ZhihuStringRequest extends StringRequest {
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> header = new HashMap<String, String>();
         header.put("User-Agent", NetConstants.UA);
+        header.put("Accept-Encoding", "gzip, deflate");
         return header;
     }
 
