@@ -2,6 +2,7 @@ package com.bill.zhihu.home;
 
 import android.view.View;
 import android.widget.TextView;
+import android.view.View.OnClickListener;
 
 import com.bill.zhihu.R;
 
@@ -21,16 +22,14 @@ public class TimeLineWithAnswerViewHolder extends TimeLineViewHolder {
 
     }
 
-    public TimeLineWithAnswerViewHolder(View itemView,
-                                        TimeLineItemOnClickListener onClickListener,
-                                        TimeLineItemOnLongClickListener onLongClickListener) {
-        super(itemView, onClickListener, onLongClickListener);
-        initView(itemView);
-    }
 
     private void initView(View itemView) {
         answerTv = (TextView) itemView.findViewById(R.id.answer);
         voteTv = (TextView) itemView.findViewById(R.id.vote);
+    }
+
+    public void setOnAnswerClickListener(OnClickListener listener) {
+        answerTv.setOnClickListener(listener);
     }
 
 }

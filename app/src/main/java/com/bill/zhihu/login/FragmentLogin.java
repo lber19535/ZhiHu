@@ -84,6 +84,7 @@ public class FragmentLogin extends Fragment {
         });
     }
 
+    // 登陆
     private void login(String account, String pwd, String captcha) {
         CmdLogin.CallbackListener listener = new CmdLogin.CallbackListener() {
 

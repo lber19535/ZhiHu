@@ -143,7 +143,7 @@ public class TimeLineItemBuilder {
             case TOPIC:
             case ANSWER:
             case QUESTION:
-                url = ZhihuURL.HOST + href;
+                url = ZhihuURL.HOST + href.split("#")[0];
                 break;
             case COLUMN:
                 // 网页上的url就是需要的url

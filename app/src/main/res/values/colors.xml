@@ -25,4 +25,6 @@
     <!-- answer head-->
     <color name="answer_head_name">@color/black</color>
     <color name="answer_head_remark">@color/content_summary</color>
+    <!-- answer frame-->
+    <color name="answer_frame_head">@color/white</color>
 </resources>

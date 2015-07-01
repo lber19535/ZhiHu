@@ -57,21 +57,45 @@ public class ZhihuApi {
     }
 
 
+    /**
+     * 加载首页
+     *
+     * @param listener
+     */
     public static void loadHomePage(CmdLoadHomePage.CallbackListener listener) {
         CmdLoadHomePage cmd = new CmdLoadHomePage();
         cmd.setOnCmdCallBack(listener);
         ZhihuApi.execCmd(cmd);
     }
 
+    /**
+     * 加载更多
+     *
+     * @param blockId
+     * @param offset
+     * @param listener
+     */
     public static void loadMore(long blockId, int offset, CmdLoadMore.CallbackListener listener) {
         CmdLoadMore loadMore = new CmdLoadMore(blockId, offset);
         loadMore.setOnCmdCallBack(listener);
         ZhihuApi.execCmd(loadMore);
     }
 
+    /**
+     * 登陆
+     *
+     * @param account
+     * @param pwd
+     * @param captcha
+     * @param listener
+     */
     public static void login(String account, String pwd, String captcha, CmdLogin.CallbackListener listener) {
         CmdLogin login = new CmdLogin(account, pwd, captcha);
         login.setOnCmdCallBack(listener);
         ZhihuApi.execCmd(login);
+    }
+
+    public static void loadAnswer(){
+
     }
 }

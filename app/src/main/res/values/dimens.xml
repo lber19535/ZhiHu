@@ -13,6 +13,7 @@
     <dimen name="global_padding_4">4dp</dimen>
     <dimen name="divider_size">0.68dp</dimen>
 
+    <dimen name="menu_more_overview">48dp</dimen>
     <!-- 字号 -->
     <dimen name="font_12">12sp</dimen>
     <dimen name="font_14">14sp</dimen>
@@ -30,5 +31,7 @@
     <dimen name="answer_margin_top">@dimen/global_margin_4</dimen>
     <dimen name="vote_width">38dp</dimen>
     <dimen name="loading_wheel_size">40dp</dimen>
+    <!-- 回答界面-->
+
 
 </resources>

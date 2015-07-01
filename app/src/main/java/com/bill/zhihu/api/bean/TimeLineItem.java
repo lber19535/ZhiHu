@@ -1,5 +1,8 @@
 package com.bill.zhihu.api.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +12,7 @@ import java.util.List;
  *
  * @author Bill Lv
  */
-public class TimeLineItem {
+public class TimeLineItem implements Parcelable {
     /*
      * item分为三个部分
      * 
@@ -41,6 +44,9 @@ public class TimeLineItem {
     private Url answerUrl;
     // block标记
     private String dataBlock;
+
+    public TimeLineItem() {
+    }
 
     public ContentType getContentType() {
         return contentType;
@@ -194,4 +200,55 @@ public class TimeLineItem {
         ANSWER,
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.contentType == null ? -1 : this.contentType.ordinal());
+        dest.writeString(this.avatarImgUrl);
+        dest.writeStringList(this.source);
+        dest.writeString(this.sourceText);
+        dest.writeList(this.sourceUrls);
+        dest.writeString(this.timeStamp);
+        dest.writeString(this.time);
+        dest.writeString(this.dataOffset);
+        dest.writeString(this.question);
+        dest.writeParcelable(this.questionUrl, flags);
+        dest.writeString(this.voteCount);
+        dest.writeString(this.answerSummary);
+        dest.writeParcelable(this.answerUrl, flags);
+        dest.writeString(this.dataBlock);
+    }
+
+    protected TimeLineItem(Parcel in) {
+        int tmpContentType = in.readInt();
+        this.contentType = tmpContentType == -1 ? null : ContentType.values()[tmpContentType];
+        this.avatarImgUrl = in.readString();
+        this.source = in.createStringArrayList();
+        this.sourceText = in.readString();
+        this.sourceUrls = new ArrayList<Url>();
+        in.readList(this.sourceUrls, Url.class.getClassLoader());
+        this.timeStamp = in.readString();
+        this.time = in.readString();
+        this.dataOffset = in.readString();
+        this.question = in.readString();
+        this.questionUrl = in.readParcelable(Url.class.getClassLoader());
+        this.voteCount = in.readString();
+        this.answerSummary = in.readString();
+        this.answerUrl = in.readParcelable(Url.class.getClassLoader());
+        this.dataBlock = in.readString();
+    }
+
+    public static final Creator<TimeLineItem> CREATOR = new Creator<TimeLineItem>() {
+        public TimeLineItem createFromParcel(Parcel source) {
+            return new TimeLineItem(source);
+        }
+
+        public TimeLineItem[] newArray(int size) {
+            return new TimeLineItem[size];
+        }
+    };
 }

@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,10 +16,11 @@ import com.bill.zhihu.api.utils.ZhihuLog;
  *
  * @author Bill Lv
  */
-public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
-        OnLongClickListener {
+public class TimeLineViewHolder extends ViewHolder {
 
     private static final String TAG = "TimeLineViewHolder";
+
+    public static final String EXSTRA_ITEM = "EXSTRA_ITEM";
 
     public TextView questionTv;
     public TextView fromTv;
@@ -39,32 +39,13 @@ public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
 
     }
 
-    public TimeLineViewHolder(View itemView,
-                              TimeLineItemOnClickListener onClickListener,
-                              TimeLineItemOnLongClickListener onLongClickListener) {
-        this(itemView);
-        this.onClickListener = onClickListener;
-        this.onLongClickListener = onLongClickListener;
-        itemView.setOnClickListener(this);
-        itemView.setOnLongClickListener(this);
-    }
 
-    @Override
-    public boolean onLongClick(View v) {
-        if (onLongClickListener != null) {
-            onLongClickListener.onItemLongClickListener(v, getPosition());
-        }
-        return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (onClickListener != null) {
-            onClickListener.onItemClickListener(v, getPosition());
-        }
-    }
-
-    public void loadImage(String url) {
+    /**
+     * 加载图片，这里是加载avatar的图片
+     *
+     * @param url
+     */
+    public void loadAvatarImage(String url) {
         ZhihuLog.dValue(url, "avatar img url", url);
         avatarImage = new CmdLoadAvatarImage(url);
         avatarImage
@@ -81,6 +62,25 @@ public class TimeLineViewHolder extends ViewHolder implements OnClickListener,
 
     public void cancelImageLoad() {
         avatarImage.cancel();
+    }
+
+    /**
+     * 由于avatar和from点击实现的效果一样所以用了同一个listener
+     *
+     * @param listener
+     */
+    public void setOnFromOrAvatarClickListener(OnClickListener listener) {
+        fromTv.setOnClickListener(listener);
+        avatarIv.setOnClickListener(listener);
+    }
+
+    /**
+     * 点击问题触发的事件
+     *
+     * @param listener
+     */
+    public void setOnQuestionClickListener(OnClickListener listener) {
+        questionTv.setOnClickListener(listener);
     }
 
 }

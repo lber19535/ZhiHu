@@ -14,11 +14,4 @@ public class TimeLineOnlyQuestionViewHolder extends TimeLineViewHolder {
 
     }
 
-    public TimeLineOnlyQuestionViewHolder(View itemView,
-                                          TimeLineItemOnClickListener onClickListener,
-                                          TimeLineItemOnLongClickListener onLongClickListener) {
-        super(itemView, onClickListener, onLongClickListener);
-
-    }
-
 }
