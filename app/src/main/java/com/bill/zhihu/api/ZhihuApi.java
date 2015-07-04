@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
 import com.bill.zhihu.ZhihuApp;
+import com.bill.zhihu.api.cmd.CmdLoadAnswer;
 import com.bill.zhihu.api.cmd.CmdLoadHomePage;
 import com.bill.zhihu.api.cmd.CmdLoadMore;
 import com.bill.zhihu.api.cmd.CmdLogin;
@@ -95,7 +96,9 @@ public class ZhihuApi {
         ZhihuApi.execCmd(login);
     }
 
-    public static void loadAnswer(){
-
+    public static void loadAnswer(String answerUrl, CmdLoadAnswer.CallBackListener listener){
+        CmdLoadAnswer loadAnswer = new CmdLoadAnswer(answerUrl);
+        loadAnswer.setOnCmdCallBack(listener);
+        ZhihuApi.execCmd(loadAnswer);
     }
 }

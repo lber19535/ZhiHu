@@ -25,7 +25,7 @@
     <string name="useless">没有帮助</string>
     <string name="comments">评论</string>
     <string name="name">name</string>
-    <string name="remark">remark</string>
+    <string name="intro">intro</string>
     <string name="answer_vote">赞同</string>
 
 </resources>

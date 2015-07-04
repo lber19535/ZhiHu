@@ -1,7 +1,9 @@
 package com.bill.zhihu.api.utils;
 
+import com.bill.zhihu.api.bean.AnswerContent;
 import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.api.builder.TimeLineItemBuilder;
+import com.bill.zhihu.api.factory.AnswerContentFactory;
+import com.bill.zhihu.api.factory.TimeLineItemFactory;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -74,7 +76,13 @@ public class ZhihuApiParser {
     }
 
     private static TimeLineItem parseTimeLineItem(Element element) {
-        return new TimeLineItemBuilder(element).build();
+        return new TimeLineItemFactory(element).create();
+    }
+
+    public static AnswerContent parseAnswerContent(String html){
+        Document doc = Jsoup.parse(html);
+        Elements answerElements = doc.select("div[id=zh-question-answer-wrap]>div[tabindex=-1]");
+        return new AnswerContentFactory(answerElements).create();
     }
 
 }

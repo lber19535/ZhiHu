@@ -16,31 +16,39 @@
             android:layout_height="48dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/avatar"
             android:layout_alignTop="@id/avatar"
             android:layout_marginLeft="8dp"
+            android:layout_toLeftOf="@+id/vote_layout"
             android:layout_toRightOf="@id/avatar"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/name"
                 style="@style/TextView.AnswerHead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:lines="1"
+                android:ellipsize="end"
                 android:text="@string/name" />
 
             <TextView
+                android:id="@+id/intro"
                 style="@style/TextView.AnswerRemark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/remark" />
+                android:lines="1"
+                android:ellipsize="end"
+                android:text="@string/intro" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/vote_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -54,6 +62,7 @@
                 android:text="@string/answer_vote" />
 
             <TextView
+                android:id="@+id/vote"
                 style="@style/TextView.AnswerHead.Vote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,6 +115,7 @@
     </LinearLayout>
 
     <WebView
+        android:id="@+id/answer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/answer_bottom"

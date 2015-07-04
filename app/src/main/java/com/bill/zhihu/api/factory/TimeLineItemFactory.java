@@ -1,4 +1,4 @@
-package com.bill.zhihu.api.builder;
+package com.bill.zhihu.api.factory;
 
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
@@ -16,9 +16,9 @@ import java.util.Arrays;
  *
  * @author Bill Lv
  */
-public class TimeLineItemBuilder {
+public class TimeLineItemFactory {
 
-    private static final String TAG = "TimeLineItemBuilder";
+    private static final String TAG = "TimeLineItemFactory";
 
     private static final String COLUMN_FLAG = "post-link";
     private static final String QUESTION_FLAG = "question_link";
@@ -26,7 +26,7 @@ public class TimeLineItemBuilder {
     private TimeLineItem item;
     private Element element;
 
-    public TimeLineItemBuilder(Element element) {
+    public TimeLineItemFactory(Element element) {
         this.item = new TimeLineItem();
         this.element = element;
 
@@ -39,7 +39,7 @@ public class TimeLineItemBuilder {
      *
      * @return
      */
-    private TimeLineItemBuilder setAvatar() {
+    private TimeLineItemFactory setAvatar() {
         // avatar 头像
         Elements avatarElements = element
                 .select("div[class=feed-item-inner]>div[class=avatar]>a");
@@ -59,7 +59,7 @@ public class TimeLineItemBuilder {
      *
      * @return
      */
-    private TimeLineItemBuilder setSource() {
+    private TimeLineItemFactory setSource() {
         // 来源
         Elements sourceElements = element
                 .select("div[class=feed-main]>div[class=source]");
@@ -104,7 +104,7 @@ public class TimeLineItemBuilder {
      *
      * @return
      */
-    private TimeLineItemBuilder setQuestion() {
+    private TimeLineItemFactory setQuestion() {
         Elements contentElements = element.select("div[class=content]");
         boolean haveAnswer = contentElements.select("div").hasClass(
                 "entry-body");
@@ -195,7 +195,7 @@ public class TimeLineItemBuilder {
      *
      * @return
      */
-    private TimeLineItemBuilder setAnswer() {
+    private TimeLineItemFactory setAnswer() {
         if (item.getContentType() == ContentType.QUESTION) {
             return this;
         }
@@ -226,7 +226,7 @@ public class TimeLineItemBuilder {
      *
      * @return
      */
-    public TimeLineItem build() {
+    public TimeLineItem create() {
         setAvatar().setSource().setQuestion().setAnswer();
         return item;
     }
