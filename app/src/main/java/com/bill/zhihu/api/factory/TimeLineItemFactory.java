@@ -20,9 +20,6 @@ public class TimeLineItemFactory {
 
     private static final String TAG = "TimeLineItemFactory";
 
-    private static final String COLUMN_FLAG = "post-link";
-    private static final String QUESTION_FLAG = "question_link";
-
     private TimeLineItem item;
     private Element element;
 

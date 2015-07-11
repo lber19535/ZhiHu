@@ -57,8 +57,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         intro.setText(content.getIntro());
         name.setText(content.getPeopleName());
         answerWv.getSettings().setJavaScriptEnabled(false);
-        answerWv.getSettings().setTextZoom(120);
-        answerWv.loadData(content.getAnswer(), "text/html; charset=UTF-8", null);
+        answerWv.loadDataWithBaseURL("file:///android_asset/", content.getAnswer(), "text/html; charset=UTF-8", null, null);
 
         CmdLoadAvatarImage loadAvatarImage = new CmdLoadAvatarImage(content.getAvatarImgUrl());
         loadAvatarImage.setOnCmdCallBack(this);

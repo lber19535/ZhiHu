@@ -3,6 +3,10 @@ package com.bill.zhihu.api.factory;
 import com.bill.zhihu.api.bean.AnswerContent;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
+import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.Attributes;
+import org.jsoup.nodes.Element;
+import org.jsoup.parser.Tag;
 import org.jsoup.select.Elements;
 
 /**
@@ -59,8 +63,18 @@ public class AnswerContentFactory {
         }
         answerContent.setPostDate(postDateElement.text());
 
-        //答案内容
-        answerContent.setAnswer(elements.select("div[class=zm-item-rich-text]>div").html());
+        //答案内容 添加一个样式表显示美观，样式表是从知乎网站上copy下来的
+        Attribute relAttr = new Attribute("rel", "stylesheet");
+        Attribute hrefAttr = new Attribute("href", "answer_style.css");
+        Attribute typeAttr = new Attribute("type", "text/css");
+        Attributes attrs = new Attributes();
+        attrs.put(relAttr);
+        attrs.put(hrefAttr);
+        attrs.put(typeAttr);
+        Element styleSheetElement = new Element(Tag.valueOf("link"), "", attrs);
+        Elements answerElement = elements.select("div[class=zm-item-rich-text]>div");
+        answerElement.add(styleSheetElement);
+        answerContent.setAnswer(answerElement.toString());
 
         return answerContent;
     }
