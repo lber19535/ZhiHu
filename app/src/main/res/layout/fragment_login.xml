@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/global_margin_16"
                         android:orientation="horizontal"
-                        android:visibility="visible" >
+                        android:visibility="invisible" >
 
                         <TextView
                             android:layout_width="0dp"
