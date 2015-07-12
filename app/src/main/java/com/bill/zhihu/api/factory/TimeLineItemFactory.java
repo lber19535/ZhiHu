@@ -116,6 +116,7 @@ public class TimeLineItemFactory {
         ZhihuLog.dValue(TAG, "question ", question);
         ZhihuLog.dValue(TAG, "questionUrl ", header);
         ZhihuLog.dValue(TAG, "haveAnswer ", haveAnswer);
+        ZhihuLog.dValue(TAG, "questionUrl ", questionUrl);
         item.setQuestion(question);
         item.setQuestionUrl(headerUrl);
         if (!haveAnswer) {
@@ -128,10 +129,6 @@ public class TimeLineItemFactory {
     }
 
     private Url getUrl(Element element) {
-        if (element == null) {
-            return getUrl("null", Url.Type.ANSWER);
-        }
-
         Url.Type type = getUrlType(element);
         String href = element.attr("href");
         String url = "";
@@ -204,12 +201,20 @@ public class TimeLineItemFactory {
 
         Element toggleExpand = answerElements.select(
                 "div[class=zh-summary summary clearfix]>a").last();
+        String dataAtoken = element.select("div[class^=entry-body]").attr("data-atoken");
 
         ZhihuLog.dValue(TAG, "answerSummary ", answerSummary);
         ZhihuLog.dValue(TAG, "voteCount ", voteCount);
         ZhihuLog.dValue(TAG, "toggleExpand ", toggleExpand);
 
-        Url url = getUrl(toggleExpand);
+        // 有的答案比较短，在展开的tag中不带目标的地址，需要自己组合一下
+        Url url = null;
+        if (toggleExpand == null) {
+            String answerUrl = ZhihuURL.HOST + element.select("a[class=question_link]").attr("href").split("-")[0].replace("#", "/") + "/" + dataAtoken;
+            url = new Url(answerUrl, Url.Type.ANSWER);
+        } else {
+            url = getUrl(toggleExpand);
+        }
 
         item.setAnswerUrl(url);
         item.setAnswerSummary(answerSummary.replace("显示全部", ""));
