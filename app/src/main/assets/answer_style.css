@@ -28,8 +28,13 @@
     height: 0
 }
 
+/*答案webview中的主要样式
+继承自 html body, html input, html textarea, html select, html button 和
+body, input, textarea, select, button
+*/
 .clearfix {
-    *zoom: 1
+    *zoom: 1;
+    padding:0.8em;
 }
 
 .clearfix:before,
@@ -663,8 +668,8 @@ ul,
 ol,
 li,
 p {
-    padding: 48px;
-    margin: 48px
+    padding: 0;
+    margin: 0
 }
 
 html.no-js img.lazy {
@@ -687,10 +692,11 @@ html.no-js img.lazy {
 .editable ol {
     list-style-position: outside;
     margin: .8em 0 .8em 2em
+
 }
 
 .zm-editable-content .answer-date-link-wrap {
-    display: block
+    display: block;
 }
 
 .answer-date-link-wrap+.meta-item {

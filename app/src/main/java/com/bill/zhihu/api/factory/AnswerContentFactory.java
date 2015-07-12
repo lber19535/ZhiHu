@@ -73,7 +73,8 @@ public class AnswerContentFactory {
         attrs.put(typeAttr);
         Element styleSheetElement = new Element(Tag.valueOf("link"), "", attrs);
         Elements answerElement = elements.select("div[class=zm-item-rich-text]>div");
-        answerElement.add(styleSheetElement);
+        answerElement.prepend(styleSheetElement.toString());
+        answerElement.select("img[class$=lazy]").remove();//去掉img造成的空白图片，webview中加载的是noscript标签中的
         answerContent.setAnswer(answerElement.toString());
 
         return answerContent;
