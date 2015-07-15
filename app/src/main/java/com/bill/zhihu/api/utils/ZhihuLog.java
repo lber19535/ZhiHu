@@ -1,8 +1,10 @@
 package com.bill.zhihu.api.utils;
 
-import java.util.HashMap;
-
 import android.util.Log;
+
+import com.bill.zhihu.BuildConfig;
+
+import java.util.HashMap;
 
 /**
  * 日志工具
@@ -29,18 +31,16 @@ public class ZhihuLog {
     public static void d(String TAG, Object msg) {
         if (msg == null)
             msg = "null";
-        if (haveLog(TAG)) {
-            String logMsg = msg.toString();
-            int logLength = logMsg.length();
-            if (logLength > LOG_MSG_MAX_LEN) {
-                for (int i = 0; i < logLength / LOG_MSG_MAX_LEN; i++) {
-                    Log.d(TAG,
-                            logMsg.substring(i * LOG_MSG_MAX_LEN, (i + 1)
-                                    * LOG_MSG_MAX_LEN));
-                }
-            } else {
-                Log.d(TAG, logMsg);
+        String logMsg = msg.toString();
+        int logLength = logMsg.length();
+        if (logLength > LOG_MSG_MAX_LEN) {
+            for (int i = 0; i < logLength / LOG_MSG_MAX_LEN; i++) {
+                Log.d(TAG,
+                        logMsg.substring(i * LOG_MSG_MAX_LEN, (i + 1)
+                                * LOG_MSG_MAX_LEN));
             }
+        } else {
+            Log.d(TAG, logMsg);
         }
     }
 
@@ -52,31 +52,7 @@ public class ZhihuLog {
      * @param value
      */
     public static void dValue(String TAG, String valueName, Object value) {
-        d(TAG, valueName + " " + value);
-    }
-
-    /**
-     * 设置TAG是否要输出log
-     *
-     * @param TAG
-     * @param able
-     */
-    public static void setDebugable(String TAG, boolean able) {
-        debugMap.put(TAG, able);
-    }
-
-    private static boolean haveLog(String TAG) {
-        return Debug && tagHaveLog(TAG);
-    }
-
-    private static boolean tagHaveLog(String TAG) {
-        if (debugMap.containsKey(TAG)) {
-            if (debugMap.get(TAG)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
+        if (BuildConfig.DEBUG == true)
+            d(TAG, valueName + " " + value);
     }
 }

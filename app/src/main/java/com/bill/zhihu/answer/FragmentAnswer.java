@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +17,8 @@ import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdLoadAnswer;
 import com.bill.zhihu.api.cmd.CmdLoadAvatarImage;
 import com.bill.zhihu.home.TimeLineViewHolder;
+import com.bill.zhihu.view.AnswerView;
+import com.melnykov.fab.FloatingActionButton;
 
 /**
  * Created by Bill-pc on 5/22/2015.
@@ -29,7 +30,8 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
     private TextView name;
     private TextView intro;
     private TextView vote;
-    private WebView answerWv;
+    private AnswerView answerWv;
+    private FloatingActionButton optionsFab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +41,10 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         this.intro = (TextView) rootView.findViewById(R.id.intro);
         this.name = (TextView) rootView.findViewById(R.id.name);
         this.avatar = (ImageView) rootView.findViewById(R.id.avatar);
-        this.answerWv = (WebView) rootView.findViewById(R.id.answer);
+        this.answerWv = (AnswerView) rootView.findViewById(R.id.answer);
+        this.optionsFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+
+        optionsFab.attachToScrollView(answerWv);
 
         Intent intent = getActivity().getIntent();
         TimeLineItem item = intent.getParcelableExtra(TimeLineViewHolder.EXSTRA_ITEM);
@@ -56,8 +61,8 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         vote.setText(content.getVote());
         intro.setText(content.getIntro());
         name.setText(content.getPeopleName());
-        answerWv.getSettings().setJavaScriptEnabled(false);
-        answerWv.loadDataWithBaseURL("file:///android_asset/", content.getAnswer(), "text/html; charset=UTF-8", null, null);
+        answerWv.getWebView().getSettings().setJavaScriptEnabled(false);
+        answerWv.getWebView().loadDataWithBaseURL("file:///android_asset/", content.getAnswer(), "text/html; charset=UTF-8", null, null);
 
         CmdLoadAvatarImage loadAvatarImage = new CmdLoadAvatarImage(content.getAvatarImgUrl());
         loadAvatarImage.setOnCmdCallBack(this);

@@ -22,7 +22,6 @@ public class CmdLoadAnswer extends Command {
     public CmdLoadAnswer(String answerUrl) {
         this.answerUrl = answerUrl;
 
-        ZhihuLog.setDebugable(TAG, true);
     }
 
     @Override

@@ -18,16 +18,23 @@ android {
     }
     productFlavors {
     }
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res', 'src/main/res/drawable-hdpi', 'src/main/res/drawable-xhdpi', 'src/main/res/drawable-xxhdpi']
+        }
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.1+'
+    compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:cardview-v7:+'
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:palette-v7:+'
-    compile 'com.mcxiaoke.volley:library:1.0.15+'
+    compile 'com.mcxiaoke.volley:library:+'
     compile 'org.jsoup:jsoup:1.8.2+'
-    compile 'com.pnikosis:materialish-progress:1.5+'
+    compile 'com.pnikosis:materialish-progress:+'
+    compile 'com.melnykov:floatingactionbutton:+'
+    compile 'com.android.support:design:+'
     compile files('libs/jeson.jar')
 }

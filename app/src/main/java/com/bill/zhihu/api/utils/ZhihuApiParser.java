@@ -22,11 +22,6 @@ public class ZhihuApiParser {
 
     private static final String TAG = "ZhihuApiParser";
 
-    static {
-        ZhihuLog.setDebugable(TAG, true);
-    }
-
-
     public static List<TimeLineItem> parseTimeLineItems(String content) {
         List<TimeLineItem> timelineItems = new ArrayList<TimeLineItem>();
         Document doc = Jsoup.parse(content);

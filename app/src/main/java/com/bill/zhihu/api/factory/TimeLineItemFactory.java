@@ -27,8 +27,6 @@ public class TimeLineItemFactory {
         this.item = new TimeLineItem();
         this.element = element;
 
-        ZhihuLog.setDebugable(TAG, true);
-
     }
 
     /**

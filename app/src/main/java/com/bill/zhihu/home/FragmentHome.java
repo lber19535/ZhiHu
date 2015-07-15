@@ -17,10 +17,10 @@ import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdLoadHomePage;
 import com.bill.zhihu.api.cmd.CmdLoadMore;
-import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.view.SwipyRefreshLayout;
 import com.bill.zhihu.view.SwipyRefreshLayout.OnRefreshListener;
 import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
+import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ public class FragmentHome extends Fragment {
 
     private RecyclerView timelineRv;
     private SwipyRefreshLayout refreshLayout;
+    private FloatingActionButton upTopFab;
 
     private List<TimeLineItem> timelineItems;
     private TimeLineRecyclerAdapter adapter;
@@ -46,7 +47,6 @@ public class FragmentHome extends Fragment {
 
     public FragmentHome() {
         timelineItems = new ArrayList<>();
-        ZhihuLog.setDebugable(TAG, true);
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -74,7 +74,9 @@ public class FragmentHome extends Fragment {
         timelineRv = (RecyclerView) rootView.findViewById(R.id.time_line_list);
         refreshLayout = (SwipyRefreshLayout) rootView
                 .findViewById(R.id.swipe_to_refresh);
-//        loadingImage = (ImageView) rootView.findViewById(R.id.loading_img);
+        upTopFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        upTopFab.attachToRecyclerView(timelineRv);
+
         progressWheel = (ProgressWheel) rootView.findViewById(R.id.loading_img);
         // 设置下拉刷新圆圈的颜色
         refreshLayout.setColorSchemeResources(R.color.swipe_color1,
@@ -108,6 +110,13 @@ public class FragmentHome extends Fragment {
                 }
             }
 
+        });
+        // 悬浮回到顶部的按钮事件
+        upTopFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timelineRv.smoothScrollToPosition(0);
+            }
         });
     }
 

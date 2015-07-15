@@ -14,7 +14,6 @@ import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.answer.ActivityAnswer;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
-import com.bill.zhihu.api.bean.Url;
 import com.bill.zhihu.api.utils.TextUtils;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
@@ -50,7 +49,6 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mContext = context;
 
-        ZhihuLog.setDebugable(TAG, true);
     }
 
     @Override
