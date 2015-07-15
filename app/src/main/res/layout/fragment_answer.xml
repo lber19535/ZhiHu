@@ -73,60 +73,11 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/answer_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/share"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/share" />
-
-        <TextView
-            android:id="@+id/useless"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/useless" />
-
-        <TextView
-            android:id="@+id/thank"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/thank" />
-
-        <TextView
-            android:id="@+id/comment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/comments" />
-
-    </LinearLayout>
-
-    <!--<WebView-->
-    <!--android:id="@+id/answer"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_above="@id/answer_bottom"-->
-    <!--android:layout_below="@id/answer_head" />-->
-
     <com.bill.zhihu.view.AnswerView
         android:id="@+id/answer"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/answer_bottom"
         android:layout_below="@id/answer_head" />
 
     <com.melnykov.fab.FloatingActionButton
@@ -136,8 +87,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/global_margin_16"
         android:src="@drawable/ic_options"
+        fab:fab_type="mini"
         fab:fab_colorNormal="@color/blue"
         fab:fab_colorPressed="@color/blue_dark"
         fab:fab_colorRipple="@color/blue_light" />

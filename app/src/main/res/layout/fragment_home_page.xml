@@ -35,8 +35,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/global_margin_16"
         android:src="@drawable/ic_up_arrow"
+        fab:fab_type="mini"
         fab:fab_colorNormal="@color/blue"
         fab:fab_colorPressed="@color/blue_dark"
         fab:fab_colorRipple="@color/blue_light" />

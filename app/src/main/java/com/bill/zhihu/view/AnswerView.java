@@ -2,6 +2,7 @@ package com.bill.zhihu.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.melnykov.fab.ObservableScrollView;
@@ -21,7 +22,7 @@ public class AnswerView extends ObservableScrollView {
     public AnswerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         webView = new WebView(context, attrs);
-        addView(webView);
+        addView(webView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     public AnswerView(Context context, AttributeSet attrs, int defStyleAttr) {
