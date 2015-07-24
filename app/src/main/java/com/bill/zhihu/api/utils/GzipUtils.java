@@ -8,10 +8,18 @@ import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
 /**
+ *
+ * 解压Gzip压缩过的工具类
  * Created by Bill-pc on 2015/6/27.
  */
 public class GzipUtils {
 
+    /**
+     * 解压Gzip格式的String，解码方式为deflate
+     *
+     * @param byteArray
+     * @return
+     */
     public static String decodeString(byte[] byteArray) {
         GZIPInputStream gis = null;
         ByteArrayOutputStream bao = null;
@@ -20,7 +28,7 @@ public class GzipUtils {
             gis = new GZIPInputStream(new ByteArrayInputStream(byteArray));
             InputStreamReader isr = new InputStreamReader(gis);
             BufferedReader br = new BufferedReader(isr);
-            String b = "";
+            String b;
             while ((b = br.readLine()) != null) {
                 sb.append(b);
             }
@@ -36,7 +44,6 @@ public class GzipUtils {
                 }
             }
         }
-
 
         return sb.toString();
     }

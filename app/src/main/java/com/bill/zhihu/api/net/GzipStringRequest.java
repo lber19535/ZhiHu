@@ -23,8 +23,6 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.bill.zhihu.api.utils.GzipUtils;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * A canned request for retrieving the response body at a given URL as a String.
  */
@@ -63,13 +61,8 @@ public class GzipStringRequest extends Request<String> {
 
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
-        String parsed;
-//        try {
-//            parsed = new String(GzipUtils.decodeString(response.data), HttpHeaderParser.parseCharset(response.headers));
-            parsed = GzipUtils.decodeString(response.data);
-//        } catch (UnsupportedEncodingException e) {
-//            parsed = new String(GzipUtils.decodeString(response.data));
-//        }
+        // 对gzip的内容解压
+        String parsed = GzipUtils.decodeString(response.data);
         return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
     }
 }
