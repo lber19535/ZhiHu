@@ -153,8 +153,8 @@ public class FragmentHome extends Fragment {
                 if (timelineitems != null && !timelineitems.isEmpty()) {
                     timelineItems.clear();
                     timelineItems.addAll(timelineitems);
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
                 refreshLayout.setRefreshing(false);
                 stopLoadingAnim();
             }

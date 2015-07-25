@@ -1,17 +1,5 @@
 package com.bill.zhihu.api.net;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.http.client.CookieStore;
-import org.apache.http.cookie.Cookie;
-import org.apache.http.impl.cookie.BasicClientCookie;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -20,12 +8,22 @@ import com.bill.jeson.Jeson;
 import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.cookie.BasicClientCookie;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * 持久化cookies数据
- * 
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class ZhihuCookieStore implements CookieStore {
 
@@ -140,6 +138,7 @@ public class ZhihuCookieStore implements CookieStore {
             String name = entry.getKey();
             Cookie cookie = entry.getValue();
             if (cookie.isExpired(date)) {
+                ZhihuLog.d(TAG, "remove cookie is " + name);
                 cookies.remove(name);
                 editor.remove(name);
                 clear = true;

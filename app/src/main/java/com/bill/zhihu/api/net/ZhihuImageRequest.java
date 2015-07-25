@@ -1,8 +1,5 @@
 package com.bill.zhihu.api.net;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 
@@ -12,11 +9,14 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.ImageRequest;
 import com.bill.zhihu.api.utils.NetConstants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ZhihuImageRequest extends ImageRequest {
 
     public ZhihuImageRequest(String url, Listener<Bitmap> listener,
-            int maxWidth, int maxHeight, Config decodeConfig,
-            ErrorListener errorListener) {
+                             int maxWidth, int maxHeight, Config decodeConfig,
+                             ErrorListener errorListener) {
         super(url, listener, maxWidth, maxHeight, decodeConfig, errorListener);
     }
 

@@ -14,6 +14,9 @@ import com.bill.zhihu.api.cmd.Command;
 import com.bill.zhihu.api.net.ZhihuCookieManager;
 import com.bill.zhihu.api.net.ZhihuCookieStore;
 
+/**
+ * 知乎api总的接口
+ */
 public class ZhihuApi {
 
     private static final String XSRF = "_xsrf";
@@ -37,11 +40,6 @@ public class ZhihuApi {
         new ZhihuCookieStore().clear();
     }
 
-
-    public static void setXSRF(String xsrf) {
-        sp.edit().putString(XSRF, xsrf).commit();
-    }
-
     /**
      * if don't have xsrf or don't fetch xsrf value return null
      *
@@ -57,6 +55,9 @@ public class ZhihuApi {
         }
     }
 
+    public static void setXSRF(String xsrf) {
+        sp.edit().putString(XSRF, xsrf).commit();
+    }
 
     /**
      * 加载首页
@@ -96,7 +97,13 @@ public class ZhihuApi {
         ZhihuApi.execCmd(login);
     }
 
-    public static void loadAnswer(String answerUrl, CmdLoadAnswer.CallBackListener listener){
+    /**
+     * 获取答案
+     *
+     * @param answerUrl
+     * @param listener
+     */
+    public static void loadAnswer(String answerUrl, CmdLoadAnswer.CallBackListener listener) {
         CmdLoadAnswer loadAnswer = new CmdLoadAnswer(answerUrl);
         loadAnswer.setOnCmdCallBack(listener);
         ZhihuApi.execCmd(loadAnswer);

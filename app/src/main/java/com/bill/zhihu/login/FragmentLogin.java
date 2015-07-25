@@ -57,9 +57,6 @@ public class FragmentLogin extends Fragment {
 
         loginLayout = rootView.findViewById(R.id.login_layout);
 
-        // 先登录一次以获取提交时所需的cookie
-        login("", "", null);
-
         loginBtn.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -107,7 +104,8 @@ public class FragmentLogin extends Fragment {
                     case CmdLogin.LOGIN_FAILED:
                         captchaIv.setImageBitmap(captcha);
                         break;
-
+                    case CmdLogin.ERRCODE_TIME_OUT:
+                        ToastUtil.showShortToast("连接超时");
                     default:
                         break;
                 }

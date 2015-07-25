@@ -8,6 +8,7 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
+import com.bill.zhihu.api.utils.ToastUtil;
 import com.bill.zhihu.api.utils.ZhihuApiParser;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
@@ -53,6 +54,8 @@ public class CmdLoadHomePage extends Command {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ZhihuLog.d(TAG, error);
+                ToastUtil.showShortToast(error.getMessage());
+                listener.callback(null);
             }
         }) {
 
@@ -82,6 +85,11 @@ public class CmdLoadHomePage extends Command {
     }
 
     public interface CallbackListener extends CommandCallback {
+        /**
+         * 如果加载到东西 则返回list，如果连接出错，则返回null
+         *
+         * @param timelineItems
+         */
         void callback(List<TimeLineItem> timelineItems);
     }
 

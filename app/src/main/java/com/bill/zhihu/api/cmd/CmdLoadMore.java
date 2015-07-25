@@ -12,6 +12,7 @@ import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TopFeedListParams;
 import com.bill.zhihu.api.net.ZhihuStringRequest;
 import com.bill.zhihu.api.utils.NetConstants;
+import com.bill.zhihu.api.utils.ToastUtil;
 import com.bill.zhihu.api.utils.ZhihuApiParser;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
@@ -84,6 +85,7 @@ public class CmdLoadMore extends Command {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ZhihuLog.d(TAG, error);
+                ToastUtil.showShortToast(error.getMessage());
             }
         }) {
             @Override

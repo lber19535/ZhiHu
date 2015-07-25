@@ -1,5 +1,7 @@
 package com.bill.zhihu.answer;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Intent;
@@ -20,6 +22,7 @@ import com.bill.zhihu.api.cmd.CmdLoadAvatarImage;
 import com.bill.zhihu.home.TimeLineViewHolder;
 import com.bill.zhihu.view.AnswerView;
 import com.melnykov.fab.FloatingActionButton;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 /**
  * Created by Bill-pc on 5/22/2015.
@@ -42,6 +45,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
     private TextView vote;
     private AnswerView answerWv;
     private FloatingActionButton optionsFab;
+    private ProgressWheel progressWheel;
 
     private View fabPopupView;
 
@@ -55,18 +59,17 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
             @Override
             public void onClick(View v) {
 
-                if (optionMenuState == OPTION_MENU_STATE_NORMAL){
+                if (optionMenuState == OPTION_MENU_STATE_NORMAL) {
                     optionMenuState = OPTION_MENU_STATE_EXPAND;
                     ObjectAnimator plusToClose = ObjectAnimator.ofFloat(optionsFab, "rotation", NORMAL_OPTION_IC_DEGREE, EXPAND_OPTION_IC_DEGREE);
                     plusToClose.setDuration(OPTION_ANIM_TIME);
                     plusToClose.start();
-                }else {
+                } else {
                     optionMenuState = OPTION_MENU_STATE_NORMAL;
                     ObjectAnimator closeToPlus = ObjectAnimator.ofFloat(optionsFab, "rotation", EXPAND_OPTION_IC_DEGREE, NORMAL_OPTION_IC_DEGREE);
                     closeToPlus.setDuration(OPTION_ANIM_TIME);
                     closeToPlus.start();
                 }
-
 
 
 //                PopupWindow fabWindow = new PopupWindow(fabPopupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -82,6 +85,8 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
 
         ZhihuApi.loadAnswer(answerUrl, this);
 
+        playLoadingAnim();
+
         return rootView;
     }
 
@@ -92,10 +97,32 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         this.avatar = (ImageView) rootView.findViewById(R.id.avatar);
         this.answerWv = (AnswerView) rootView.findViewById(R.id.answer);
         this.optionsFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        this.progressWheel = (ProgressWheel) rootView.findViewById(R.id.loading_img);
         // 加号弹出窗
         this.fabPopupView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_window_answer_fab, null);
         // attach到自定义的webview上，加入滑动过程中的隐藏和现实
         optionsFab.attachToScrollView(answerWv);
+
+    }
+
+    /**
+     * webview加载动画
+     */
+    private void playLoadingAnim() {
+        progressWheel.spin();
+    }
+
+    private void stopLoadingAnim() {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(progressWheel, "alpha", 1, 0);
+        animator.setDuration(500);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                progressWheel.stopSpinning();
+            }
+        });
+        animator.start();
 
     }
 
@@ -111,6 +138,8 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         CmdLoadAvatarImage loadAvatarImage = new CmdLoadAvatarImage(content.getAvatarImgUrl());
         loadAvatarImage.setOnCmdCallBack(this);
         ZhihuApi.execCmd(loadAvatarImage);
+
+        stopLoadingAnim();
 
     }
 

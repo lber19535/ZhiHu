@@ -6,7 +6,7 @@ import com.bill.zhihu.api.net.ZhihuVolley;
 
 public abstract class Command {
 
-    protected final String TAG = getClass().getName();
+    protected final String TAG = getClass().getSimpleName();
     protected ZhihuVolley volley;
     protected static String xsrf;
 

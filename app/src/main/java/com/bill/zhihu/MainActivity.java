@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
             return;
         }
 
+        // 未登录则初始化cookie，获取xsrf的过程中会初始化cookie
         CmdLoadXSRF cmdFetchXSRF = new CmdLoadXSRF();
         cmdFetchXSRF.setOnCmdCallBack(new CmdLoadXSRF.CallbackListener() {
 
