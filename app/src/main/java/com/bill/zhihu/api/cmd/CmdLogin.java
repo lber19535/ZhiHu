@@ -31,7 +31,8 @@ public class CmdLogin extends Command {
 
     public static final int LOGIN_SUCCESS = 0;
     public static final int LOGIN_FAILED = 1;
-
+    //timeout error
+    public static final int ERRCODE_TIME_OUT = 0x10;
     // 请输入验证码
     private static final int ERRCODE_INPUT_CAPTCHA = 269;
     private static final int ERRCODE_INPUT_CAPTCHA_1 = 1991829;
@@ -41,9 +42,6 @@ public class CmdLogin extends Command {
     private static final int ERRCODE_PWD_LENGTH_ERROR = 4000;
     // 账号或密码错误
     private static final int ERRCODE_PWD_ACCOUNT_ERROR = 4038;
-    //timeout error
-    public static final int ERRCODE_TIME_OUT = 0x10;
-
     private static boolean haveCaptcha;
     private CallbackListener listener;
     private String account;
@@ -59,6 +57,8 @@ public class CmdLogin extends Command {
 
     @Override
     public void exec() {
+
+        ZhihuLog.dFlag(TAG, "login start");
 
         request = new ZhihuStringRequest(Method.POST, ZhihuURL.LOGIN,
                 new Response.Listener<String>() {
@@ -116,6 +116,8 @@ public class CmdLogin extends Command {
                             e.printStackTrace();
                         }
 
+                        ZhihuLog.dFlag(TAG, "log in end");
+
                     }
 
                 }, new Response.ErrorListener() {
@@ -124,6 +126,7 @@ public class CmdLogin extends Command {
             public void onErrorResponse(VolleyError error) {
                 ZhihuLog.d(TAG, error);
                 listener.callback(ERRCODE_TIME_OUT, null);
+                ZhihuLog.dFlag(TAG, "log in end");
             }
 
         }) {
@@ -137,6 +140,7 @@ public class CmdLogin extends Command {
                 if (haveCaptcha && captcha != null) {
                     params.put("captcha", captcha);
                 }
+                ZhihuLog.dValue(TAG, "have captcha", haveCaptcha);
                 ZhihuLog.d(TAG, "login request body");
                 Set<Map.Entry<String, String>> entry = params.entrySet();
                 for (Map.Entry<String, String> e : entry) {

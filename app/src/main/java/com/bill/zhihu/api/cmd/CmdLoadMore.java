@@ -46,6 +46,8 @@ public class CmdLoadMore extends Command {
     @Override
     public void exec() {
 
+        ZhihuLog.dFlag(TAG, "load more start");
+
         request = new ZhihuStringRequest(Method.POST, ZhihuURL.MORE_STORY,
                 new Listener<String>() {
                     @Override
@@ -76,6 +78,7 @@ public class CmdLoadMore extends Command {
                             protected void onPostExecute(List<TimeLineItem> items) {
                                 super.onPostExecute(items);
                                 listener.callback(items);
+                                ZhihuLog.dFlag(TAG, "load more end");
                             }
                         }.execute();
 
@@ -86,6 +89,7 @@ public class CmdLoadMore extends Command {
             public void onErrorResponse(VolleyError error) {
                 ZhihuLog.d(TAG, error);
                 ToastUtil.showShortToast(error.getMessage());
+                ZhihuLog.dFlag(TAG, "load more start");
             }
         }) {
             @Override

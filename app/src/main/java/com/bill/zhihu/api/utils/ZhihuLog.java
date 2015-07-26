@@ -52,7 +52,12 @@ public class ZhihuLog {
      * @param value
      */
     public static void dValue(String TAG, String valueName, Object value) {
-        if (BuildConfig.DEBUG == true)
+        if (BuildConfig.DEBUG)
             d(TAG, valueName + " " + value);
+    }
+
+    public static  void dFlag(String TAG, String flag){
+        if (BuildConfig.DEBUG)
+            d(TAG, "========== " + flag + " ==========");
     }
 }

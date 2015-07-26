@@ -27,6 +27,8 @@ public class CmdLoadHomePage extends Command {
 
     @Override
     public void exec() {
+        ZhihuLog.dFlag(TAG, "load home page start");
+
         String url = ZhihuURL.HOST;
         ZhihuStringRequest request = new ZhihuStringRequest(url,
                 new Listener<String>() {
@@ -46,6 +48,7 @@ public class CmdLoadHomePage extends Command {
                             protected void onPostExecute(List<TimeLineItem> items) {
                                 super.onPostExecute(items);
                                 listener.callback(items);
+                                ZhihuLog.dFlag(TAG, "load home page end");
                             }
                         }.execute();
                     }
@@ -56,6 +59,7 @@ public class CmdLoadHomePage extends Command {
                 ZhihuLog.d(TAG, error);
                 ToastUtil.showShortToast(error.getMessage());
                 listener.callback(null);
+                ZhihuLog.dFlag(TAG, "load home page end");
             }
         }) {
 
