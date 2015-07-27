@@ -73,15 +73,30 @@ public class ZhihuApi {
     /**
      * 加载更多
      *
+     * @param start
+     * @param offset
+     * @param listener
+     */
+    public static void loadMore(int start, int offset,CmdLoadMore.CallbackListener listener) {
+        CmdLoadMore loadMore = new CmdLoadMore(start, offset);
+        loadMore.setOnCmdCallBack(listener);
+        ZhihuApi.execCmd(loadMore);
+    }
+
+    /**
+     * 加载更多
+     *
      * @param blockId
      * @param offset
      * @param listener
      */
+    @Deprecated
     public static void loadMore(long blockId, int offset, CmdLoadMore.CallbackListener listener) {
         CmdLoadMore loadMore = new CmdLoadMore(blockId, offset);
         loadMore.setOnCmdCallBack(listener);
         ZhihuApi.execCmd(loadMore);
     }
+
 
     /**
      * 登陆

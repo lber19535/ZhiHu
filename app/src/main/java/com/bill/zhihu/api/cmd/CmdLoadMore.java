@@ -37,9 +37,28 @@ public class CmdLoadMore extends Command {
     private TopFeedListParams topFeedParams;
     private ZhihuStringRequest request;
 
+    /**
+     * 知乎接口有变，不需要blockid来加载更多了
+     *
+     * @param blockId
+     * @param offset
+     */
+    @Deprecated
     public CmdLoadMore(long blockId, int offset) {
         topFeedParams = new TopFeedListParams();
         topFeedParams.setBlockId(blockId);
+        topFeedParams.setOffset(offset);
+    }
+
+    /**
+     *
+     * @param start 当前列表中的项
+     * @param offset 加载数量
+     * @dtae 2015-7-27
+     */
+    public CmdLoadMore(int start, int offset) {
+        topFeedParams = new TopFeedListParams();
+        topFeedParams.setStart(start);
         topFeedParams.setOffset(offset);
     }
 

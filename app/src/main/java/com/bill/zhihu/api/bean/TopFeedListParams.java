@@ -12,10 +12,11 @@ import com.bill.jeson.annotation.JsonObject;
 @JsonObject
 public class TopFeedListParams {
 
-    @JsonField
     private final String action = "next";
-    @JsonField(name = "block_id")
+//    @JsonField(name = "block_id")
     private long blockId;
+    @JsonField(name = "start")
+    private long start;
     @JsonField
     private int offset;
 
@@ -35,4 +36,11 @@ public class TopFeedListParams {
         this.offset = offset;
     }
 
+    public long getStart() {
+        return start;
+    }
+
+    public void setStart(long start) {
+        this.start = start;
+    }
 }

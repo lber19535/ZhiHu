@@ -137,7 +137,7 @@ public class CmdLogin extends Command {
                 params.put("password", pwd);
                 params.put("remember_me", "true");
                 params.put("email", account);
-                if (haveCaptcha && captcha != null) {
+                if (haveCaptcha && captcha != null && !captcha.isEmpty()) {
                     params.put("captcha", captcha);
                 }
                 ZhihuLog.dValue(TAG, "have captcha", haveCaptcha);

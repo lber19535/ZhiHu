@@ -35,6 +35,8 @@ public class FragmentHome extends Fragment {
 
     private static final String TAG = "FragmentHome";
 
+    private static final int LOAD_MORE_OFFSET = 20;
+
     private RecyclerView timelineRv;
     private SwipyRefreshLayout refreshLayout;
     private FloatingActionButton upTopFab;
@@ -174,8 +176,8 @@ public class FragmentHome extends Fragment {
             return;
 
         TimeLineItem item = timelineItems.get(timelineItems.size() - 1);
-        long blockId = Long.valueOf(item.getDataBlock());
-        int offset = Integer.valueOf(item.getDataOffset());
+//        long blockId = Long.valueOf(item.getDataBlock());
+//        int offset = Integer.valueOf(item.getDataOffset());
 
         CmdLoadMore.CallbackListener listener = new CmdLoadMore.CallbackListener() {
 
@@ -191,7 +193,7 @@ public class FragmentHome extends Fragment {
             }
 
         };
-        ZhihuApi.loadMore(blockId, offset, listener);
+        ZhihuApi.loadMore(timelineItems.size(), timelineItems.size(), listener);
 
     }
 
