@@ -6,11 +6,14 @@ import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bill.zhihu.R;
@@ -32,11 +35,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
     // option菜单展开和收起时icon的角度
     private static final float NORMAL_OPTION_IC_DEGREE = 0;
     private static final float EXPAND_OPTION_IC_DEGREE = 45;
-    private static final long OPTION_ANIM_TIME = 500;
-    private static final int OPTION_MENU_STATE_NORMAL = 0;
-    private static final int OPTION_MENU_STATE_EXPAND = 1;
-
-    private int optionMenuState = OPTION_MENU_STATE_NORMAL;
+    private static final long OPTION_ANIM_TIME = 200;
 
     private View rootView;
     private ImageView avatar;
@@ -46,6 +45,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
     private AnswerView answerWv;
     private FloatingActionButton optionsFab;
     private ProgressWheel progressWheel;
+    private PopupWindow fabWindow;
 
     private View fabPopupView;
 
@@ -59,22 +59,15 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
             @Override
             public void onClick(View v) {
 
-                if (optionMenuState == OPTION_MENU_STATE_NORMAL) {
-                    optionMenuState = OPTION_MENU_STATE_EXPAND;
-                    ObjectAnimator plusToClose = ObjectAnimator.ofFloat(optionsFab, "rotation", NORMAL_OPTION_IC_DEGREE, EXPAND_OPTION_IC_DEGREE);
-                    plusToClose.setDuration(OPTION_ANIM_TIME);
-                    plusToClose.start();
+                ObjectAnimator plusToClose = ObjectAnimator.ofFloat(optionsFab, "rotation", NORMAL_OPTION_IC_DEGREE, EXPAND_OPTION_IC_DEGREE);
+                plusToClose.setDuration(OPTION_ANIM_TIME);
+                plusToClose.start();
+
+                if (fabWindow.isShowing()) {
+                    fabWindow.dismiss();
                 } else {
-                    optionMenuState = OPTION_MENU_STATE_NORMAL;
-                    ObjectAnimator closeToPlus = ObjectAnimator.ofFloat(optionsFab, "rotation", EXPAND_OPTION_IC_DEGREE, NORMAL_OPTION_IC_DEGREE);
-                    closeToPlus.setDuration(OPTION_ANIM_TIME);
-                    closeToPlus.start();
+                    fabWindow.showAtLocation(v, Gravity.NO_GRAVITY, (int) v.getX(), (int) v.getY());
                 }
-
-
-//                PopupWindow fabWindow = new PopupWindow(fabPopupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                fabWindow.setOutsideTouchable(true);
-//                fabWindow.showAtLocation(v, Gravity.CENTER, 10, 10);
             }
         });
 
@@ -100,6 +93,67 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         this.progressWheel = (ProgressWheel) rootView.findViewById(R.id.loading_img);
         // 加号弹出窗
         this.fabPopupView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_window_answer_fab, null);
+        this.fabPopupView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabWindow.dismiss();
+            }
+        });
+        // 分享
+        this.fabPopupView.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabWindow.dismiss();
+            }
+        });
+        // 收藏
+        this.fabPopupView.findViewById(R.id.favorites).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabWindow.dismiss();
+            }
+        });
+        // 评论
+        this.fabPopupView.findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabWindow.dismiss();
+            }
+        });
+        // 赞同
+        this.fabPopupView.findViewById(R.id.vote).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabWindow.dismiss();
+            }
+        });
+        // 感谢
+        this.fabPopupView.findViewById(R.id.thank).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabWindow.dismiss();
+            }
+        });
+        // 没有帮助
+        this.fabPopupView.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fabWindow.dismiss();
+            }
+        });
+        this.fabWindow = new PopupWindow(fabPopupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        this.fabWindow.setBackgroundDrawable(new BitmapDrawable());   //点击外部会让popwindow消失
+        this.fabWindow.setOutsideTouchable(true);
+        this.fabWindow.setAnimationStyle(R.style.PopWindowAnswerAnim);
+        this.fabWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                // popwindow消失的时候还原option按钮
+                ObjectAnimator closeToPlus = ObjectAnimator.ofFloat(optionsFab, "rotation", EXPAND_OPTION_IC_DEGREE, NORMAL_OPTION_IC_DEGREE);
+                closeToPlus.setDuration(OPTION_ANIM_TIME);
+                closeToPlus.start();
+            }
+        });
         // attach到自定义的webview上，加入滑动过程中的隐藏和现实
         optionsFab.attachToScrollView(answerWv);
 
@@ -124,8 +178,8 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         });
         animator.start();
 
-    }
 
+    }
 
     @Override
     public void callBack(AnswerContent content) {

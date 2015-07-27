@@ -87,5 +87,9 @@
         <item name="android:paddingBottom">@dimen/global_padding_8</item>
     </style>
 
+    <style name="PopWindowAnswerAnim">
+        <item name="android:windowEnterAnimation">@anim/pop_window_answer_enter</item>
+        <item name="android:windowExitAnimation">@anim/pop_window_answer_exit</item>
+    </style>
 
 </resources>
