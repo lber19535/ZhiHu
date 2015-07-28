@@ -30,8 +30,18 @@
 
 /*答案webview中的主要样式
 继承自 html body, html input, html textarea, html select, html button 和
-body, input, textarea, select, button
+body, input, textarea, select, button, meta-item
+
+自定义的css：
+post_date  用于发布日期的显示样式
+@author bill 2015-7-28
 */
+.post_date {
+    float:right;
+    padding:0.8;
+    text-align:right;
+}
+
 .clearfix {
     *zoom: 1;
     padding:0.8em;

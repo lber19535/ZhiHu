@@ -109,6 +109,7 @@ public class CmdLoadMore extends Command {
                 ZhihuLog.d(TAG, error);
                 ToastUtil.showShortToast(error.getMessage());
                 ZhihuLog.dFlag(TAG, "load more start");
+                listener.callback(null);
             }
         }) {
             @Override

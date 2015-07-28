@@ -120,7 +120,9 @@ public class TimeLineItemFactory {
         if (!haveAnswer) {
             item.setContentType(ContentType.QUESTION);
         } else {
+            String answerId = contentElements.select("div[class=entry-body]").attr("data-aid");
             item.setContentType(ContentType.ANSWER);
+            item.setAnswerId(answerId);
         }
 
         return this;

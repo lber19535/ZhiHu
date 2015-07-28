@@ -42,10 +42,19 @@ public class TimeLineItem implements Parcelable {
     // 回答
     private String answerSummary;
     private Url answerUrl;
+    private String answerId;
     // block标记
     private String dataBlock;
 
     public TimeLineItem() {
+    }
+
+    public String getAnswerId() {
+        return answerId;
+    }
+
+    public void setAnswerId(String answerId) {
+        this.answerId = answerId;
     }
 
     public ContentType getContentType() {

@@ -2,6 +2,7 @@ package com.bill.zhihu.answer;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Intent;
@@ -35,7 +36,10 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
     // option菜单展开和收起时icon的角度
     private static final float NORMAL_OPTION_IC_DEGREE = 0;
     private static final float EXPAND_OPTION_IC_DEGREE = 45;
+    private static final float EXPAND_OPTION_IC_ALPHA = 0.5f;
+    private static final float NORMAL_OPTION_IC_ALPHA = 1f;
     private static final long OPTION_ANIM_TIME = 200;
+    private static final String TAG = "FragmentAnswer";
 
     private View rootView;
     private ImageView avatar;
@@ -54,22 +58,6 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         rootView = inflater.inflate(R.layout.fragment_answer, null);
 
         initView();
-
-        optionsFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ObjectAnimator plusToClose = ObjectAnimator.ofFloat(optionsFab, "rotation", NORMAL_OPTION_IC_DEGREE, EXPAND_OPTION_IC_DEGREE);
-                plusToClose.setDuration(OPTION_ANIM_TIME);
-                plusToClose.start();
-
-                if (fabWindow.isShowing()) {
-                    fabWindow.dismiss();
-                } else {
-                    fabWindow.showAtLocation(v, Gravity.NO_GRAVITY, (int) v.getX(), (int) v.getY());
-                }
-            }
-        });
 
         Intent intent = getActivity().getIntent();
         TimeLineItem item = intent.getParcelableExtra(TimeLineViewHolder.EXSTRA_ITEM);
@@ -90,6 +78,25 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         this.avatar = (ImageView) rootView.findViewById(R.id.avatar);
         this.answerWv = (AnswerView) rootView.findViewById(R.id.answer);
         this.optionsFab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        this.optionsFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ObjectAnimator plusToClose = ObjectAnimator.ofFloat(optionsFab, "rotation", NORMAL_OPTION_IC_DEGREE, EXPAND_OPTION_IC_DEGREE);
+                plusToClose.setDuration(OPTION_ANIM_TIME);
+                ObjectAnimator closeToTrans = ObjectAnimator.ofFloat(optionsFab, "alpha", NORMAL_OPTION_IC_ALPHA, EXPAND_OPTION_IC_ALPHA);
+                closeToTrans.setDuration(OPTION_ANIM_TIME);
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.playTogether(closeToTrans, plusToClose);
+                animatorSet.start();
+
+                if (fabWindow.isShowing()) {
+                    fabWindow.dismiss();
+                } else {
+                    fabWindow.showAtLocation(v, Gravity.NO_GRAVITY, (int) v.getX(), (int) v.getY());
+                }
+            }
+        });
         this.progressWheel = (ProgressWheel) rootView.findViewById(R.id.loading_img);
         // 加号弹出窗
         this.fabPopupView = LayoutInflater.from(getActivity()).inflate(R.layout.popup_window_answer_fab, null);
@@ -151,7 +158,11 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
                 // popwindow消失的时候还原option按钮
                 ObjectAnimator closeToPlus = ObjectAnimator.ofFloat(optionsFab, "rotation", EXPAND_OPTION_IC_DEGREE, NORMAL_OPTION_IC_DEGREE);
                 closeToPlus.setDuration(OPTION_ANIM_TIME);
-                closeToPlus.start();
+                ObjectAnimator closeToNormal = ObjectAnimator.ofFloat(optionsFab, "alpha", EXPAND_OPTION_IC_ALPHA, NORMAL_OPTION_IC_ALPHA);
+                closeToNormal.setDuration(OPTION_ANIM_TIME);
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.playTogether(closeToNormal, closeToPlus);
+                animatorSet.start();
             }
         });
         // attach到自定义的webview上，加入滑动过程中的隐藏和现实

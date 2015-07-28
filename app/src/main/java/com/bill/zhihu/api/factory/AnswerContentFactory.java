@@ -54,14 +54,14 @@ public class AnswerContentFactory {
         answerContent.setIntro(introElement.attr("title"));
 
         //发布日期 编辑日期
-        Elements postDateElement = elements
+        Elements postDateElements = elements
                 .select("a[class^=answer-date-link]");
-        if (postDateElement.hasAttr("data-tip")) {
+        if (postDateElements.hasAttr("data-tip")) {
             //编辑日期
-            answerContent.setEditDate(postDateElement.attr("data-tip").replace("s$t$",
+            answerContent.setEditDate(postDateElements.attr("data-tip").replace("s$t$",
                     ""));
         }
-        answerContent.setPostDate(postDateElement.text());
+        answerContent.setPostDate(postDateElements.text());
 
         //答案内容 添加一个样式表显示美观，样式表是从知乎网站上copy下来的
         Attribute relAttr = new Attribute("rel", "stylesheet");
@@ -75,6 +75,26 @@ public class AnswerContentFactory {
         Elements answerElement = elements.select("div[class=zm-item-rich-text]>div");
         answerElement.prepend(styleSheetElement.toString());
         answerElement.select("img[class$=lazy]").remove();//去掉img造成的空白图片，webview中加载的是noscript标签中的
+        // 加入发布和编辑日期
+        Attribute postCssAttr = new Attribute("class", "post-date meta-item");
+        Attributes postAttrs = new Attributes();
+        postAttrs.put(postCssAttr);
+        Element postDateElement = new Element(Tag.valueOf("a"),"",postAttrs);
+        postDateElement.text(answerContent.getPostDate());
+        // 让正文和日期隔开几行
+        answerElement.append("<br>");
+        answerElement.append("<br>");
+        answerElement.append(postDateElement.toString());
+        if (answerContent.getEditDate() != null && !answerContent.getEditDate().isEmpty()){
+            Attribute editCssAttr = new Attribute("class", "post-date meta-item");
+            Attributes editAttrs = new Attributes();
+            editAttrs.put(editCssAttr );
+            Element editDateElement = new Element(Tag.valueOf("a"),"",editAttrs);
+            editDateElement.text(answerContent.getEditDate());
+            answerElement.append("<br>");
+            answerElement.append(editDateElement.toString());
+        }
+
         answerContent.setAnswer(answerElement.toString());
 
         return answerContent;
