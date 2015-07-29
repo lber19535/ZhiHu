@@ -164,7 +164,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
     @Override
     public TimeLineViewHolder onCreateViewHolder(ViewGroup container,
                                                  int viewType) {
-        View itemView = null;
+        View itemView;
         TimeLineViewHolder holder = null;
         switch (viewType) {
             case VIEW_TYPE_ONLY_QUESTION:

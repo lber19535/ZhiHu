@@ -24,7 +24,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/from" />
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/header"
                 style="@style/ImageView.Avatar"
                 android:layout_alignParentEnd="true"

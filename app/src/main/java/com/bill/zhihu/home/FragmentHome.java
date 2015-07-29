@@ -175,10 +175,6 @@ public class FragmentHome extends Fragment {
         if (timelineItems.isEmpty())
             return;
 
-        TimeLineItem item = timelineItems.get(timelineItems.size() - 1);
-//        long blockId = Long.valueOf(item.getDataBlock());
-//        int offset = Integer.valueOf(item.getDataOffset());
-
         CmdLoadMore.CallbackListener listener = new CmdLoadMore.CallbackListener() {
 
             @Override

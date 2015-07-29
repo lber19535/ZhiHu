@@ -23,6 +23,13 @@ android {
             res.srcDirs = ['src/main/res', 'src/main/res/drawable-hdpi', 'src/main/res/drawable-xhdpi', 'src/main/res/drawable-xxhdpi']
         }
     }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
@@ -36,5 +43,6 @@ dependencies {
     compile 'com.pnikosis:materialish-progress:+'
     compile 'com.melnykov:floatingactionbutton:+'
     compile 'com.android.support:design:+'
+    compile 'com.jakewharton:butterknife:+'
     compile files('libs/jeson.jar')
 }
