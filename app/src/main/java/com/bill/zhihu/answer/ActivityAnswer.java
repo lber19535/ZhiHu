@@ -9,9 +9,10 @@ import android.widget.TextView;
 import com.bill.zhihu.R;
 import com.bill.zhihu.activity.BaseActivity;
 import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.home.TimeLineViewHolder;
 
 /**
+ * 答案
+ *
  * Created by Bill-pc on 5/22/2015.
  */
 public class ActivityAnswer extends BaseActivity {
@@ -28,7 +29,7 @@ public class ActivityAnswer extends BaseActivity {
         this.moreIv = (ImageView) findViewById(R.id.more);
         this.questionTv = (TextView) findViewById(R.id.question);
 
-        TimeLineItem item = getIntent().getParcelableExtra(TimeLineViewHolder.EXSTRA_ITEM);
+        TimeLineItem item = getIntent().getParcelableExtra(TimeLineItem.KEY);
         questionTv.setText(item.getQuestion());
 
         moreIv.setOnClickListener(new View.OnClickListener() {

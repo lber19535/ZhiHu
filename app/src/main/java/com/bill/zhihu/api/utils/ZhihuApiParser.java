@@ -1,8 +1,10 @@
 package com.bill.zhihu.api.utils;
 
 import com.bill.zhihu.api.bean.AnswerContent;
+import com.bill.zhihu.api.bean.QuestionContent;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.factory.AnswerContentFactory;
+import com.bill.zhihu.api.factory.QuestionListFactory;
 import com.bill.zhihu.api.factory.TimeLineItemFactory;
 
 import org.jsoup.Jsoup;
@@ -74,10 +76,20 @@ public class ZhihuApiParser {
         return new TimeLineItemFactory(element).create();
     }
 
-    public static AnswerContent parseAnswerContent(String html){
+    public static AnswerContent parseAnswerContent(String html) {
         Document doc = Jsoup.parse(html);
         Elements answerElements = doc.select("div[id=zh-question-answer-wrap]>div[tabindex=-1]");
         return new AnswerContentFactory(answerElements).create();
+    }
+
+    /**
+     * 解析问题界面，可以得到问题、问题描述、答案列表
+     *
+     * @param html
+     */
+    public static QuestionContent parseQuestionPage(String html) {
+        Document doc = Jsoup.parse(html);
+        return new QuestionListFactory(doc).create();
     }
 
 }

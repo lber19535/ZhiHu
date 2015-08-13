@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import com.bill.zhihu.R;
 import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.answer.ActivityAnswer;
+import com.bill.zhihu.api.ZhihuApi;
+import com.bill.zhihu.api.bean.QuestionContent;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
+import com.bill.zhihu.api.cmd.CmdLoadQuestion;
 import com.bill.zhihu.api.utils.TextUtils;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
@@ -90,17 +93,28 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
         View.OnClickListener questionListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Intent intent = new Intent(mContext, null);
+//                intent.putExtra(TimeLineItem.KEY, item);
 
+                ZhihuApi.loadQuestionPage(item.getQuestionUrl().getUrl(), new CmdLoadQuestion.CallBackListener() {
+                    @Override
+                    public void callBack(QuestionContent content) {
+                        System.out.println(content.getAnswers().size());
+                    }
+                });
             }
         };
 
         switch (type) {
-            case VIEW_TYPE_ONLY_QUESTION:
+            // 只有问题或者文章标题
+            case VIEW_TYPE_ONLY_QUESTION: {
                 TimeLineOnlyQuestionViewHolder questionViewHolder = (TimeLineOnlyQuestionViewHolder) holder;
                 questionViewHolder.setOnFromOrAvatarClickListener(fromOrAvatarListener);
                 questionViewHolder.setOnQuestionClickListener(questionListener);
                 break;
-            case VIEW_TYPE_ANSWER_QUESTION:
+            }
+            // 问题+答案，发布的文章
+            case VIEW_TYPE_ANSWER_QUESTION: {
                 TimeLineWithAnswerViewHolder answerViewHolder = (TimeLineWithAnswerViewHolder) holder;
                 ZhihuLog.dValue(TAG, "answerViewHolder", answerViewHolder);
                 ZhihuLog.dValue(TAG, "answerTv", answerViewHolder.answerTv);
@@ -115,12 +129,12 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(mContext, ActivityAnswer.class);
-                        intent.putExtra(TimeLineViewHolder.EXSTRA_ITEM,item);
+                        intent.putExtra(TimeLineItem.KEY, item);
                         mContext.startActivity(intent);
                     }
                 });
                 break;
-
+            }
             default:
                 break;
         }

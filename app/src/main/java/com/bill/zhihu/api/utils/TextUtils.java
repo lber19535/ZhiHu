@@ -1,10 +1,10 @@
 package com.bill.zhihu.api.utils;
 
-import java.util.List;
-
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+
+import java.util.List;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class TextUtils {
      *            源字符串
      * @param color
      *            着色color
-     * @param target
+     * @param targets
      *            着色字段
      * @return
      */
@@ -38,7 +38,7 @@ public class TextUtils {
      *            源字符串
      * @param color
      *            着色color
-     * @param target
+     * @param targets
      *            着色字段
      * @return
      */

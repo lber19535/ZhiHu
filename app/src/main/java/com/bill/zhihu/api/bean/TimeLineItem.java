@@ -23,6 +23,8 @@ public class TimeLineItem implements Parcelable {
      * |----------------------------------|
      */
 
+    public static String KEY = "TimeLineItem";
+
     private ContentType contentType = ContentType.ANSWER;
     // 头像
     private String avatarImgUrl;

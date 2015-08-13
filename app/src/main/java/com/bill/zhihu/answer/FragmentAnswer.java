@@ -29,6 +29,8 @@ import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 /**
+ * 答案
+ * <p/>
  * Created by Bill-pc on 5/22/2015.
  */
 public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackListener, CmdLoadAvatarImage.CallbackListener {
@@ -198,6 +200,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         intro.setText(content.getIntro());
         name.setText(content.getPeopleName());
         answerWv.getWebView().getSettings().setJavaScriptEnabled(false);
+        // 加载css
         answerWv.getWebView().loadDataWithBaseURL("file:///android_asset/", content.getAnswer(), "text/html; charset=UTF-8", null, null);
 
         CmdLoadAvatarImage loadAvatarImage = new CmdLoadAvatarImage(content.getAvatarImgUrl());

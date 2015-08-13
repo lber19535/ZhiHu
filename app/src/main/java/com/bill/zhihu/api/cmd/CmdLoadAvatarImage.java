@@ -9,6 +9,11 @@ import com.android.volley.VolleyError;
 import com.bill.zhihu.api.net.ZhihuImageRequest;
 import com.bill.zhihu.api.utils.ZhihuLog;
 
+/**
+ * 获取头像方法
+ *
+ * @author Bill Lv
+ */
 public class CmdLoadAvatarImage extends Command {
 
     private CallbackListener listener;

@@ -9,6 +9,7 @@ import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.api.cmd.CmdLoadAnswer;
 import com.bill.zhihu.api.cmd.CmdLoadHomePage;
 import com.bill.zhihu.api.cmd.CmdLoadMore;
+import com.bill.zhihu.api.cmd.CmdLoadQuestion;
 import com.bill.zhihu.api.cmd.CmdLogin;
 import com.bill.zhihu.api.cmd.Command;
 import com.bill.zhihu.api.net.ZhihuCookieManager;
@@ -122,5 +123,11 @@ public class ZhihuApi {
         CmdLoadAnswer loadAnswer = new CmdLoadAnswer(answerUrl);
         loadAnswer.setOnCmdCallBack(listener);
         ZhihuApi.execCmd(loadAnswer);
+    }
+
+    public static void loadQuestionPage(String url, CmdLoadQuestion.CallBackListener listener){
+        CmdLoadQuestion loadQuestion = new CmdLoadQuestion(url);
+        loadQuestion.setOnCmdCallBack(listener);
+        ZhihuApi.execCmd(loadQuestion);
     }
 }
