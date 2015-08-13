@@ -20,8 +20,6 @@ public class TimeLineViewHolder extends ViewHolder {
 
     private static final String TAG = "TimeLineViewHolder";
 
-    public static final String EXSTRA_ITEM = "EXSTRA_ITEM";
-
     public TextView questionTv;
     public TextView fromTv;
     public ImageView avatarIv;

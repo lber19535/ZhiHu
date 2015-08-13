@@ -23,7 +23,6 @@ import com.bill.zhihu.api.bean.AnswerContent;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdLoadAnswer;
 import com.bill.zhihu.api.cmd.CmdLoadAvatarImage;
-import com.bill.zhihu.home.TimeLineViewHolder;
 import com.bill.zhihu.view.AnswerView;
 import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -62,7 +61,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         initView();
 
         Intent intent = getActivity().getIntent();
-        TimeLineItem item = intent.getParcelableExtra(TimeLineViewHolder.EXSTRA_ITEM);
+        TimeLineItem item = intent.getParcelableExtra(TimeLineItem.KEY);
 
         String answerUrl = item.getAnswerUrl().getUrl();
 
