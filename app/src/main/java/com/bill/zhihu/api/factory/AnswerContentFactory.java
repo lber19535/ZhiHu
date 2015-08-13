@@ -1,5 +1,9 @@
 package com.bill.zhihu.api.factory;
 
+import android.text.TextUtils;
+
+import com.bill.zhihu.R;
+import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.api.bean.AnswerContent;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
@@ -43,8 +47,14 @@ public class AnswerContentFactory {
         answerContent.setPeopleUrl(ZhihuURL.HOST + href);
 
         //答主姓名
-        Elements people = elements.select("a[href=" + peopleUrl.attr("href") + "]");
-        answerContent.setPeopleName(people.text());
+        if (TextUtils.isEmpty(href)) {
+            // 匿名用户
+            answerContent.setPeopleName(ZhihuApp.getContext().getResources().getString(R.string.anonymous));
+        } else {
+            // 正常用户
+            Elements people = elements.select("a[href=" + href + "]");
+            answerContent.setPeopleName(people.text());
+        }
 
         //答主头像
         Elements avatarUrlElement = elements.select("img[class=zm-list-avatar]");
@@ -80,17 +90,17 @@ public class AnswerContentFactory {
         Attribute postCssAttr = new Attribute("class", "post-date meta-item");
         Attributes postAttrs = new Attributes();
         postAttrs.put(postCssAttr);
-        Element postDateElement = new Element(Tag.valueOf("a"),"",postAttrs);
+        Element postDateElement = new Element(Tag.valueOf("a"), "", postAttrs);
         postDateElement.text(answerContent.getPostDate());
         // 让正文和日期隔开几行
         answerElement.append("<br>");
         answerElement.append("<br>");
         answerElement.append(postDateElement.toString());
-        if (answerContent.getEditDate() != null && !answerContent.getEditDate().isEmpty()){
+        if (answerContent.getEditDate() != null && !answerContent.getEditDate().isEmpty()) {
             Attribute editCssAttr = new Attribute("class", "post-date meta-item");
             Attributes editAttrs = new Attributes();
-            editAttrs.put(editCssAttr );
-            Element editDateElement = new Element(Tag.valueOf("a"),"",editAttrs);
+            editAttrs.put(editCssAttr);
+            Element editDateElement = new Element(Tag.valueOf("a"), "", editAttrs);
             editDateElement.text(answerContent.getEditDate());
             answerElement.append("<br>");
             answerElement.append(editDateElement.toString());

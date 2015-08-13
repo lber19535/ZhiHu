@@ -26,6 +26,7 @@
     <string name="comments">评论</string>
     <string name="name">name</string>
     <string name="intro">intro</string>
+    <string name="anonymous">匿名用户</string>
     <string name="answer_vote">赞同</string>
 
 </resources>

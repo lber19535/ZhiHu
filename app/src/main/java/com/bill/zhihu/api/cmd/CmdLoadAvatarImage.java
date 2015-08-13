@@ -2,6 +2,7 @@ package com.bill.zhihu.api.cmd;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.text.TextUtils;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -27,24 +28,28 @@ public class CmdLoadAvatarImage extends Command {
 
     @Override
     public void exec() {
-        request = new ZhihuImageRequest(url, new Listener<Bitmap>() {
+        if (TextUtils.isEmpty(url)) {
+            ZhihuLog.d(TAG, "url is null");
+        } else {
+            request = new ZhihuImageRequest(url, new Listener<Bitmap>() {
 
-            @Override
-            public void onResponse(Bitmap avatarImg) {
-                ZhihuLog.d(TAG, "fetch the avaatar img");
-                listener.callback(avatarImg);
-            }
-        }, 0, 0, Config.ARGB_8888, new ErrorListener() {
+                @Override
+                public void onResponse(Bitmap avatarImg) {
+                    ZhihuLog.d(TAG, "fetch the avaatar img");
+                    listener.callback(avatarImg);
+                }
+            }, 0, 0, Config.ARGB_8888, new ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ZhihuLog.d(TAG, "fetch the captcha img faild");
-                ZhihuLog.d(TAG, error.networkResponse.statusCode);
-                ZhihuLog.d(TAG, new String(error.networkResponse.data));
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    ZhihuLog.d(TAG, "fetch the captcha img faild");
+                    ZhihuLog.d(TAG, error.networkResponse.statusCode);
+                    ZhihuLog.d(TAG, new String(error.networkResponse.data));
 
-            }
-        });
-        volley.addQueue(request);
+                }
+            });
+            volley.addQueue(request);
+        }
 
     }
 
