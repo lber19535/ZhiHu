@@ -35,7 +35,10 @@ public class FragmentHome extends Fragment {
 
     private static final String TAG = "FragmentHome";
 
+    @Deprecated
     private static final int LOAD_MORE_OFFSET = 20;
+
+    private static final int PROGESS_ANIM_DURATION = 500;
 
     private RecyclerView timelineRv;
     private SwipyRefreshLayout refreshLayout;
@@ -131,7 +134,7 @@ public class FragmentHome extends Fragment {
 
     private void stopLoadingAnim() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(progressWheel, "alpha", 1, 0);
-        animator.setDuration(500);
+        animator.setDuration(PROGESS_ANIM_DURATION);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

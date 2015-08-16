@@ -37,6 +37,7 @@ public class FragmentLogin extends Fragment {
     private ImageView captchaIv;
     // 输入账号的密码的layout
     private View loginLayout;
+    private View captchaLayout;
 
     private View rootView;
 
@@ -56,6 +57,7 @@ public class FragmentLogin extends Fragment {
         captchaIv = (ImageView) rootView.findViewById(R.id.login_captcha_img);
 
         loginLayout = rootView.findViewById(R.id.login_layout);
+        captchaLayout = rootView.findViewById(R.id.captcha_layout);
 
         loginBtn.setOnClickListener(new OnClickListener() {
 
@@ -102,6 +104,7 @@ public class FragmentLogin extends Fragment {
 
                         break;
                     case CmdLogin.LOGIN_FAILED:
+                        captchaLayout.setVisibility(View.VISIBLE);
                         captchaIv.setImageBitmap(captcha);
                         break;
                     case CmdLogin.ERRCODE_TIME_OUT:

@@ -1,5 +1,7 @@
 package com.bill.zhihu.api.cmd;
 
+import android.os.AsyncTask;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bill.zhihu.api.bean.QuestionContent;
@@ -30,9 +32,23 @@ public class CmdLoadQuestion extends Command {
     public void exec() {
         request = new ZhihuStringRequest(questionUrl, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(final String response) {
+                // 解析过程比较耗时，做成异步的
+                new AsyncTask<Void, Void, QuestionContent>() {
+                    @Override
+                    protected QuestionContent doInBackground(Void... params) {
+                        return ZhihuApiParser.parseQuestionPage(response);
+                    }
 
-                listener.callBack(ZhihuApiParser.parseQuestionPage(response));
+                    @Override
+                    protected void onPostExecute(QuestionContent questionContent) {
+                        super.onPostExecute(questionContent);
+                        listener.callBack(questionContent);
+                        ZhihuLog.dFlag(TAG, "load question end");
+                        ZhihuLog.d(TAG, "question answer count is " + questionContent.getAnswers().size());
+                    }
+                }.execute();
+
 
             }
         }, new Response.ErrorListener() {

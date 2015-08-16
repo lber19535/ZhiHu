@@ -43,6 +43,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
     private static final float EXPAND_OPTION_IC_ALPHA = 0.5f;
     private static final float NORMAL_OPTION_IC_ALPHA = 1f;
     private static final long OPTION_ANIM_TIME = 200;
+    private static final int PROGESS_ANIM_DURATION = 500;
 
     private View rootView;
     private ImageView avatar;
@@ -59,6 +60,13 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
 
     private View fabPopupView;
 
+    // 回答url
+    private String answerUrl;
+    // 问题title
+    private String questionTitle;
+    // 回答summary
+    private String answerSummary;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_answer, null);
@@ -67,16 +75,19 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
 
         Intent intent = getActivity().getIntent();
         String action = intent.getAction();
-        String answerUrl = null;
         switch (action) {
             case TimeLineItem.KEY: {
                 TimeLineItem item = intent.getParcelableExtra(TimeLineItem.KEY);
                 answerUrl = item.getAnswerUrl().getUrl();
+                questionTitle = item.getQuestion();
+                answerSummary = item.getAnswerSummary();
                 break;
             }
             case AnswerItemInQuestion.KEY: {
                 AnswerItemInQuestion item = intent.getParcelableExtra(AnswerItemInQuestion.KEY);
                 answerUrl = item.getAnswerUrl();
+                questionTitle = item.getQuestionTitle();
+                answerSummary = item.getAnswerSummary();
                 break;
             }
             default:
@@ -102,6 +113,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
             @Override
             public void onClick(View v) {
 
+                // 悬浮按钮打开和关闭的动画
                 ObjectAnimator plusToClose = ObjectAnimator.ofFloat(optionsFab, "rotation", NORMAL_OPTION_IC_DEGREE, EXPAND_OPTION_IC_DEGREE);
                 plusToClose.setDuration(OPTION_ANIM_TIME);
                 ObjectAnimator closeToTrans = ObjectAnimator.ofFloat(optionsFab, "alpha", NORMAL_OPTION_IC_ALPHA, EXPAND_OPTION_IC_ALPHA);
@@ -130,7 +142,26 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         this.fabPopupView.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ZhihuLog.dFlag(TAG, "share start");
                 fabWindow.dismiss();
+
+                // 分享答案
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+                StringBuffer sb = new StringBuffer();
+                sb.append("我在知乎看到了这个回答很有趣，分享给你\n");
+                sb.append("【" + questionTitle + "：" + answerUrl + "】\n");
+                sb.append("----来自刘看山");
+                intent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+                intent.putExtra(Intent.EXTRA_TITLE, "分享");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(intent, "请选择"));
+
+                ZhihuLog.dValue(TAG, "question title", questionTitle);
+                ZhihuLog.dValue(TAG, "answer Url", answerUrl);
+                ZhihuLog.dFlag(TAG, "share end");
             }
         });
         // 收藏
@@ -162,7 +193,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
             }
         });
         // 没有帮助
-        this.fabPopupView.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+        this.fabPopupView.findViewById(R.id.no_help).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fabWindow.dismiss();
@@ -202,7 +233,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
      */
     private void stopLoadingAnim() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(progressWheel, "alpha", 1, 0);
-        animator.setDuration(500);
+        animator.setDuration(PROGESS_ANIM_DURATION);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

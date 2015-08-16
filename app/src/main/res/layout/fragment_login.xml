@@ -104,6 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/global_margin_16"
+                        android:visibility="invisible"
                         android:orientation="horizontal"
                          >
 
