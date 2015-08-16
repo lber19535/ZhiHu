@@ -32,3 +32,6 @@ build/
 
 # Log Files
 *.log
+
+# signed key folder
+keystore/
