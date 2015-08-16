@@ -14,8 +14,7 @@
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            style="@style/ImageView.Answer.Avatar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +28,7 @@
 
             <TextView
                 android:id="@+id/name"
-                style="@style/TextView.AnswerHead"
+                style="@style/TextView.Light.AnswerHead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

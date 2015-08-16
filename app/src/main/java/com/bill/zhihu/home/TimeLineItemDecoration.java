@@ -1,8 +1,5 @@
 package com.bill.zhihu.home;
 
-import com.bill.zhihu.R;
-import com.bill.zhihu.ZhihuApp;
-
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -11,6 +8,9 @@ import android.support.v7.widget.RecyclerView.ItemDecoration;
 import android.support.v7.widget.RecyclerView.LayoutParams;
 import android.support.v7.widget.RecyclerView.State;
 import android.view.View;
+
+import com.bill.zhihu.R;
+import com.bill.zhihu.ZhihuApp;
 
 /**
  * recycler view item divider
@@ -56,8 +56,8 @@ public class TimeLineItemDecoration extends ItemDecoration {
                 marginLeft = lp.leftMargin;
                 marginRight = lp.rightMargin;
             }
-            int left = v.getLeft() + marginLeft;
-            int right = v.getRight() - marginRight;
+            int left = parent.getLeft() + marginLeft;
+            int right = parent.getRight() - marginRight;
             int top = v.getTop();
             dividerRect.set(left, top, right, top + 1);
             c.drawRect(dividerRect, dividerPaint);

@@ -15,11 +15,23 @@
         <item name="colorPrimaryDark">@color/grey_dark</item>
     </style>
 
-    <style name="ImageView.Avatar" parent="AppTheme">
+    <style name="ImageView.TimeLine.Avatar" parent="AppTheme">
         <item name="android:layout_width">@dimen/time_line_list_header_img_size</item>
         <item name="android:layout_height">@dimen/time_line_list_header_img_size</item>
         <item name="android:background">@color/avatar_default</item>
     </style>
+
+
+    <style name="ImageView.Question.Answer.Avatar" parent="ImageView.TimeLine.Avatar">
+        <item name="android:layout_width">@dimen/question_answer_list_header_img_size</item>
+        <item name="android:layout_height">@dimen/question_answer_list_header_img_size</item>
+    </style>
+
+    <style name="ImageView.Answer.Avatar" parent="ImageView.TimeLine.Avatar">
+        <item name="android:layout_width">@dimen/answer_header_img_size</item>
+        <item name="android:layout_height">@dimen/answer_header_img_size</item>
+    </style>
+
 
     <style name="TextView.Light.QuestionAndArticle" parent="AppTheme.Light">
         <item name="android:text">@string/question</item>
@@ -57,9 +69,10 @@
         <item name="android:layout_width">@dimen/vote_width</item>
     </style>
 
-    <style name="TextView.AnswerHead" parent="AppTheme.Light">
+    <style name="TextView.Light.AnswerHead" parent="AppTheme.Light">
         <item name="android:textColor">@color/answer_head_name</item>
         <item name="android:textSize">@dimen/font_16</item>
+        <item name="android:text">@string/from</item>
     </style>
 
     <style name="ToolbarTitle" parent="Widget.AppCompat.Toolbar">
@@ -67,7 +80,7 @@
         <item name="android:textSize">@dimen/font_22</item>
     </style>
 
-    <style name="TextView.AnswerRemark" parent="TextView.AnswerHead">
+    <style name="TextView.AnswerRemark" parent="TextView.Light.AnswerHead">
         <item name="android:textColor">@color/answer_head_remark</item>
     </style>
 
@@ -86,6 +99,8 @@
         <item name="android:paddingTop">@dimen/global_padding_8</item>
         <item name="android:paddingBottom">@dimen/global_padding_8</item>
     </style>
+
+    <style name="Layout.Question.Answer.Item" parent="Layout.Home.Item"/>
 
     <style name="PopWindowAnswerAnim">
         <item name="android:windowEnterAnimation">@anim/pop_window_answer_enter</item>

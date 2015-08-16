@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class QuestionContent implements Parcelable {
 
+    public static final String KEY = "QuestionContent";
+
     private String questionTitle;
     private String questionId;
     private String questionDetail;
@@ -103,9 +105,9 @@ public class QuestionContent implements Parcelable {
         this.questionTitle = in.readString();
         this.questionId = in.readString();
         this.questionDetail = in.readString();
-        this.topics = in.readParcelable(HashMap.class.getClassLoader());
+        this.topics = in.readHashMap(HashMap.class.getClassLoader());
         this.answers = new ArrayList<>();
-        in.readList(this.answers, ArrayList.class.getClassLoader());
+        in.readList(this.answers, AnswerItemInQuestion.class.getClassLoader());
     }
 
     public static final Creator<QuestionContent> CREATOR = new Creator<QuestionContent>() {

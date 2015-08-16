@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.Question.Answer.Item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/header"
+            style="@style/ImageView.Question.Answer.Avatar"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+
+        <TextView
+            android:id="@+id/vote"
+            style="@style/TextView.Vote"
+            android:layout_marginTop="@dimen/global_margin_4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/global_margin_4"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/TextView.Light.AnswerHead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/answer_summary"
+            style="@style/TextView.Light.AnswerContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_4"
+            android:maxLines="4" />
+    </LinearLayout>
+
+</LinearLayout>

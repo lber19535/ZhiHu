@@ -20,9 +20,11 @@ import android.widget.TextView;
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.AnswerContent;
+import com.bill.zhihu.api.bean.AnswerItemInQuestion;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.cmd.CmdLoadAnswer;
 import com.bill.zhihu.api.cmd.CmdLoadAvatarImage;
+import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.view.AnswerView;
 import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -34,13 +36,13 @@ import com.pnikosis.materialishprogress.ProgressWheel;
  */
 public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackListener, CmdLoadAvatarImage.CallbackListener {
 
+    private static final String TAG = "FragmentAnswer";
     // option菜单展开和收起时icon的角度
     private static final float NORMAL_OPTION_IC_DEGREE = 0;
     private static final float EXPAND_OPTION_IC_DEGREE = 45;
     private static final float EXPAND_OPTION_IC_ALPHA = 0.5f;
     private static final float NORMAL_OPTION_IC_ALPHA = 1f;
     private static final long OPTION_ANIM_TIME = 200;
-    private static final String TAG = "FragmentAnswer";
 
     private View rootView;
     private ImageView avatar;
@@ -49,7 +51,10 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
     private TextView vote;
     private AnswerView answerWv;
     private FloatingActionButton optionsFab;
+
+    // loading icon
     private ProgressWheel progressWheel;
+    // 加号弹出窗
     private PopupWindow fabWindow;
 
     private View fabPopupView;
@@ -61,9 +66,23 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         initView();
 
         Intent intent = getActivity().getIntent();
-        TimeLineItem item = intent.getParcelableExtra(TimeLineItem.KEY);
-
-        String answerUrl = item.getAnswerUrl().getUrl();
+        String action = intent.getAction();
+        String answerUrl = null;
+        switch (action) {
+            case TimeLineItem.KEY: {
+                TimeLineItem item = intent.getParcelableExtra(TimeLineItem.KEY);
+                answerUrl = item.getAnswerUrl().getUrl();
+                break;
+            }
+            case AnswerItemInQuestion.KEY: {
+                AnswerItemInQuestion item = intent.getParcelableExtra(AnswerItemInQuestion.KEY);
+                answerUrl = item.getAnswerUrl();
+                break;
+            }
+            default:
+                break;
+        }
+        ZhihuLog.d(TAG, "answer url is " + answerUrl);
 
         ZhihuApi.loadAnswer(answerUrl, this);
 
@@ -178,6 +197,9 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         progressWheel.spin();
     }
 
+    /**
+     * 加载动画消失
+     */
     private void stopLoadingAnim() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(progressWheel, "alpha", 1, 0);
         animator.setDuration(500);
@@ -189,8 +211,6 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
             }
         });
         animator.start();
-
-
     }
 
     @Override

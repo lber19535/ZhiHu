@@ -10,12 +10,16 @@ import android.os.Parcelable;
  * Created by Bill Lv on 2015/8/12.
  */
 public class AnswerItemInQuestion implements Parcelable {
+    public static final String KEY = "AnswerItemInQuestion";
+
     private String avatarUrl;
     private String peopleName;
     // 签名(英文bio是个人经历)
     private String peopleBio;
     private String answerSummary;
     private String voteCount;
+    private String answerUrl;
+    private String questionTitle;
 
     public AnswerItemInQuestion() {
     }
@@ -70,6 +74,21 @@ public class AnswerItemInQuestion implements Parcelable {
         this.voteCount = voteCount;
     }
 
+    public String getAnswerUrl() {
+        return answerUrl;
+    }
+
+    public void setAnswerUrl(String answerUrl) {
+        this.answerUrl = answerUrl;
+    }
+
+    public String getQuestionTitle() {
+        return questionTitle;
+    }
+
+    public void setQuestionTitle(String questionTitle) {
+        this.questionTitle = questionTitle;
+    }
 
     @Override
     public int describeContents() {
@@ -83,6 +102,8 @@ public class AnswerItemInQuestion implements Parcelable {
         dest.writeString(this.peopleBio);
         dest.writeString(this.answerSummary);
         dest.writeString(this.voteCount);
+        dest.writeString(this.answerUrl);
+        dest.writeString(this.questionTitle);
     }
 
     protected AnswerItemInQuestion(Parcel in) {
@@ -91,6 +112,8 @@ public class AnswerItemInQuestion implements Parcelable {
         this.peopleBio = in.readString();
         this.answerSummary = in.readString();
         this.voteCount = in.readString();
+        this.answerUrl = in.readString();
+        this.questionTitle = in.readString();
     }
 
     public static final Creator<AnswerItemInQuestion> CREATOR = new Creator<AnswerItemInQuestion>() {

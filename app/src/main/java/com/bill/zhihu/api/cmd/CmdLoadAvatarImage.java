@@ -55,6 +55,9 @@ public class CmdLoadAvatarImage extends Command {
 
     @Override
     public void cancel() {
+        // 由于匿名用户获取不到头像所以在创建的时候会导致request为null
+        if (request == null)
+            return;
         request.cancel();
     }
 
@@ -64,6 +67,6 @@ public class CmdLoadAvatarImage extends Command {
     }
 
     public interface CallbackListener extends CommandCallback {
-        public void callback(Bitmap captchaImg);
+        void callback(Bitmap captchaImg);
     }
 }

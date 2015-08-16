@@ -21,11 +21,14 @@
                 style="@style/TextView.Light.Subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="@dimen/global_margin_4" />
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/header"
+                android:layout_alignParentLeft="true"
+                android:text="@string/from" />
 
-            <ImageView
+            <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/header"
-                style="@style/ImageView.Avatar"
+                style="@style/ImageView.TimeLine.Avatar"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true" />
         </RelativeLayout>
@@ -38,24 +41,5 @@
             android:layout_below="@+id/avatar"
             android:layout_marginTop="@dimen/question_margin_top" />
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/answer_margin_top"
-        android:background="@drawable/home_item_bg"
-        android:clickable="true">
-
-        <TextView
-            android:id="@+id/vote"
-            style="@style/TextView.Vote" />
-
-        <TextView
-            android:id="@+id/answer"
-            style="@style/TextView.Light.AnswerContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/global_margin_4" />
-    </LinearLayout>
 
 </LinearLayout>

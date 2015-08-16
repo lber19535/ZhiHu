@@ -24,12 +24,16 @@
             android:name="com.bill.zhihu.login.ActivityLogin"
             android:label="@string/action_default_title"></activity>
         <activity
-            android:icon="@mipmap/icon"
             android:name="com.bill.zhihu.home.ActivityHome"
+            android:icon="@mipmap/icon"
             android:label="@string/action_default_title" />
         <activity
-            android:icon="@mipmap/icon"
             android:name="com.bill.zhihu.answer.ActivityAnswer"
+            android:icon="@mipmap/icon"
+            android:label="@string/action_default_title" />
+        <activity
+            android:name="com.bill.zhihu.question.ActivityQuestion"
+            android:icon="@mipmap/icon"
             android:label="@string/action_default_title" />
 
     </application>
