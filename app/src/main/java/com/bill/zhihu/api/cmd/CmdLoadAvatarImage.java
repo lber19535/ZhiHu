@@ -35,7 +35,7 @@ public class CmdLoadAvatarImage extends Command {
 
                 @Override
                 public void onResponse(Bitmap avatarImg) {
-                    ZhihuLog.d(TAG, "fetch the avaatar img");
+                    ZhihuLog.d(TAG, "fetch the avaatar img：" + url);
                     listener.callback(avatarImg);
                 }
             }, 0, 0, Config.ARGB_8888, new ErrorListener() {

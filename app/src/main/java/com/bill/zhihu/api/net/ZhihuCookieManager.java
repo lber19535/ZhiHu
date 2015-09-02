@@ -4,6 +4,7 @@ import com.bill.zhihu.api.utils.ZhihuLog;
 
 import org.apache.http.cookie.Cookie;
 
+import java.net.HttpCookie;
 import java.util.List;
 
 /**
@@ -19,12 +20,13 @@ public class ZhihuCookieManager {
      * 查看当前cookie store中是否含有某个cookie
      *
      * @param name
+     *
      * @return
      */
     public static boolean haveCookieName(String name) {
-        ZhihuCookieStore cookieStore = new ZhihuCookieStore();
-        List<Cookie> cookies = cookieStore.getCookies();
-        for (Cookie cookie : cookies) {
+        List<HttpCookie> cookies = URLCookiesStore.getInstance().getCookies();
+
+        for (HttpCookie cookie : cookies) {
             ZhihuLog.dValue(TAG, "cookie", cookie.getName());
             ZhihuLog.dValue(TAG, "cookie value", cookie.getValue());
             if (cookie.getName().equals(name)) {
@@ -38,12 +40,12 @@ public class ZhihuCookieManager {
      * 获取某个cookie的value值
      *
      * @param name
+     *
      * @return
      */
     public static String getCookieValue(String name) {
-        ZhihuCookieStore cookieStore = new ZhihuCookieStore();
-        List<Cookie> cookies = cookieStore.getCookies();
-        for (Cookie cookie : cookies) {
+        List<HttpCookie> cookies = URLCookiesStore.getInstance().getCookies();
+        for (HttpCookie cookie : cookies) {
             if (cookie.getName().equals(name)) {
                 return cookie.getValue();
             }

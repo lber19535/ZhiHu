@@ -43,7 +43,8 @@ public class TimeLineItemFactory {
         String dataOffset = element.attr("data-offset");
         ZhihuLog.dValue(TAG, "avatarImgUrl ", avatarImgUrl);
         ZhihuLog.dValue(TAG, "blockId ", blockId);
-        item.setAvatarImgUrl(avatarImgUrl);
+        // 由于官方首页代码中avatar url的改动去掉了 http 所以这里要加上
+        item.setAvatarImgUrl("http:" + avatarImgUrl);
         item.setDataBlock(blockId);
         item.setDataOffset(dataOffset);
         return this;

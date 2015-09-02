@@ -11,9 +11,8 @@ import com.bill.zhihu.api.utils.ZhihuURL;
 
 /**
  * 知乎post过程中需要一个xsrf参数
- * 
- * @author Bill Lv
  *
+ * @author Bill Lv
  */
 public class CmdLoadXSRF extends Command {
 
@@ -43,6 +42,7 @@ public class CmdLoadXSRF extends Command {
 
             @Override
             public void onResponse(String response) {
+                ZhihuLog.dValue(TAG, "response", response);
                 Document doc = Jsoup.parse(response);
                 xsrf = doc.select("input[name=_xsrf]").attr("value");
                 ZhihuLog.d(TAG, "_xsrf " + xsrf);

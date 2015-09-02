@@ -111,7 +111,7 @@ public class QuestionListFactory {
             item.setVoteCount(voteCount);
             // 头像url
             String avatarUrl = e.select("img[class=zm-list-avatar]").attr("src");
-            item.setAvatarUrl(avatarUrl);
+            item.setAvatarUrl("http:" + avatarUrl);
             // 答案url
             String answerUrl = e.select("a[class^=answer-date-link]").attr("href");
             item.setAnswerUrl(ZhihuURL.HOST + answerUrl);
