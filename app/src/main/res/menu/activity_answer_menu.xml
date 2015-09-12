@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/report"
-        android:title="举报"
+        android:title="@string/menu_answer_tip_off"
         />
 
 </menu>

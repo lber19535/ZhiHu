@@ -23,4 +23,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:+'
     compile files('libs/jeson.jar')
+    compile files('libs/com.umeng.message.lib_v2.5.0.jar')
+    compile files('libs/umeng-update-v2.6.0.1.jar')
 }

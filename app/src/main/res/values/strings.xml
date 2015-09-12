@@ -27,6 +27,10 @@
     <string name="anonymous">匿名用户</string>
     <string name="answer_vote">赞同</string>
 
+    <!-- menu -->
+    <string name="menu_home_token">My Token</string>
+    <string name="menu_answer_tip_off">举报</string>
+
     <!-- version name -->
     <string name="app_version_name">0.1.0</string>
 </resources>

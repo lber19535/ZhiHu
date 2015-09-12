@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.bill.zhihu.api.ZhihuApi;
+import com.umeng.message.UmengRegistrar;
 
 /**
  * Application
@@ -22,6 +23,8 @@ public class ZhihuApp extends Application {
         mContext = this;
         // set globel context
         ZhihuApi.registerContext(this);
+        String device_token = UmengRegistrar.getRegistrationId(this);
+        System.out.println("device token " + device_token);
     }
 
     public static Context getContext() {
