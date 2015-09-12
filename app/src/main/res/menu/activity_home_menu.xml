@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/report"
+        android:id="@+id/token"
         android:title="@string/menu_home_token"
+        />
+    <item
+        android:id="@+id/version"
+        android:title="@string/app_version_name"
         />
 </menu>

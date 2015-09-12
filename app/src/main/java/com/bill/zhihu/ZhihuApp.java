@@ -24,7 +24,6 @@ public class ZhihuApp extends Application {
         // set globel context
         ZhihuApi.registerContext(this);
         String device_token = UmengRegistrar.getRegistrationId(this);
-        System.out.println("device token " + device_token);
     }
 
     public static Context getContext() {

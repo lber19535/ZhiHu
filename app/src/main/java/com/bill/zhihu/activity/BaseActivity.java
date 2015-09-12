@@ -9,17 +9,25 @@ import android.support.v7.widget.Toolbar;
 import com.bill.zhihu.R;
 import com.umeng.message.PushAgent;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class BaseActivity extends AppCompatActivity {
+
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // enable u meng push service
         PushAgent.getInstance(this).onAppStart();
+
     }
 
     /**
      * custom which layout would be replace
-     * 
+     *
      * @param id
      * @param fragment
      */
@@ -30,9 +38,8 @@ public class BaseActivity extends AppCompatActivity {
 
     /**
      * use R.id.fragment_container for replace
-     * 
-     * @param fragment
-     *            target fragment
+     *
+     * @param fragment target fragment
      */
     public void toggleFragment(Fragment fragment) {
         toggleFragment(R.id.fragment_container, fragment);
@@ -40,7 +47,7 @@ public class BaseActivity extends AppCompatActivity {
 
     /**
      * custom enter and exit animation
-     * 
+     *
      * @param id
      * @param fragment
      * @param enter
@@ -56,10 +63,10 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * init the base toolbar
      */
-    public void initToolBar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setLogo(R.mipmap.logo);
+    protected void initToolBar() {
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        setTitle(getResources().getString(R.string.app_name));
     }
 
 

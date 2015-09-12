@@ -15,7 +15,7 @@
         android:layout_marginBottom="@dimen/global_margin_16"
         android:layout_marginLeft="@dimen/global_margin_16"
         android:layout_marginRight="@dimen/global_margin_16"
-        android:src="@drawable/abc_ic_menu_share_mtrl_alpha"
+        android:src="@drawable/ic_share_white"
         fab:fab_colorNormal="@color/blue"
         fab:fab_colorPressed="@color/blue_dark"
         fab:fab_colorRipple="@color/blue_light"

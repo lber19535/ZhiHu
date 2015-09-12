@@ -6,7 +6,7 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppTheme.Light">
+    <style name="AppTheme" parent="AppTheme.Dark">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
