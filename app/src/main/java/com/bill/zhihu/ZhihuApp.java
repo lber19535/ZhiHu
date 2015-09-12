@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.bill.zhihu.api.ZhihuApi;
+
 /**
  * Application
  *
@@ -18,6 +20,8 @@ public class ZhihuApp extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+        // set globel context
+        ZhihuApi.registerContext(this);
     }
 
     public static Context getContext() {
