@@ -12,6 +12,7 @@ import com.bill.zhihu.home.ActivityHome;
 import com.bill.zhihu.login.ActivityLogin;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengRegistrar;
+import com.umeng.update.UmengUpdateAgent;
 
 /**
  * 启动页，该Activity中会进行一些联网判断，登陆判断等处理来决定跳转页面
@@ -25,6 +26,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // u meng auto update
+        UmengUpdateAgent.update(this);
+        // u meng push service
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.enable();
 
         boolean haveLogin = ZhihuCookieManager.haveCookieName("z_c0");
 
@@ -51,9 +58,6 @@ public class MainActivity extends Activity {
         });
 
         ZhihuApi.execCmd(cmdFetchXSRF);
-
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.enable();
 
     }
 

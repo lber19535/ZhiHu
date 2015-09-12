@@ -25,4 +25,5 @@ dependencies {
     compile files('libs/jeson.jar')
     compile files('libs/com.umeng.message.lib_v2.5.0.jar')
     compile files('libs/umeng-update-v2.6.0.1.jar')
+    compile files('libs/umeng-analytics-v5.5.3.jar')
 }
