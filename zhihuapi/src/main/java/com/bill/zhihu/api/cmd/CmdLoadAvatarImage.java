@@ -43,8 +43,11 @@ public class CmdLoadAvatarImage extends Command {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     ZhihuLog.d(TAG, "fetch the captcha img faild");
-                    ZhihuLog.d(TAG, error.networkResponse.statusCode);
-                    ZhihuLog.d(TAG, new String(error.networkResponse.data));
+                    ZhihuLog.d(TAG, "url " + url);
+                    if (error.networkResponse != null) {
+                        ZhihuLog.d(TAG, error.networkResponse.statusCode);
+                        ZhihuLog.d(TAG, new String(error.networkResponse.data));
+                    }
 
                 }
             });

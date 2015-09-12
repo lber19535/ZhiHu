@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.bill.zhihu.api.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.AnswerContent;
+import com.bill.zhihu.api.utils.UrlUtils;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
 import org.jsoup.nodes.Attribute;
@@ -58,8 +59,8 @@ public class AnswerContentFactory {
 
         //答主头像
         Elements avatarUrlElement = elements.select("img[class=zm-list-avatar]");
-        answerContent.setAvatarImgUrl("http:" + avatarUrlElement.attr("src").replace("_s", "_m"));
-
+        String avatarUrl = avatarUrlElement.attr("src");
+        answerContent.setAvatarImgUrl(UrlUtils.avatarUrlParse(avatarUrl).replace("_s", "_m"));
         // 简介
         Elements introElement = elements.select("strong[class=zu-question-my-bio]");
         answerContent.setIntro(introElement.attr("title"));

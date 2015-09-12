@@ -3,6 +3,7 @@ package com.bill.zhihu.api.factory;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.TimeLineItem.ContentType;
 import com.bill.zhihu.api.bean.Url;
+import com.bill.zhihu.api.utils.UrlUtils;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
@@ -44,7 +45,8 @@ public class TimeLineItemFactory {
         ZhihuLog.dValue(TAG, "avatarImgUrl ", avatarImgUrl);
         ZhihuLog.dValue(TAG, "blockId ", blockId);
         // 由于官方首页代码中avatar url的改动去掉了 http 所以这里要加上
-        item.setAvatarImgUrl("http:" + avatarImgUrl);
+        item.setAvatarImgUrl(UrlUtils.avatarUrlParse(avatarImgUrl));
+
         item.setDataBlock(blockId);
         item.setDataOffset(dataOffset);
         return this;
@@ -156,6 +158,7 @@ public class TimeLineItemFactory {
      * 通过 class href等获取链接类型，评论类型的暂时还不知道怎么判断
      *
      * @param element
+     *
      * @return
      */
     private Url.Type getUrlType(Element element) {

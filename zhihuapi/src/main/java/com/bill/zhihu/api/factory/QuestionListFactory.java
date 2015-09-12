@@ -6,6 +6,7 @@ import com.bill.zhihu.api.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.AnswerItemInQuestion;
 import com.bill.zhihu.api.bean.QuestionContent;
+import com.bill.zhihu.api.utils.UrlUtils;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.api.utils.ZhihuURL;
 
@@ -111,7 +112,8 @@ public class QuestionListFactory {
             item.setVoteCount(voteCount);
             // 头像url
             String avatarUrl = e.select("img[class=zm-list-avatar]").attr("src");
-            item.setAvatarUrl("http:" + avatarUrl);
+            item.setAvatarUrl(UrlUtils.avatarUrlParse(avatarUrl));
+
             // 答案url
             String answerUrl = e.select("a[class^=answer-date-link]").attr("href");
             item.setAnswerUrl(ZhihuURL.HOST + answerUrl);
