@@ -2,9 +2,11 @@ package com.bill.zhihu.activity;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.WindowManager;
 
 import com.bill.zhihu.R;
 import com.umeng.message.PushAgent;
@@ -22,6 +24,12 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // enable u meng push service
         PushAgent.getInstance(this).onAppStart();
+
+        // 沉浸式模式兼容5.0之前的版本
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
 
     }
 

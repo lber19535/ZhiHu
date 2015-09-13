@@ -3,6 +3,7 @@
     <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="android:windowBackground">?colorPrimary</item>
         <item name="actionOverflowButtonStyle">@style/Toolbar.OverFlowButton</item>
     </style>
 

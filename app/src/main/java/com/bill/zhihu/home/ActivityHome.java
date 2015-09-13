@@ -3,11 +3,13 @@ package com.bill.zhihu.home;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.activity.BaseActivity;
