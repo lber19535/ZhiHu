@@ -23,7 +23,6 @@ public class ZhihuApp extends Application {
         mContext = this;
         // set globel context
         ZhihuApi.registerContext(this);
-        String device_token = UmengRegistrar.getRegistrationId(this);
     }
 
     public static Context getContext() {

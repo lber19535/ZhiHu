@@ -3,6 +3,7 @@ package com.bill.zhihu;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.cmd.CmdLoadXSRF;
@@ -27,12 +28,18 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // u meng auto update
-        UmengUpdateAgent.update(this);
-        // u meng push service
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.enable();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                // u meng auto update
+                UmengUpdateAgent.update(MainActivity.this);
+                // u meng push service
+                PushAgent mPushAgent = PushAgent.getInstance(MainActivity.this);
+                mPushAgent.enable();
+            }
+        });
 
+        // check login state
         boolean haveLogin = ZhihuCookieManager.haveCookieName("z_c0");
 
         if (haveLogin) {
