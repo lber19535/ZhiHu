@@ -14,7 +14,7 @@
     <WebView
         android:id="@+id/question_detail"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/global_margin_4" />
 
 </LinearLayout>

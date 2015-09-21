@@ -69,6 +69,8 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter {
             // 问题详情
             viewHolder.questionDetailWv.getSettings().setJavaScriptEnabled(false);
             viewHolder.questionDetailWv.loadDataWithBaseURL("file:///android_asset/", questionContent.getQuestionDetail(), "text/html; charset=UTF-8", null, null);
+            ZhihuLog.dValue(TAG, "detail ", questionContent.getQuestionDetail());
+            viewHolder.questionDetailWv.reload();
             // 问题标题
             viewHolder.answerTv.setText(questionContent.getQuestionTitle());
         } else {

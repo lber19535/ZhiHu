@@ -25,6 +25,7 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 问题界面 包括问题列表、问题、问题详情、话题
@@ -85,6 +86,8 @@ public class FragmentQuestion extends Fragment {
             }
         });
 
+        fabBtn.attachToRecyclerView(answerListRv);
+
         playLoadingAnim();
 
         return rootView;
@@ -111,6 +114,11 @@ public class FragmentQuestion extends Fragment {
             }
         });
         animator.start();
+    }
+
+    @OnClick(R.id.fab)
+    public void backToTop(View v){
+        answerListRv.smoothScrollToPosition(0);
     }
 
     @Override
