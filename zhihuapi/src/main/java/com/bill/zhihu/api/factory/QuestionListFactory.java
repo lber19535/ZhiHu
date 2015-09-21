@@ -43,12 +43,12 @@ public class QuestionListFactory {
      */
     public QuestionContent create() {
         QuestionContent content = new QuestionContent();
-
+        ZhihuLog.d(TAG, "QuestionListFactory");
         // question id 用于关注
         String questionId = element.select("div[id=zh-question-detail]").attr("data-resourceid");
         // content
         content.setQuestionId(questionId);
-        ZhihuLog.dValue(TAG, "questionId", questionId);
+        ZhihuLog.d(TAG, "questionId");
 
         // 问题详细描述
         Element questElement = element.select("div[class=zm-editable-content]").first();
@@ -91,7 +91,9 @@ public class QuestionListFactory {
         }
 
         // 各个回答
-        Elements answerElements = element.select("div[class=zm-item-answer]");
+        // 由于网页经常调整，这里可能会经常修改
+        Elements answerElements = element.select("div[id=zh-question-answer-wrap] > div[class^=zm-item-answer]");
+        ZhihuLog.dValue(TAG, "answerElements size is ", answerElements.size());
         for (Element e : answerElements) {
             AnswerItemInQuestion item = new AnswerItemInQuestion();
 
@@ -104,22 +106,28 @@ public class QuestionListFactory {
             } else {
                 item.setPeopleName(name);
             }
+            ZhihuLog.dValue(TAG, "name  is ", name);
             // 答主签名
             String bio = e.select("strong[class=zu-question-my-bio]").text();
+            ZhihuLog.dValue(TAG, "bio  is ", bio);
             item.setPeopleBio(bio);
             // 赞同
             String voteCount = e.select("span[class=count]").text();
+            ZhihuLog.dValue(TAG, "voteCount  is ", voteCount);
             item.setVoteCount(voteCount);
             // 头像url
             String avatarUrl = e.select("img[class=zm-list-avatar]").attr("src");
+            ZhihuLog.dValue(TAG, "avatarUrl  is ", avatarUrl);
             item.setAvatarUrl(UrlUtils.avatarUrlParse(avatarUrl));
 
             // 答案url
             String answerUrl = e.select("a[class^=answer-date-link]").attr("href");
+            ZhihuLog.dValue(TAG, "answerUrl  is ", answerUrl);
             item.setAnswerUrl(ZhihuURL.HOST + answerUrl);
 
             // 回答内容
             String richTextOriginal = e.select("div[class=zm-item-rich-text]").text();
+            ZhihuLog.dValue(TAG, "richTextOriginal  is ", richTextOriginal);
             String answerSummary;
             // 裁剪回答内容，便于显示summary
             if (richTextOriginal.length() > SUMMARY_SIZE) {
@@ -127,6 +135,7 @@ public class QuestionListFactory {
             } else {
                 answerSummary = richTextOriginal;
             }
+            ZhihuLog.dValue(TAG, "answerSummary  is ", answerSummary);
             item.setAnswerSummary(answerSummary);
             content.addAnswers(item);
         }

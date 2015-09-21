@@ -35,7 +35,7 @@ public class ZhihuStringRequest extends GzipStringRequest {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> header = new HashMap<String, String>();
+        Map<String, String> header = new HashMap<>();
         header.put("User-Agent", NetConstants.UA);
         header.put("Accept-Encoding", "gzip, deflate");
         return header;
