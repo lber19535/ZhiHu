@@ -31,3 +31,4 @@
 -keep @io.realm.annotations.RealmModule class *
 -dontwarn javax.**
 -dontwarn io.realm.**
+-keep public class com.tencent.bugly.**{*;}

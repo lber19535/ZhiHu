@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.bill.zhihu.api.ZhihuApi;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.message.UmengRegistrar;
 
 /**
@@ -23,6 +24,7 @@ public class ZhihuApp extends Application {
         mContext = this;
         // set globel context
         ZhihuApi.registerContext(this);
+        CrashReport.initCrashReport(this, "900009454", false);
     }
 
     public static Context getContext() {

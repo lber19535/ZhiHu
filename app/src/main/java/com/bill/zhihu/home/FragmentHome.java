@@ -22,6 +22,7 @@ import com.bill.zhihu.view.SwipyRefreshLayout.OnRefreshListener;
 import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
 import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.List;
