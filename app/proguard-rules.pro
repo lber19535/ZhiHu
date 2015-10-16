@@ -32,3 +32,46 @@
 -dontwarn javax.**
 -dontwarn io.realm.**
 -keep public class com.tencent.bugly.**{*;}
+
+-keepclasseswithmembernames class * {
+    @com.bill.jeson.annotation.* <fields>;
+}
+
+#-dontwarn android.support.v7.**
+#-keep class android.support.v7.** { *; }
+#-keep interface android.support.v7.** { *; }
+-dontwarn org.apache.http.**
+-dontwarn com.android.volley.toolbox.**
+
+-keep class com.umeng.message.* {
+        public <fields>;
+        public <methods>;
+}
+-keep class com.umeng.message.protobuffer.* {
+        public <fields>;
+        public <methods>;
+}
+-keep class com.squareup.wire.* {
+        public <fields>;
+        public <methods>;
+}
+-keep class com.umeng.message.local.* {
+        public <fields>;
+        public <methods>;
+}
+-keep class org.android.agoo.impl.*{
+        public <fields>;
+        public <methods>;
+}
+-keep class org.android.agoo.service.* {*;}
+-keep class org.android.spdy.**{*;}
+-keep public class com.bill.zhihu.R$*{
+    public static final int *;
+}
+-keepclassmembers class * {
+   public <init>(org.json.JSONObject);
+}
+-keep public class * extends com.umeng.**
+-keep class com.umeng.** { *; }
+-dontwarn com.umeng.**
+-dontwarn org.android.agoo.net.**
