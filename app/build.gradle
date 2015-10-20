@@ -8,7 +8,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 8
-        versionName "0.1.5"
+        versionName "0.1.6"
     }
     buildTypes {
         release {
@@ -16,13 +16,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             shrinkResources true
+
+            resValue "string", "app_version_name", "${defaultConfig.versionName}"
         }
         debug {
             minifyEnabled true
             zipAlignEnabled true
-            shrinkResources true
+            shrinkResources false
+
+            resValue "string", "app_version_name", "${defaultConfig.versionName}-debug"
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        applicationVariants.all { variant ->
+
+            variant.outputs.each { output ->
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    def fileName = outputFile.name.replace(".apk", "-${defaultConfig.versionName}.apk")
+                    output.outputFile = new File(outputFile.parent, fileName)
+                }
+            }
+        }
+
     }
     productFlavors {
     }

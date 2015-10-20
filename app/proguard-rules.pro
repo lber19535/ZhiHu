@@ -65,9 +65,9 @@
 }
 -keep class org.android.agoo.service.* {*;}
 -keep class org.android.spdy.**{*;}
--keep public class com.bill.zhihu.R$*{
-    public static final int *;
-}
+#-keep public class com.bill.zhihu.R$*{
+#    public static final int *;
+#}
 -keepclassmembers class * {
    public <init>(org.json.JSONObject);
 }
