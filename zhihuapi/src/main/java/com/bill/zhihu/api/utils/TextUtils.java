@@ -18,10 +18,9 @@ public class TextUtils {
     /**
      * 给String着色
      *
-     * @param src 源字符串
-     * @param color 着色color
+     * @param src     源字符串
+     * @param color   着色color
      * @param targets 着色字段
-     *
      * @return
      */
     public static SpannableStringBuilder getColorString(String src, int color,
@@ -32,10 +31,9 @@ public class TextUtils {
     /**
      * 给String着色
      *
-     * @param src 源字符串
-     * @param color 着色color
+     * @param src     源字符串
+     * @param color   着色color
      * @param targets 着色字段
-     *
      * @return
      */
     public static SpannableStringBuilder getColorString(String src, int color,
@@ -58,7 +56,6 @@ public class TextUtils {
      * 知乎赞同票数的缩略形式
      *
      * @param num
-     *
      * @return
      */
     public static String getSummaryNumber(int num) {
@@ -69,7 +66,6 @@ public class TextUtils {
      * 知乎赞同票数的缩略形式
      *
      * @param num
-     *
      * @return
      */
     public static String getSummaryNumber(String num) {
@@ -83,6 +79,17 @@ public class TextUtils {
         }
         return num;
 
+    }
+
+    /**
+     * 首字母大写
+     *
+     * @param str
+     * @return
+     */
+    public static String upperHead(String str) {
+        String[] array = str.split("");
+        return str.replaceFirst(array[1], array[1].toUpperCase());
     }
 
 }

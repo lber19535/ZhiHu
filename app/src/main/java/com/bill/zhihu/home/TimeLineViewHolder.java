@@ -1,6 +1,7 @@
 package com.bill.zhihu.home;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.api.cmd.CmdLoadAvatarImage;
 import com.bill.zhihu.api.utils.ZhihuLog;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.orhanobut.logger.Logger;
 
 /**
  * item之间相同的东西(来源，avatar，问题)放到这个父类中
@@ -22,18 +24,18 @@ public class TimeLineViewHolder extends ViewHolder {
 
     public TextView questionTv;
     public TextView fromTv;
-    public ImageView avatarIv;
+    public SimpleDraweeView avatarIv;
 
     protected TimeLineItemOnClickListener onClickListener;
     protected TimeLineItemOnLongClickListener onLongClickListener;
 
-    private CmdLoadAvatarImage avatarImage;
+//    private CmdLoadAvatarImage avatarImage;
 
     public TimeLineViewHolder(View itemView) {
         super(itemView);
         questionTv = (TextView) itemView.findViewById(R.id.question);
         fromTv = (TextView) itemView.findViewById(R.id.from);
-        avatarIv = (ImageView) itemView.findViewById(R.id.header);
+        avatarIv = (SimpleDraweeView) itemView.findViewById(R.id.header);
 
     }
 
@@ -43,23 +45,15 @@ public class TimeLineViewHolder extends ViewHolder {
      *
      * @param url
      */
-    public void loadAvatarImage(String url) {
-        ZhihuLog.dValue(url, "avatar img url", url);
-        avatarImage = new CmdLoadAvatarImage(url);
-        avatarImage
-                .setOnCmdCallBack(new CmdLoadAvatarImage.CallbackListener() {
-
-                    @Override
-                    public void callback(Bitmap captchaImg) {
-                        avatarIv.setImageBitmap(captchaImg);
-                    }
-                });
-        avatarImage.exec();
+    public void setAvatarImageUrl(String url) {
+        Logger.d("avatar img url", url);
+        Uri uri = Uri.parse(url);
+        avatarIv.setImageURI(uri);
 
     }
 
     public void cancelImageLoad() {
-        avatarImage.cancel();
+//        avatarImage.cancel();
     }
 
     /**

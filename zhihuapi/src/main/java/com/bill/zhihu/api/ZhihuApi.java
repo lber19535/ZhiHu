@@ -1,50 +1,41 @@
 package com.bill.zhihu.api;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 
-import com.bill.zhihu.api.cmd.CmdLoadAnswer;
-import com.bill.zhihu.api.cmd.CmdLoadHomePage;
-import com.bill.zhihu.api.cmd.CmdLoadMore;
-import com.bill.zhihu.api.cmd.CmdLoadQuestion;
-import com.bill.zhihu.api.cmd.CmdLogin;
-import com.bill.zhihu.api.cmd.Command;
-import com.bill.zhihu.api.net.URLCookiesStore;
-import com.bill.zhihu.api.net.ZhihuCookieManager;
+import com.bill.zhihu.api.bean.FeedsResponse;
+import com.bill.zhihu.api.cookie.URLCookiesStore;
+import com.bill.zhihu.api.factory.ApiFactory;
+
+import rx.Observable;
 
 /**
  * 知乎api总的接口
  */
 public class ZhihuApi {
 
-    private static final String XSRF = "_xsrf";
-
     private static Context mContext;
-
-    public static void execCmd(Command cmd) {
-        cmd.exec();
-    }
-
-    public static void cancelCmd(Command cmd) {
-        cmd.cancel();
-    }
 
     /**
      * Use this in Application class to set the globel context to API
      *
      * @param context globel context
      */
-    public static void registerContext(Context context){
+    public static void registerContext(Context context) {
         mContext = context;
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
+        if (mContext == null)
+            try {
+                throw new Throwable("Please register global context in Application");
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
         return mContext;
     }
 
-    public static Resources getRes(){
+    public static Resources getRes() {
         return mContext.getResources();
     }
 
@@ -56,46 +47,22 @@ public class ZhihuApi {
     }
 
     /**
-     * if don't have xsrf or don't fetch xsrf value return null
+     * 加载首页
      *
      * @return
      */
-    public static String getXSRF() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
-        if (ZhihuCookieManager.haveCookieName(ZhihuApi.XSRF)) {
-            return ZhihuCookieManager.getCookieValue(ZhihuApi.XSRF);
-        } else {
-            return sp.getString(ZhihuApi.XSRF, null);
-        }
-    }
-
-    public static void setXSRF(String xsrf) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
-        sp.edit().putString(XSRF, xsrf).commit();
-    }
-
-    /**
-     * 加载首页
-     *
-     * @param listener
-     */
-    public static void loadHomePage(CmdLoadHomePage.CallbackListener listener) {
-        CmdLoadHomePage cmd = new CmdLoadHomePage();
-        cmd.setOnCmdCallBack(listener);
-        ZhihuApi.execCmd(cmd);
+    public static Observable<FeedsResponse> loadHomePage() {
+        return ApiFactory.createFeedsApi().getFeeds();
     }
 
     /**
      * 加载更多
      *
-     * @param start
-     * @param offset
-     * @param listener
+     * @param id in last {@link com.bill.zhihu.api.bean.FeedsItem}
+     * @return
      */
-    public static void loadMore(int start, int offset, CmdLoadMore.CallbackListener listener) {
-        CmdLoadMore loadMore = new CmdLoadMore(start, offset);
-        loadMore.setOnCmdCallBack(listener);
-        ZhihuApi.execCmd(loadMore);
+    public static Observable<FeedsResponse> loadMore(String id) {
+        return ApiFactory.createFeedsApi().getFeedsById(id);
     }
 
     /**
@@ -105,26 +72,30 @@ public class ZhihuApi {
      * @param offset
      * @param listener
      */
-    @Deprecated
-    public static void loadMore(long blockId, int offset, CmdLoadMore.CallbackListener listener) {
-        CmdLoadMore loadMore = new CmdLoadMore(blockId, offset);
-        loadMore.setOnCmdCallBack(listener);
-        ZhihuApi.execCmd(loadMore);
-    }
+//    @Deprecated
+//    public static void loadMore(long blockId, int offset, CmdLoadMore.CallbackListener listener) {
+//        CmdLoadMore loadMore = new CmdLoadMore(blockId, offset);
+//        loadMore.setOnCmdCallBack(listener);
+//        ZhihuApi.execCmd(loadMore);
+//    }
 
+    /**
+     * 初次登陆之前必须调用，用来去掉验证码
+     *
+     * @return 如果请求成功则会正常 next，失败则会 error
+     */
+    public static Observable<Void> captcha() {
+        return ApiFactory.createLoginApi().captcha();
+    }
 
     /**
      * 登陆
      *
-     * @param account
+     * @param username
      * @param pwd
-     * @param captcha
-     * @param listener
      */
-    public static void login(String account, String pwd, String captcha, CmdLogin.CallbackListener listener) {
-        CmdLogin login = new CmdLogin(account, pwd, captcha);
-        login.setOnCmdCallBack(listener);
-        ZhihuApi.execCmd(login);
+    public static Observable<Boolean> login(String username, String pwd) {
+        return ApiFactory.createLoginApi().login(username, pwd);
     }
 
     /**
@@ -133,15 +104,38 @@ public class ZhihuApi {
      * @param answerUrl
      * @param listener
      */
-    public static void loadAnswer(String answerUrl, CmdLoadAnswer.CallBackListener listener) {
-        CmdLoadAnswer loadAnswer = new CmdLoadAnswer(answerUrl);
-        loadAnswer.setOnCmdCallBack(listener);
-        ZhihuApi.execCmd(loadAnswer);
+//    public static void loadAnswer(String answerUrl, CmdLoadAnswer.CallBackListener listener) {
+//        CmdLoadAnswer loadAnswer = new CmdLoadAnswer(answerUrl);
+//        loadAnswer.setOnCmdCallBack(listener);
+//        ZhihuApi.execCmd(loadAnswer);
+//    }
+//
+//    public static void loadQuestionPage(String url, CmdLoadQuestion.CallBackListener listener) {
+//        CmdLoadQuestion loadQuestion = new CmdLoadQuestion(url);
+//        loadQuestion.setOnCmdCallBack(listener);
+//        ZhihuApi.execCmd(loadQuestion);
+//    }
+
+    /**
+     * 是否已登陆
+     *
+     * @return
+     */
+    public static Observable<Boolean> haveLogin() {
+
+        return ApiFactory.createLoginApi().haveLogin();
     }
 
-    public static void loadQuestionPage(String url, CmdLoadQuestion.CallBackListener listener) {
-        CmdLoadQuestion loadQuestion = new CmdLoadQuestion(url);
-        loadQuestion.setOnCmdCallBack(listener);
-        ZhihuApi.execCmd(loadQuestion);
+    /**
+     * 注销登陆状态
+     *
+     * @return
+     */
+    public static Observable<Boolean> logout() {
+        return null;
+    }
+
+    public static void getPeopleSelfBasic() {
+        ApiFactory.createPeopleApi().getSelfBasic();
     }
 }

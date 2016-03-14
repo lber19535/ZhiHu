@@ -2,7 +2,6 @@ package com.bill.zhihu.login;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +14,16 @@ import android.widget.Toast;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
-import com.bill.zhihu.api.cmd.CmdLogin;
-import com.bill.zhihu.api.utils.ToastUtil;
-import com.bill.zhihu.api.utils.ZhihuLog;
+import com.bill.zhihu.api.bean.PeopleBasicResponse;
+import com.bill.zhihu.api.factory.ApiFactory;
 import com.bill.zhihu.home.ActivityHome;
+import com.orhanobut.logger.Logger;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import io.realm.RealmResults;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 /**
  * 登录
@@ -29,15 +34,17 @@ import com.bill.zhihu.home.ActivityHome;
 public class FragmentLogin extends Fragment {
 
     private static final String TAG = "FragmentLogin";
-
-    private Button loginBtn;
-    private EditText accountEdt;
-    private EditText pwdEdt;
-    private EditText captchaEdt;
-    private ImageView captchaIv;
+    @Bind(R.id.login_btn)
+    Button loginBtn;
+    @Bind(R.id.login_account)
+    EditText accountEdt;
+    @Bind(R.id.login_pwd)
+    EditText pwdEdt;
     // 输入账号的密码的layout
-    private View loginLayout;
-    private View captchaLayout;
+    @Bind(R.id.login_layout)
+    View loginLayout;
+    @Bind(R.id.captcha_layout)
+    View captchaLayout;
 
     private View rootView;
 
@@ -45,19 +52,12 @@ public class FragmentLogin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_login, container, false);
+        ButterKnife.bind(this, rootView);
         initView();
         return rootView;
     }
 
     private void initView() {
-        accountEdt = (EditText) rootView.findViewById(R.id.login_account);
-        pwdEdt = (EditText) rootView.findViewById(R.id.login_pwd);
-        captchaEdt = (EditText) rootView.findViewById(R.id.login_captcha);
-        loginBtn = (Button) rootView.findViewById(R.id.login_btn);
-        captchaIv = (ImageView) rootView.findViewById(R.id.login_captcha_img);
-
-        loginLayout = rootView.findViewById(R.id.login_layout);
-        captchaLayout = rootView.findViewById(R.id.captcha_layout);
 
         loginBtn.setOnClickListener(new OnClickListener() {
 
@@ -67,7 +67,6 @@ public class FragmentLogin extends Fragment {
 
                 String account = accountEdt.getEditableText().toString();
                 String pwd = pwdEdt.getEditableText().toString();
-                String captcha = captchaEdt.getEditableText().toString();
 
                 if (account.isEmpty() || pwd.isEmpty()) {
                     Toast.makeText(getActivity(),
@@ -76,46 +75,39 @@ public class FragmentLogin extends Fragment {
                     loginBtn.setClickable(true);
                     return;
                 }
-                login(account, pwd, captcha);
-                // loginSuccessAnime();
+                login(account, pwd);
+                loginSuccessAnime();
 
             }
         });
     }
 
     // 登陆
-    private void login(String account, String pwd, String captcha) {
-        CmdLogin.CallbackListener listener = new CmdLogin.CallbackListener() {
+    private void login(String account, String pwd) {
 
+        ApiFactory.createLoginApi().captcha();
+        ZhihuApi.login(account, pwd).subscribeOn(Schedulers.io()).subscribe(new Subscriber<Boolean>() {
             @Override
-            public void callback(int code, Bitmap captcha) {
-                ZhihuLog.d(TAG, code);
-                switch (code) {
-                    case CmdLogin.LOGIN_SUCCESS:
-                        ToastUtil.showShortToast(getResources().getString(
-                                R.string.login_success));
-                        Intent intent = new Intent(getActivity(),
-                                ActivityHome.class);
-                        startActivity(intent);
-                        getActivity().overridePendingTransition(
-                                R.anim.activity_login_home_in_transition,
-                                R.anim.activity_login_home_out_transition);
-                        getActivity().finish();
-
-                        break;
-                    case CmdLogin.LOGIN_FAILED:
-                        captchaLayout.setVisibility(View.VISIBLE);
-                        captchaIv.setImageBitmap(captcha);
-                        break;
-                    case CmdLogin.ERRCODE_TIME_OUT:
-                        ToastUtil.showShortToast("连接超时");
-                    default:
-                        break;
-                }
+            public void onCompleted() {
+                Logger.d("log in complete");
                 loginBtn.setClickable(true);
             }
-        };
-        ZhihuApi.login(account, pwd, captcha, listener);
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.d("log in failed");
+                Logger.d(e.toString());
+            }
+
+            @Override
+            public void onNext(Boolean bool) {
+                Logger.d("log in " + bool);
+                ZhihuApi.getPeopleSelfBasic();
+                Intent intent = new Intent(getActivity(), ActivityHome.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
     }
 
     private void loginSuccessAnime() {

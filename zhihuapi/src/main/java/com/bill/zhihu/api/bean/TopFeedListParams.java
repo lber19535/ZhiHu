@@ -1,7 +1,7 @@
 package com.bill.zhihu.api.bean;
 
-import com.bill.jeson.annotation.JsonField;
-import com.bill.jeson.annotation.JsonObject;
+//import com.bill.jeson.annotation.JsonField;
+//import com.bill.jeson.annotation.JsonObject;
 
 /**
  * top feed list 接口的post数据
@@ -9,15 +9,15 @@ import com.bill.jeson.annotation.JsonObject;
  * @author Lv Beier
  *
  */
-@JsonObject
+//@JsonObject
 public class TopFeedListParams {
 
     private final String action = "next";
 //    @JsonField(name = "block_id")
     private long blockId;
-    @JsonField(name = "start")
+//    @JsonField(name = "start")
     private long start;
-    @JsonField
+//    @JsonField
     private int offset;
 
     public long getBlockId() {

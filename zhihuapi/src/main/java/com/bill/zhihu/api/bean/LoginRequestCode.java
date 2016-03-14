@@ -1,14 +1,14 @@
 package com.bill.zhihu.api.bean;
 
-import com.bill.jeson.annotation.JsonField;
-import com.bill.jeson.annotation.JsonObject;
+//import com.bill.jeson.annotation.JsonField;
+//import com.bill.jeson.annotation.JsonObject;
 
 /**
  * 登陆状态返回的json
  *
  * @author Bill Lv
  */
-@JsonObject
+//@JsonObject
 public class LoginRequestCode {
 
     /**
@@ -17,16 +17,16 @@ public class LoginRequestCode {
      * "msg": "\u9a8c\u8bc1\u7801\u9519\u8bef"    }
      */
 
-    @JsonField(name = "r")
+//    @JsonField(name = "r")
     private int requestCode;
 
-    @JsonField(name = "errcode")
+//    @JsonField(name = "errcode")
     private int errorCode = -1;
 
-    @JsonField(name = "msg")
+//    @JsonField(name = "msg")
     private String reqMsg;
 
-    @JsonField(name = "data")
+//    @JsonField(name = "data")
     private LoginRequestData data;
 
     private LoginRequestMsg msg;

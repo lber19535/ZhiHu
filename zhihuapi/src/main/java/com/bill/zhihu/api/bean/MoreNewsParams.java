@@ -1,17 +1,17 @@
 package com.bill.zhihu.api.bean;
 
-import com.bill.jeson.annotation.JsonField;
-import com.bill.jeson.annotation.JsonObject;
+//import com.bill.jeson.annotation.JsonField;
+//import com.bill.jeson.annotation.JsonObject;
 
 /**
  * 加载更多 json对象
  *
  * @author Bill Lv
  */
-@JsonObject
+//@JsonObject
 public class MoreNewsParams {
 
-    @JsonField
+//    @JsonField
     private String action = "more";
 
     public String getAction() {

@@ -1,18 +1,18 @@
 package com.bill.zhihu.api.bean;
 
-import com.bill.jeson.annotation.JsonField;
-import com.bill.jeson.annotation.JsonObject;
+//import com.bill.jeson.annotation.JsonField;
+//import com.bill.jeson.annotation.JsonObject;
 
 /**
  * 登陆时返回的json中有一个data对象
  * Created by Bill-pc on 2015/7/24.
  */
-@JsonObject
+//@JsonObject
 public class LoginRequestData {
 
-    @JsonField
+//    @JsonField
     private String captcha;
-    @JsonField
+//    @JsonField
     private String password;
 
     public String getCaptcha() {

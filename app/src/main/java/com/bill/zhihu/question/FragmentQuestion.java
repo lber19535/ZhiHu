@@ -17,7 +17,6 @@ import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.QuestionContent;
 import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.api.cmd.CmdLoadQuestion;
 import com.bill.zhihu.view.SwipyRefreshLayout;
 import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
 import com.melnykov.fab.FloatingActionButton;
@@ -56,18 +55,18 @@ public class FragmentQuestion extends Fragment {
 
         TimeLineItem item = getActivity().getIntent().getParcelableExtra(TimeLineItem.KEY);
 
-        ZhihuApi.loadQuestionPage(item.getQuestionUrl().getUrl(), new CmdLoadQuestion.CallBackListener() {
-            @Override
-            public void callBack(QuestionContent content) {
-                stopLoadingAnim();
-                questionContent.setQuestionDetail(content.getQuestionDetail());
-                questionContent.setQuestionTitle(content.getQuestionTitle());
-                questionContent.setAnswers(content.getAnswers());
-                questionContent.setQuestionId(content.getQuestionId());
-                questionContent.setTopics(content.getTopics());
-                recyclerAdapter.notifyDataSetChanged();
-            }
-        });
+//        ZhihuApi.loadQuestionPage(item.getQuestionUrl().getUrl(), new CmdLoadQuestion.CallBackListener() {
+//            @Override
+//            public void callBack(QuestionContent content) {
+//                stopLoadingAnim();
+//                questionContent.setQuestionDetail(content.getQuestionDetail());
+//                questionContent.setQuestionTitle(content.getQuestionTitle());
+//                questionContent.setAnswers(content.getAnswers());
+//                questionContent.setQuestionId(content.getQuestionId());
+//                questionContent.setTopics(content.getTopics());
+//                recyclerAdapter.notifyDataSetChanged();
+//            }
+//        });
         // adapter
         recyclerAdapter = new QuestionRecyclerAdapter(getActivity(), questionContent);
         answerListRv.setAdapter(recyclerAdapter);

@@ -26,7 +26,7 @@
                 android:layout_alignParentLeft="true"
                 android:text="@string/from" />
 
-            <com.android.volley.toolbox.NetworkImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/header"
                 style="@style/ImageView.TimeLine.Avatar"
                 android:layout_alignParentEnd="true"

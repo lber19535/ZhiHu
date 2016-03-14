@@ -1,7 +1,7 @@
 package com.bill.zhihu.api.bean;
 
-import com.bill.jeson.annotation.JsonField;
-import com.bill.jeson.annotation.JsonObject;
+//import com.bill.jeson.annotation.JsonField;
+//import com.bill.jeson.annotation.JsonObject;
 
 /**
  * 下拉刷新 接口的post数据
@@ -9,12 +9,12 @@ import com.bill.jeson.annotation.JsonObject;
  * @author Lv Beier
  *
  */
-@JsonObject
+//@JsonObject
 public class TopRefreshParams {
 
-    @JsonField
+//    @JsonField
     private final String action = "live";
-    @JsonField(name = "limit")
+//    @JsonField(name = "limit")
     private final long limit = 1;
 
     public String getAction() {

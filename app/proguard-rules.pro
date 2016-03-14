@@ -36,10 +36,6 @@
 -keepclasseswithmembernames class * {
     @com.bill.jeson.annotation.* <fields>;
 }
-
-#-dontwarn android.support.v7.**
-#-keep class android.support.v7.** { *; }
-#-keep interface android.support.v7.** { *; }
 -dontwarn org.apache.http.**
 -dontwarn com.android.volley.toolbox.**
 
@@ -75,3 +71,11 @@
 -keep class com.umeng.** { *; }
 -dontwarn com.umeng.**
 -dontwarn org.android.agoo.net.**
+
+-dontwarn com.squareup.okhttp.**
+
+# retrofit2
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions

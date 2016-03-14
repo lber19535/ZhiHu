@@ -1,14 +1,14 @@
 package com.bill.zhihu.api.bean;
 
-import com.bill.jeson.annotation.JsonField;
-import com.bill.jeson.annotation.JsonObject;
+//import com.bill.jeson.annotation.JsonField;
+//import com.bill.jeson.annotation.JsonObject;
 
-@JsonObject
+//@JsonObject
 public class LoginRequestMsg {
 
-    @JsonField(defaultValue = "")
+//    @JsonField(defaultValue = "")
     private String captcha;
-    @JsonField(defaultValue = "")
+//    @JsonField(defaultValue = "")
     private String email;
 
     public String getMsg() {

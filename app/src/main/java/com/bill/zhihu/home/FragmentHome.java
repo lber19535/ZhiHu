@@ -14,18 +14,23 @@ import android.widget.LinearLayout;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.ZhihuApi;
+import com.bill.zhihu.api.bean.FeedsItem;
+import com.bill.zhihu.api.bean.FeedsResponse;
 import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.api.cmd.CmdLoadHomePage;
-import com.bill.zhihu.api.cmd.CmdLoadMore;
 import com.bill.zhihu.view.SwipyRefreshLayout;
 import com.bill.zhihu.view.SwipyRefreshLayout.OnRefreshListener;
 import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
 import com.melnykov.fab.FloatingActionButton;
+import com.orhanobut.logger.Logger;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 主页
@@ -36,16 +41,13 @@ public class FragmentHome extends Fragment {
 
     private static final String TAG = "FragmentHome";
 
-    @Deprecated
-    private static final int LOAD_MORE_OFFSET = 20;
-
     private static final int PROGESS_ANIM_DURATION = 500;
 
     private RecyclerView timelineRv;
     private SwipyRefreshLayout refreshLayout;
     private FloatingActionButton upTopFab;
 
-    private List<TimeLineItem> timelineItems;
+    private List<FeedsItem> timelineItems;
     private TimeLineRecyclerAdapter adapter;
     private View rootView;
 
@@ -152,22 +154,27 @@ public class FragmentHome extends Fragment {
      */
     private void loadHomePage() {
 
-        CmdLoadHomePage.CallbackListener listener = new CmdLoadHomePage.CallbackListener() {
+        ZhihuApi.loadHomePage()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<FeedsResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        stopLoadingAnim();
+                    }
 
-            @Override
-            public void callback(List<TimeLineItem> timelineitems) {
-                if (timelineitems != null && !timelineitems.isEmpty()) {
-                    timelineItems.clear();
-                    timelineItems.addAll(timelineitems);
-                    adapter.notifyDataSetChanged();
-                }
-                refreshLayout.setRefreshing(false);
-                stopLoadingAnim();
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t(TAG).d("load home page failed");
+                        Logger.t(TAG).d(e.toString());
+                    }
 
-        };
-
-        ZhihuApi.loadHomePage(listener);
+                    @Override
+                    public void onNext(FeedsResponse feedsResponse) {
+                        timelineItems.addAll(feedsResponse.items);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
 
     }
 
@@ -179,21 +186,28 @@ public class FragmentHome extends Fragment {
         if (timelineItems.isEmpty())
             return;
 
-        CmdLoadMore.CallbackListener listener = new CmdLoadMore.CallbackListener() {
+        ZhihuApi.loadMore(timelineItems.get(timelineItems.size() - 1).id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<FeedsResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        stopLoadingAnim();
+                    }
 
-            @Override
-            public void callback(List<TimeLineItem> timelineitems) {
-                int scrollToPosition = timelineItems.size();
-                if (timelineitems != null && !timelineitems.isEmpty()) {
-                    timelineItems.addAll(timelineitems);
-                }
-                adapter.notifyDataSetChanged();
-                timelineRv.smoothScrollToPosition(scrollToPosition);
-                refreshLayout.setRefreshing(false);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.t(TAG).d("load more home page failed");
+                        Logger.t(TAG).d(e.toString());
+                    }
 
-        };
-        ZhihuApi.loadMore(timelineItems.size(), timelineItems.size(), listener);
+                    @Override
+                    public void onNext(FeedsResponse feedsResponse) {
+                        timelineItems.addAll(feedsResponse.items);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+        ;
 
     }
 

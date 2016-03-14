@@ -3,14 +3,15 @@ package com.bill.zhihu;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 
 import com.bill.zhihu.api.ZhihuApi;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.umeng.message.UmengRegistrar;
 
 /**
  * Application
- *
  */
 public class ZhihuApp extends Application {
 
@@ -25,13 +26,15 @@ public class ZhihuApp extends Application {
         // set globel context
         ZhihuApi.registerContext(this);
         CrashReport.initCrashReport(this, "900009454", false);
+        Logger.init(TAG);
+        Fresco.initialize(this);
     }
 
     public static Context getContext() {
         return mContext;
     }
 
-    public static Resources getRes(){
+    public static Resources getRes() {
         return mContext.getResources();
     }
 

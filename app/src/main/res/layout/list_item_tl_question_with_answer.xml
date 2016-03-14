@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/global_margin_4" />
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/header"
                 style="@style/ImageView.TimeLine.Avatar"
                 android:layout_alignParentEnd="true"

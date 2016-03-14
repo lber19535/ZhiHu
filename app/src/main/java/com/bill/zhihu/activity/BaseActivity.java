@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
 
 import com.bill.zhihu.R;
-import com.umeng.message.PushAgent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,9 +21,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // enable u meng push service
-        PushAgent.getInstance(this).onAppStart();
-
         // 沉浸式模式兼容5.0之前的版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

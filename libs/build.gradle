@@ -1,9 +1,8 @@
 apply plugin: 'com.android.library'
-apply plugin: 'bugly'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion 15
@@ -16,6 +15,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -23,18 +26,11 @@ android {
     }
 }
 
-bugly {
-    appId = '900009454'
-    appKey = 'SGbSptp3pKv7GUwK'
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.tencent.bugly:crashreport:1.2.3.8'
-    compile files('libs/jeson.jar')
-    compile files('libs/com.umeng.message.lib_v2.5.0.jar')
-    compile files('libs/umeng-update-v2.6.0.1.jar')
-    compile files('libs/umeng-analytics-v5.5.3.jar')
+    compile 'com.android.support:appcompat-v7:23.1.1'
+
+//    compile files('libs/jeson.jar')
+//    compile files('libs/umeng-update-v2.6.0.1.jar')
 }

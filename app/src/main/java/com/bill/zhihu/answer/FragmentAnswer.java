@@ -22,8 +22,6 @@ import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.AnswerContent;
 import com.bill.zhihu.api.bean.AnswerItemInQuestion;
 import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.api.cmd.CmdLoadAnswer;
-import com.bill.zhihu.api.cmd.CmdLoadAvatarImage;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.view.AnswerView;
 import com.melnykov.fab.FloatingActionButton;
@@ -34,7 +32,7 @@ import com.pnikosis.materialishprogress.ProgressWheel;
  * <p/>
  * Created by Bill-pc on 5/22/2015.
  */
-public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackListener, CmdLoadAvatarImage.CallbackListener {
+public class FragmentAnswer extends Fragment  {
 
     private static final String TAG = "FragmentAnswer";
     // option菜单展开和收起时icon的角度
@@ -95,7 +93,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         }
         ZhihuLog.d(TAG, "answer url is " + answerUrl);
 
-        ZhihuApi.loadAnswer(answerUrl, this);
+//        ZhihuApi.loadAnswer(answerUrl, this);
 
         playLoadingAnim();
 
@@ -244,7 +242,7 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         animator.start();
     }
 
-    @Override
+//    @Override
     public void callBack(AnswerContent content) {
         vote.setText(content.getVote());
         intro.setText(content.getIntro());
@@ -253,15 +251,15 @@ public class FragmentAnswer extends Fragment implements CmdLoadAnswer.CallBackLi
         // 加载css
         answerWv.getWebView().loadDataWithBaseURL("file:///android_asset/", content.getAnswer(), "text/html; charset=UTF-8", null, null);
 
-        CmdLoadAvatarImage loadAvatarImage = new CmdLoadAvatarImage(content.getAvatarImgUrl());
-        loadAvatarImage.setOnCmdCallBack(this);
-        ZhihuApi.execCmd(loadAvatarImage);
+//        CmdLoadAvatarImage setAvatarImageUrl = new CmdLoadAvatarImage(content.getAvatarImgUrl());
+//        setAvatarImageUrl.setOnCmdCallBack(this);
+//        ZhihuApi.execCmd(setAvatarImageUrl);
 
         stopLoadingAnim();
 
     }
 
-    @Override
+//    @Override
     public void callback(Bitmap captchaImg) {
         avatar.setImageBitmap(captchaImg);
     }

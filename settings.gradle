@@ -1,1 +1,1 @@
-include ':app', ':zhihuapi', ':libs'
+include ':app', ':zhihuapi'
