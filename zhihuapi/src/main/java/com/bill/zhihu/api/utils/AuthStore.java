@@ -1,5 +1,10 @@
 package com.bill.zhihu.api.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.bill.zhihu.api.ZhihuApi;
+
 import java.util.HashMap;
 
 /**
@@ -7,44 +12,50 @@ import java.util.HashMap;
  */
 public class AuthStore {
 
-    private static final HashMap<String, String> store = new HashMap<>();
-
     private static final String ACCESS_TOKEN = "access_token";
     private static final String UNLOCK_TICKET = "unlock_ticket";
     private static final String TOKEN_TYPE = "token_type";
     private static final String UID = "uid";
 
     public static void setAccessToken(String toekn) {
-        store.put(ACCESS_TOKEN, toekn);
+        SharedPreferences sp = ZhihuApi.getContext().getSharedPreferences("auth_store", Context.MODE_PRIVATE);
+        sp.edit().putString(ACCESS_TOKEN, toekn).commit();
     }
 
     public static void setUnlockTicket(String unlockTicket) {
-        store.put(UNLOCK_TICKET, unlockTicket);
+        SharedPreferences sp = ZhihuApi.getContext().getSharedPreferences("auth_store", Context.MODE_PRIVATE);
+        sp.edit().putString(UNLOCK_TICKET, unlockTicket).commit();
     }
 
     public static void setTokenType(String type) {
-        store.put(TOKEN_TYPE, type);
+        SharedPreferences sp = ZhihuApi.getContext().getSharedPreferences("auth_store", Context.MODE_PRIVATE);
+        sp.edit().putString(TOKEN_TYPE, type).commit();
     }
 
     public static void setUID(String uid) {
-        store.put(UID, uid);
+        SharedPreferences sp = ZhihuApi.getContext().getSharedPreferences("auth_store", Context.MODE_PRIVATE);
+        sp.edit().putString(UID, uid).commit();
     }
 
 
     public static String getAccessToken() {
-        return store.get(ACCESS_TOKEN);
+        SharedPreferences sp = ZhihuApi.getContext().getSharedPreferences("auth_store", Context.MODE_PRIVATE);
+        return sp.getString(ACCESS_TOKEN, "");
     }
 
     public static String getUnlockTicket() {
-        return store.get(UNLOCK_TICKET);
+        SharedPreferences sp = ZhihuApi.getContext().getSharedPreferences("auth_store", Context.MODE_PRIVATE);
+        return sp.getString(UNLOCK_TICKET, "");
     }
 
     public static String getTokenType() {
-        return store.get(TOKEN_TYPE);
+        SharedPreferences sp = ZhihuApi.getContext().getSharedPreferences("auth_store", Context.MODE_PRIVATE);
+        return sp.getString(TOKEN_TYPE, "");
     }
 
     public static String getUID() {
-        return store.get(UID);
+        SharedPreferences sp = ZhihuApi.getContext().getSharedPreferences("auth_store", Context.MODE_PRIVATE);
+        return sp.getString(UID, "");
     }
 
 

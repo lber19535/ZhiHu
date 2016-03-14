@@ -88,6 +88,9 @@ public class TextUtils {
      * @return
      */
     public static String upperHead(String str) {
+        if (str == null || str.isEmpty())
+            return "";
+
         String[] array = str.split("");
         return str.replaceFirst(array[1], array[1].toUpperCase());
     }

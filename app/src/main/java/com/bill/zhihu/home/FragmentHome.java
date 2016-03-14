@@ -160,7 +160,10 @@ public class FragmentHome extends Fragment {
                 .subscribe(new Subscriber<FeedsResponse>() {
                     @Override
                     public void onCompleted() {
-                        stopLoadingAnim();
+                        if (refreshLayout.isRefreshing())
+                            refreshLayout.setRefreshing(false);
+                        else
+                            stopLoadingAnim();
                     }
 
                     @Override
@@ -203,8 +206,11 @@ public class FragmentHome extends Fragment {
 
                     @Override
                     public void onNext(FeedsResponse feedsResponse) {
+                        int targetPosition = timelineItems.size();
                         timelineItems.addAll(feedsResponse.items);
                         adapter.notifyDataSetChanged();
+                        refreshLayout.setRefreshing(false);
+                        timelineRv.smoothScrollToPosition(targetPosition);
                     }
                 });
         ;

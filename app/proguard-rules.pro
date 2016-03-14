@@ -16,6 +16,7 @@
 #   public *;
 #}
 
+# butterknife
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
 -keep class **$$ViewBinder { *; }
@@ -27,55 +28,58 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
+
+# realm
 -keep class io.realm.annotations.RealmModule
 -keep @io.realm.annotations.RealmModule class *
 -dontwarn javax.**
 -dontwarn io.realm.**
+
+# bugly
 -keep public class com.tencent.bugly.**{*;}
 
--keepclasseswithmembernames class * {
-    @com.bill.jeson.annotation.* <fields>;
+# app
+-keep public class com.bill.zhihu.R$*{
+    public static final int *;
 }
--dontwarn org.apache.http.**
--dontwarn com.android.volley.toolbox.**
-
--keep class com.umeng.message.* {
-        public <fields>;
-        public <methods>;
+-keep public class com.bill.zhihu.api.bean.**{
+    *;
 }
--keep class com.umeng.message.protobuffer.* {
-        public <fields>;
-        public <methods>;
-}
--keep class com.squareup.wire.* {
-        public <fields>;
-        public <methods>;
-}
--keep class com.umeng.message.local.* {
-        public <fields>;
-        public <methods>;
-}
--keep class org.android.agoo.impl.*{
-        public <fields>;
-        public <methods>;
-}
--keep class org.android.agoo.service.* {*;}
--keep class org.android.spdy.**{*;}
-#-keep public class com.bill.zhihu.R$*{
-#    public static final int *;
-#}
--keepclassmembers class * {
-   public <init>(org.json.JSONObject);
-}
--keep public class * extends com.umeng.**
--keep class com.umeng.** { *; }
--dontwarn com.umeng.**
--dontwarn org.android.agoo.net.**
-
--dontwarn com.squareup.okhttp.**
+-dontwarn android.support.**
+-keep class android.support.** { *; }
+-keep interface android.support.** { *; }
 
 # retrofit2
 -dontwarn retrofit2.**
+-dontwarn java.lang.invoke.**
+-dontwarn rx.internal.util.unsafe.**
+-dontwarn java.lang.reflect.**
+-dontwarn retrofit.**
 -keep class retrofit2.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit.http.* <methods>;
+}
 -keepattributes Signature
 -keepattributes Exceptions
+
+# rxjava
+-keep class rx.** {*;}
+
+# okio
+-dontwarn okio.**
+-dontwarn com.squareup.**
+#-keep class com.squareup.** { *; }
+#-keep interface com.squareup.** { *; }
+
+# jackson
+-keepattributes *Annotation*,EnclosingMethod,Signature
+-keepnames class com.fasterxml.jackson.** { *; }
+-dontwarn com.fasterxml.jackson.databind.**
+-keep class org.codehaus.** { *; }
+-keepclassmembers public final enum org.codehaus.jackson.annotate.JsonAutoDetect$Visibility {
+    public static final org.codehaus.jackson.annotate.JsonAutoDetect$Visibility *;
+}
+-keep public class com.bill.zhihu.api.bean.** {
+    public void set*(***);
+    public *** get*();
+}

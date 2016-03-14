@@ -70,10 +70,11 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
             case FeedsItemVerb.VOTE_UP_ARTICLE:
                 return VIEW_TYPE_ANSWER_QUESTION;
             case FeedsItemVerb.MEMBER_ASK_QUESTION:
+            case FeedsItemVerb.TOPIC_POPULAR_QUESTION:
             case FeedsItemVerb.MEMBER_FOLLOW_COLUMN:
                 return VIEW_TYPE_ONLY_QUESTION;
-            case FeedsItemVerb.TOPIC_POPULAR_QUESTION:
             default:
+                Logger.t(TAG).d("new type " + timelineItems.get(position).verb + " maybe cause crash");
                 return 0;
         }
     }
@@ -107,7 +108,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                 holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
                 break;
             case FeedsItemVerb.VOTE_UP_ANSWER:
-                holder.questionTv.setText(item.target.title);
+                holder.questionTv.setText(item.target.question.title);
                 holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
                 break;
             case FeedsItemVerb.VOTE_UP_ARTICLE:

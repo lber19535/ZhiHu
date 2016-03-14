@@ -56,7 +56,7 @@
     </style>
 
     <style name="TextView.Light.Subtitle" parent="AppTheme.Light">
-        <item name="android:textSize">@dimen/font_14</item>
+        <item name="android:textSize">@dimen/font_16</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:text">@string/from</item>
     </style>

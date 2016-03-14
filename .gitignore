@@ -35,3 +35,4 @@ build/
 
 # signed key folder
 #keystore/
+/app/BuglyUploadLog.txt

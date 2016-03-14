@@ -7,6 +7,7 @@ import android.os.Build;
 
 import com.bill.zhihu.api.ZhihuApi;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -23,11 +24,19 @@ public class ZhihuApp extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
+
         // set globel context
         ZhihuApi.registerContext(this);
-        CrashReport.initCrashReport(this, "900009454", false);
-        Logger.init(TAG);
+
         Fresco.initialize(this);
+        
+        if (BuildConfig.DEBUG) {
+            CrashReport.initCrashReport(this, "900009454", true);
+            Logger.init(TAG);
+        } else {
+            CrashReport.initCrashReport(this, "900009454", false);
+            Logger.init(TAG).logLevel(LogLevel.NONE);
+        }
     }
 
     public static Context getContext() {
