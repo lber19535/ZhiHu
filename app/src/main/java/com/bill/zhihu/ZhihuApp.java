@@ -29,7 +29,7 @@ public class ZhihuApp extends Application {
         ZhihuApi.registerContext(this);
 
         Fresco.initialize(this);
-        
+
         if (BuildConfig.DEBUG) {
             CrashReport.initCrashReport(this, "900009454", true);
             Logger.init(TAG);
