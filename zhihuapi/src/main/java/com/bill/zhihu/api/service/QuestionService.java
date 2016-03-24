@@ -6,15 +6,15 @@ import com.bill.zhihu.api.utils.XHeaders;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.Query;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
- * Created by bill_lv on 2016/2/17.
+ * Created by bill_lv on 2016/3/24.
  */
-public interface FeedsApiService {
+public interface QuestionService {
 
-    @GET("/feeds")
+    @GET("/questions/{id}")
     @Headers({
             XHeaders.ACCEPT_ENCODE,
             XHeaders.ZHIHU_UA,
@@ -23,9 +23,9 @@ public interface FeedsApiService {
             "Host: api.zhihu.com",
             "Connection: Keep-Alive"
     })
-    Observable<FeedsResponse> feeds(@Header("Authorization") String auth, @Header("x-account-unlock") String unlockTicket);
+    Observable<FeedsResponse> question(@Header("Authorization") String auth, @Header("x-account-unlock") String unlockTicket, @Path("id")String actorsId);
 
-    @GET("/feeds")
+    @GET("/questions/{id}/answers")
     @Headers({
             XHeaders.ACCEPT_ENCODE,
             XHeaders.ZHIHU_UA,
@@ -34,5 +34,5 @@ public interface FeedsApiService {
             "Host: api.zhihu.com",
             "Connection: Keep-Alive"
     })
-    Observable<FeedsResponse> nextPage(@Header("Authorization") String auth, @Header("x-account-unlock") String unlockTicket, @Query("after_id") String id);
+    Observable<FeedsResponse> answers(@Header("Authorization") String auth, @Header("x-account-unlock") String unlockTicket, @Path("id")String actorsId);
 }

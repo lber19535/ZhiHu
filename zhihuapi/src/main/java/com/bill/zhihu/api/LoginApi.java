@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.bill.zhihu.api.bean.LoginResponse;
-import com.bill.zhihu.api.cookie.ZhihuCookieManager;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.LoginApiService;
 import com.bill.zhihu.api.utils.AuthStore;
-import com.squareup.okhttp.ResponseBody;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -16,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;

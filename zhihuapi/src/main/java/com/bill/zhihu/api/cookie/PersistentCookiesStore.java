@@ -1,11 +1,10 @@
 package com.bill.zhihu.api.cookie;
 
 import android.content.Context;
-import com.bill.zhihu.api.ZhihuApi;
-import com.bill.zhihu.api.utils.ZhihuLog;
 
-import java.net.CookieStore;
-import java.net.HttpCookie;
+import com.bill.zhihu.api.ZhihuApi;
+import com.orhanobut.logger.Logger;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -18,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import okhttp3.Cookie;
 
 /**
  * 持久化cookies数据
@@ -25,20 +25,24 @@ import io.realm.RealmResults;
  * <p/>
  * Created by Bill Lv on 2015/8/30.
  */
-public class URLCookiesStore implements CookieStore {
+public class PersistentCookiesStore {
 
     private static final String COOKIE_FILE_NAME = "zhihu_cookies";
-    private static final String TAG = "URLCookiesStore";
+    private static final String TAG = "PersistentCookiesStore";
     private Set<String> cookiesUris;
     private RealmConfiguration configuration;
     private Realm realm;
 
-    private ConcurrentHashMap<URI, List<HttpCookie>> cookieMap;
+    private ConcurrentHashMap<URI, List<Cookie>> cookieMap;
 
-    private static URLCookiesStore instance;
+    private static PersistentCookiesStore instance;
 
-    private URLCookiesStore(Context mContext) {
-        ZhihuLog.d(TAG, "cookie store is init");
+    private static class CookieHolder {
+        public static final PersistentCookiesStore store = new PersistentCookiesStore(ZhihuApi.getContext());
+    }
+
+    private PersistentCookiesStore(Context mContext) {
+        Logger.t(TAG).d("cookie store is init");
 
         // realm 配置
         configuration = new RealmConfiguration.Builder(mContext).name(COOKIE_FILE_NAME).build();
@@ -55,14 +59,16 @@ public class URLCookiesStore implements CookieStore {
             cookiesUris.add(item.getUri());
         }
         for (String uri : cookiesUris) {
-            List<HttpCookie> cookieList = new ArrayList<>();
+            List<Cookie> cookieList = new ArrayList<>();
             for (CookieTable item : cookiesTables) {
-                HttpCookie cookie = new HttpCookie(item.getName(), item.getValue());
-                cookie.setComment(item.getComment());
-                cookie.setDomain(item.getDomain());
-                cookie.setMaxAge(item.getMaxAge());
-                cookie.setPath(item.getPath());
-                cookie.setVersion(item.getVersion());
+                Cookie cookie = new Cookie.Builder()
+                        .value(item.getValue())
+                        .name(item.getName())
+                        .domain(item.getDomain())
+                        .expiresAt(item.getMaxAge())
+                        .path(item.getPath())
+                        .build();
+
                 cookieList.add(cookie);
             }
             try {
@@ -74,21 +80,18 @@ public class URLCookiesStore implements CookieStore {
         realm.close();
     }
 
-    public static URLCookiesStore getInstance() {
-        if (instance == null)
-            instance = new URLCookiesStore(ZhihuApi.getContext());
-        return instance;
+    public static PersistentCookiesStore getInstance() {
+        return CookieHolder.store;
     }
 
-    @Override
-    public void add(URI uri, HttpCookie cookie) {
-        ZhihuLog.d(TAG, "add cookie " + cookie.getValue());
+    public void add(URI uri, Cookie cookie) {
+        Logger.t(TAG).d("add cookie " + cookie.value());
 
         // 存储到内存
         if (cookieMap.containsKey(uri)) {
             cookieMap.get(uri).add(cookie);
         } else {
-            List<HttpCookie> cookieList = new ArrayList<>();
+            List<Cookie> cookieList = new ArrayList<>();
             cookieList.add(cookie);
             cookiesUris.add(uri.toString());
             cookieMap.put(uri, cookieList);
@@ -97,54 +100,51 @@ public class URLCookiesStore implements CookieStore {
         // 存储到数据库
         realm = Realm.getInstance(configuration);
         // 查询是否已经存在
-        CookieTable cookieItem = realm.where(CookieTable.class).equalTo("name", cookie.getName()).findFirst();
+        CookieTable cookieItem = realm.where(CookieTable.class).equalTo("name", cookie.name()).findFirst();
 
         realm.beginTransaction();
         if (cookieItem == null)
             cookieItem = realm.createObject(CookieTable.class);
         // 转化为 orm 对象
         cookieItem.setUri(uri.toString());
-        cookieItem.setComment(convertToEmpty(cookie.getComment()));
-        cookieItem.setCommentUrl(convertToEmpty(cookie.getCommentURL()));
-        cookieItem.setDomain(convertToEmpty(cookie.getDomain()));
-        cookieItem.setMaxAge(cookie.getMaxAge());
-        cookieItem.setName(convertToEmpty(cookie.getName()));
-        cookieItem.setValue(convertToEmpty(cookie.getValue()));
-        cookieItem.setPath(convertToEmpty(cookie.getPath()));
-        cookieItem.setVersion(cookie.getVersion());
+        cookieItem.setDomain(convertToEmpty(cookie.domain()));
+        cookieItem.setMaxAge(cookie.expiresAt());
+        cookieItem.setName(convertToEmpty(cookie.name()));
+        cookieItem.setValue(convertToEmpty(cookie.value()));
+        cookieItem.setPath(convertToEmpty(cookie.path()));
         realm.commitTransaction();
         realm.close();
 
     }
 
-    private String convertToEmpty(String str){
+    private String convertToEmpty(String str) {
         if (str == null)
             return "";
         else
             return str;
     }
 
-    @Override
-    public List<HttpCookie> get(URI uri) {
+    public List<Cookie> get(URI uri) {
         // 由于都是知乎的uri，所以这里就不区分了，只在存储的时候区分下
         return getCookies();
     }
 
-    @Override
-    public List<HttpCookie> getCookies() {
-        Collection<List<HttpCookie>> cookieCollection = cookieMap.values();
-        ArrayList<HttpCookie> cookieList = new ArrayList<>();
+    public List<Cookie> getCookies() {
+        Collection<List<Cookie>> cookieCollection = cookieMap.values();
+        ArrayList<Cookie> cookieList = new ArrayList<>();
+
         // 过滤过期的cookie
-        for (List<HttpCookie> cookies : cookieCollection) {
-            for (HttpCookie cookie : cookies) {
-                if (cookie.getMaxAge() < System.currentTimeMillis())
+        for (List<Cookie> cookies : cookieCollection) {
+            for (Cookie cookie : cookies) {
+                if (cookie.expiresAt() > System.currentTimeMillis())
                     cookieList.add(cookie);
             }
         }
+        Logger.t(TAG).d("get cookie size " + cookieList.size());
+
         return cookieList;
     }
 
-    @Override
     public List<URI> getURIs() {
         Set<URI> keySet = cookieMap.keySet();
         ArrayList<URI> uriList = new ArrayList<>();
@@ -154,17 +154,16 @@ public class URLCookiesStore implements CookieStore {
         return uriList;
     }
 
-    @Override
-    public boolean remove(URI uri, HttpCookie cookie) {
-        List<HttpCookie> cookies = cookieMap.get(uri);
-        for (HttpCookie mCookie : cookies) {
-            if (cookie.getName() == mCookie.getName()) {
+    public boolean remove(URI uri, Cookie cookie) {
+        List<Cookie> cookies = cookieMap.get(uri);
+        for (Cookie mCookie : cookies) {
+            if (cookie.name() == mCookie.name()) {
                 // 删除内存中的
                 cookies.remove(mCookie);
                 // 删除数据库中的
                 realm = Realm.getInstance(configuration);
                 realm.beginTransaction();
-                CookieTable cookieItem = realm.where(CookieTable.class).equalTo("name", cookie.getName()).equalTo("uri", uri.toString()).findFirst();
+                CookieTable cookieItem = realm.where(CookieTable.class).equalTo("name", cookie.name()).equalTo("uri", uri.toString()).findFirst();
                 cookieItem.removeFromRealm();
                 realm.commitTransaction();
                 realm.close();
@@ -174,10 +173,9 @@ public class URLCookiesStore implements CookieStore {
         return false;
     }
 
-    @Override
     public boolean removeAll() {
         // 清除持久化的cookie和当前cookie
-        ZhihuLog.d(TAG, "clear all cookieMap");
+        Logger.t(TAG).d("clear all cookieMap");
         realm = Realm.getInstance(configuration);
         realm.beginTransaction();
         realm.allObjects(CookieTable.class).clear();

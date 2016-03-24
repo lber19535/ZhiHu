@@ -2,12 +2,12 @@ package com.bill.zhihu.api.service;
 
 import com.bill.zhihu.api.bean.LoginResponse;
 import com.bill.zhihu.api.utils.XHeaders;
-import com.squareup.okhttp.ResponseBody;
+import okhttp3.ResponseBody;
 
-import retrofit.http.Body;
-import retrofit.http.GET;
-import retrofit.http.Headers;
-import retrofit.http.POST;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import rx.Observable;
 
 /**

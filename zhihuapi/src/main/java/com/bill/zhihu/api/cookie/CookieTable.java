@@ -12,9 +12,6 @@ public class CookieTable extends RealmObject {
 
     @PrimaryKey
     private String name = "";
-    private String comment = "";
-    private String commentUrl = "";
-    private int version = 0;
     private String domain = "";
     private long maxAge = 0;
     private String path = "";
@@ -43,30 +40,6 @@ public class CookieTable extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getCommentUrl() {
-        return commentUrl;
-    }
-
-    public void setCommentUrl(String commentUrl) {
-        this.commentUrl = commentUrl;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     public String getDomain() {

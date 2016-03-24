@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.bill.zhihu.api.bean.FeedsResponse;
-import com.bill.zhihu.api.cookie.URLCookiesStore;
+import com.bill.zhihu.api.cookie.PersistentCookiesStore;
 import com.bill.zhihu.api.factory.ApiFactory;
 
 import rx.Observable;
@@ -43,7 +43,7 @@ public class ZhihuApi {
      * 清除cookies
      */
     public static void clearCookies() {
-        URLCookiesStore.getInstance().removeAll();
+        PersistentCookiesStore.getInstance().removeAll();
     }
 
     /**

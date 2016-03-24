@@ -1,11 +1,10 @@
 package com.bill.zhihu.api.cookie;
 
-import android.net.Uri;
-
 import com.bill.zhihu.api.utils.ZhihuLog;
 
-import java.net.HttpCookie;
 import java.util.List;
+
+import okhttp3.Cookie;
 
 /**
  * Cookie 的管理工具类 用来获取一些cookie的状态或者值
@@ -23,12 +22,12 @@ public class ZhihuCookieManager {
      * @return
      */
     public static boolean haveCookieName(String name) {
-        List<HttpCookie> cookies = URLCookiesStore.getInstance().getCookies();
+        List<Cookie> cookies = PersistentCookiesStore.getInstance().getCookies();
 
-        for (HttpCookie cookie : cookies) {
-            ZhihuLog.dValue(TAG, "cookie", cookie.getName());
-            ZhihuLog.dValue(TAG, "cookie value", cookie.getValue());
-            if (cookie.getName().equals(name)) {
+        for (Cookie cookie : cookies) {
+            ZhihuLog.dValue(TAG, "cookie", cookie.name());
+            ZhihuLog.dValue(TAG, "cookie value", cookie.value());
+            if (cookie.name().equals(name)) {
                 return true;
             }
         }
@@ -42,10 +41,10 @@ public class ZhihuCookieManager {
      * @return
      */
     public static String getCookieValue(String name) {
-        List<HttpCookie> cookies = URLCookiesStore.getInstance().getCookies();
-        for (HttpCookie cookie : cookies) {
-            if (cookie.getName().equals(name)) {
-                return cookie.getValue();
+        List<Cookie> cookies = PersistentCookiesStore.getInstance().getCookies();
+        for (Cookie cookie : cookies) {
+            if (cookie.name().equals(name)) {
+                return cookie.value();
             }
         }
         return null;
@@ -57,15 +56,15 @@ public class ZhihuCookieManager {
      * @return
      */
     public static boolean isCookieEmpty() {
-        return URLCookiesStore.getInstance().getCookies().size() == 0 ? true : false;
+        return PersistentCookiesStore.getInstance().getCookies().size() == 0 ? true : false;
     }
 
     public static boolean clearCookie(){
-        return URLCookiesStore.getInstance().removeAll();
+        return PersistentCookiesStore.getInstance().removeAll();
     }
 
     public static boolean setLoginCookies(){
-//        URLCookiesStore.getInstance().add(Uri.parse("https://api.zhihu.com"),new HttpCookie(""));
+//        PersistentCookiesStore.getInstance().add(Uri.parse("https://api.zhihu.com"),new HttpCookie(""));
         return false;
     }
 

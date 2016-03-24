@@ -1,14 +1,13 @@
 package com.bill.zhihu.api.net;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.ResponseBody;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import retrofit.Converter;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
 
 /**
  * Created by bill_lv on 2016/1/21.
@@ -17,12 +16,7 @@ class ToStringConverterFactory extends Converter.Factory {
     static final MediaType MEDIA_TYPE = MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8");
 
     @Override
-    public Converter<ResponseBody, ?> fromResponseBody(Type type, Annotation[] annotations) {
-        return null;
-    }
-
-    @Override
-    public Converter<?, RequestBody> toRequestBody(Type type, Annotation[] annotations) {
+    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
         if (String.class.equals(type)) {
             return new Converter<String, RequestBody>() {
                 public RequestBody convert(String value) throws IOException {

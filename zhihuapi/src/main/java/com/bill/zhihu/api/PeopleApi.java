@@ -5,17 +5,10 @@ import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.PeopleApiService;
 import com.bill.zhihu.api.utils.AuthStore;
 import com.bill.zhihu.api.utils.TextUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.orhanobut.logger.Logger;
-import com.squareup.okhttp.ResponseBody;
-
-import java.io.IOException;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmList;
 import rx.Observable;
-import rx.Subscriber;
 import rx.functions.Func1;
 
 /**
