@@ -3,7 +3,10 @@ package com.bill.zhihu.api;
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.bill.zhihu.api.bean.FeedsResponse;
+import com.bill.zhihu.api.bean.feeds.FeedsItem;
+import com.bill.zhihu.api.bean.response.AnswersResponse;
+import com.bill.zhihu.api.bean.response.FeedsResponse;
+import com.bill.zhihu.api.bean.response.QuestionResponse;
 import com.bill.zhihu.api.cookie.PersistentCookiesStore;
 import com.bill.zhihu.api.factory.ApiFactory;
 
@@ -58,26 +61,12 @@ public class ZhihuApi {
     /**
      * 加载更多
      *
-     * @param id in last {@link com.bill.zhihu.api.bean.FeedsItem}
+     * @param id in last {@link FeedsItem}
      * @return
      */
-    public static Observable<FeedsResponse> loadMore(String id) {
-        return ApiFactory.createFeedsApi().getFeedsById(id);
+    public static Observable<FeedsResponse> loadMore(int id) {
+        return ApiFactory.createFeedsApi().nextPage(id);
     }
-
-    /**
-     * 加载更多
-     *
-     * @param blockId
-     * @param offset
-     * @param listener
-     */
-//    @Deprecated
-//    public static void loadMore(long blockId, int offset, CmdLoadMore.CallbackListener listener) {
-//        CmdLoadMore loadMore = new CmdLoadMore(blockId, offset);
-//        loadMore.setOnCmdCallBack(listener);
-//        ZhihuApi.execCmd(loadMore);
-//    }
 
     /**
      * 初次登陆之前必须调用，用来去掉验证码
@@ -99,22 +88,35 @@ public class ZhihuApi {
     }
 
     /**
-     * 获取答案
+     * 加载问题，包含问题详细描述，topic，作者等信息{@link QuestionResponse}
      *
-     * @param answerUrl
-     * @param listener
+     * @param questionId 问题  id
+     * @return
      */
-//    public static void loadAnswer(String answerUrl, CmdLoadAnswer.CallBackListener listener) {
-//        CmdLoadAnswer loadAnswer = new CmdLoadAnswer(answerUrl);
-//        loadAnswer.setOnCmdCallBack(listener);
-//        ZhihuApi.execCmd(loadAnswer);
-//    }
-//
-//    public static void loadQuestionPage(String url, CmdLoadQuestion.CallBackListener listener) {
-//        CmdLoadQuestion loadQuestion = new CmdLoadQuestion(url);
-//        loadQuestion.setOnCmdCallBack(listener);
-//        ZhihuApi.execCmd(loadQuestion);
-//    }
+    public static Observable<QuestionResponse> getQuestion(String questionId) {
+        return ApiFactory.createQuestionApi().getQuestion(questionId);
+    }
+
+    /**
+     * 加载该问题下的最开始的 20 条答案，加载后续答案需要使用{@link #getNextAnswers(String, int)}
+     *
+     * @param questionId 问题 id
+     * @return
+     */
+    public static Observable<AnswersResponse> getAnswers(String questionId) {
+        return ApiFactory.createAnswerApi().getAnswers(questionId);
+    }
+
+    /**
+     * 加载该问题下更多的答案
+     *
+     * @param questionId 问题 id
+     * @param offset 已加载回答的个数
+     * @return
+     */
+    public static Observable<AnswersResponse> getNextAnswers(String questionId, int offset) {
+        return ApiFactory.createAnswerApi().nextPage(questionId, offset);
+    }
 
     /**
      * 是否已登陆

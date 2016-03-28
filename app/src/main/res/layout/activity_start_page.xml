@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:htext="http://schemas.android.com/apk/res-auto">
+
+    <data class="StartPageViewBinding">
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.hanks.htextview.HTextView
+                android:id="@+id/slogan"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_16"
+                htext:animateType="scale"
+                />
+            <com.hanks.htextview.HTextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_32"
+                htext:animateType="scale"
+                />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</layout>

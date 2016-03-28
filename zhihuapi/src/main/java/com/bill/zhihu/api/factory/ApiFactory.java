@@ -1,15 +1,20 @@
 package com.bill.zhihu.api.factory;
 
+import com.bill.zhihu.api.AnswerApi;
 import com.bill.zhihu.api.FeedsApi;
 import com.bill.zhihu.api.LoginApi;
 import com.bill.zhihu.api.PeopleApi;
+import com.bill.zhihu.api.QuestionApi;
 import com.bill.zhihu.api.net.ZhihuRetrofit;
 import com.bill.zhihu.api.service.API;
+import com.bill.zhihu.api.service.AnswerService;
 import com.bill.zhihu.api.service.FeedsApiService;
 import com.bill.zhihu.api.service.LoginApiService;
 import com.bill.zhihu.api.service.PeopleApiService;
+import com.bill.zhihu.api.service.QuestionService;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 
 /**
@@ -61,6 +66,36 @@ public class ApiFactory {
         FeedsApi api = (FeedsApi) checkApiInstance(service);
         if (api == null) {
             return (FeedsApi) createApi(service, new FeedsApi(service));
+        } else {
+            return api;
+        }
+    }
+
+    /**
+     * Create {@link AnswerApi}
+     *
+     * @return
+     */
+    public static AnswerApi createAnswerApi() {
+        AnswerService service = ZhihuRetrofit.retrofit().create(AnswerService.class);
+        AnswerApi api = (AnswerApi) checkApiInstance(service);
+        if (api == null) {
+            return (AnswerApi) createApi(service, new AnswerApi(service));
+        } else {
+            return api;
+        }
+    }
+
+    /**
+     * Create {@link QuestionApi}
+     *
+     * @return
+     */
+    public static QuestionApi createQuestionApi() {
+        QuestionService service = ZhihuRetrofit.retrofit().create(QuestionService.class);
+        QuestionApi api = (QuestionApi) checkApiInstance(service);
+        if (api == null) {
+            return (QuestionApi) createApi(service, new QuestionApi(service));
         } else {
             return api;
         }

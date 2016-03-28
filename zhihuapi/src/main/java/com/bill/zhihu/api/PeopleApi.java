@@ -1,6 +1,6 @@
 package com.bill.zhihu.api;
 
-import com.bill.zhihu.api.bean.PeopleBasicResponse;
+import com.bill.zhihu.api.bean.response.PeopleBasicResponse;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.PeopleApiService;
 import com.bill.zhihu.api.utils.AuthStore;

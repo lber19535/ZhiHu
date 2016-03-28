@@ -1,6 +1,6 @@
 package com.bill.zhihu.api;
 
-import com.bill.zhihu.api.bean.FeedsResponse;
+import com.bill.zhihu.api.bean.response.FeedsResponse;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.FeedsApiService;
 import com.bill.zhihu.api.utils.AuthStore;
@@ -20,10 +20,10 @@ public class FeedsApi implements API {
 
 
     public Observable<FeedsResponse> getFeeds() {
-        return service.feeds(TextUtils.upperHead(AuthStore.getTokenType()) + " " + AuthStore.getAccessToken(), AuthStore.getUnlockTicket());
+        return service.feeds(AuthStore.getAuthorization(), AuthStore.getUnlockTicket());
     }
 
-    public Observable<FeedsResponse> getFeedsById(String id) {
-        return service.nextPage(TextUtils.upperHead(AuthStore.getTokenType()) + " " + AuthStore.getAccessToken(), AuthStore.getUnlockTicket(), id);
+    public Observable<FeedsResponse> nextPage(int id) {
+        return service.nextPage(AuthStore.getAuthorization(), AuthStore.getUnlockTicket(), String.valueOf(id));
     }
 }

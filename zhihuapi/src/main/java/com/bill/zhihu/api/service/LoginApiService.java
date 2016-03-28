@@ -1,6 +1,6 @@
 package com.bill.zhihu.api.service;
 
-import com.bill.zhihu.api.bean.LoginResponse;
+import com.bill.zhihu.api.bean.response.LoginResponse;
 import com.bill.zhihu.api.utils.XHeaders;
 import okhttp3.ResponseBody;
 

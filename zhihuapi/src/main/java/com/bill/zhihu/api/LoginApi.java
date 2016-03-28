@@ -3,7 +3,7 @@ package com.bill.zhihu.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.bill.zhihu.api.bean.LoginResponse;
+import com.bill.zhihu.api.bean.response.LoginResponse;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.LoginApiService;
 import com.bill.zhihu.api.utils.AuthStore;

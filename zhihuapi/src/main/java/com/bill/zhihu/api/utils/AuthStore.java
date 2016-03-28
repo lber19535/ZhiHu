@@ -58,5 +58,8 @@ public class AuthStore {
         return sp.getString(UID, "");
     }
 
+    public static String getAuthorization(){
+        return TextUtils.upperHead(AuthStore.getTokenType()) + " " + AuthStore.getAccessToken();
+    }
 
 }

@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/fragment_container"
-        android:name="com.bill.zhihu.login.FragmentLogin"
+        android:name="com.bill.zhihu.ui.login.FragmentLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_login"/>

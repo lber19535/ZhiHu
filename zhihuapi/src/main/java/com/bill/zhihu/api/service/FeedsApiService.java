@@ -1,6 +1,6 @@
 package com.bill.zhihu.api.service;
 
-import com.bill.zhihu.api.bean.FeedsResponse;
+import com.bill.zhihu.api.bean.response.FeedsResponse;
 import com.bill.zhihu.api.utils.XHeaders;
 
 import retrofit2.http.GET;

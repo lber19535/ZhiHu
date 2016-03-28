@@ -1,6 +1,6 @@
 package com.bill.zhihu.api.service;
 
-import com.bill.zhihu.api.bean.PeopleBasicResponse;
+import com.bill.zhihu.api.bean.response.PeopleBasicResponse;
 import com.bill.zhihu.api.utils.XHeaders;
 import okhttp3.ResponseBody;
 
