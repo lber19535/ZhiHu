@@ -47,18 +47,6 @@ public class HomeVM {
         this.model = new HomeModel();
 
         binding.timeLineList.setAdapter(adapter);
-
-        /*
-         third party float action button don't have setOnClickListener method, it just extends ImageButton,
-         so, in layout, we need view which have own setOnClickListener method, not to use extends, because bind method by attribute
-         depends on reflect, and in here the databinding cannot find method in super class by reflect
-          */
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickUptoTop(null);
-            }
-        });
     }
 
     /**

@@ -1,0 +1,320 @@
+/*
+	Styles for Zhihu Android WebView
+*/
+
+/* Reset */
+
+* {
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	font-size: 100%;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+
+	-webkit-text-size-adjust: none;
+	-webkit-tap-highlight-color: rgba(125,181,236,0.5);
+}
+
+article, aside, canvas, figure, figure img, figcaption, hgroup, footer, header, nav, section, audio, video {
+	display: block;
+	position: relative;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+img {
+	color: transparent;
+	font-size: 0;
+	vertical-align: middle;
+	-ms-interpolation-mode: bicubic;
+}
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix:before, .clearfix:after {
+	content: "";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both
+}
+
+.clearfix {
+	zoom: 1
+}
+
+/* Anchors */
+
+a {
+	color: #105CB6;
+}
+
+/* Background */
+
+html {
+	background: transparent;
+}
+
+body {
+	font: normal 16px/1.5 "Helvetica Neue", Arial, sans-serif;
+	word-wrap: break-word;
+	/*overflow: hidden;*/
+	color: #444;
+	text-align: left;
+}
+
+#topic {
+	font-size: 0.9rem;
+	color: #666;
+	padding: 0.5em 1em 2em 1em;
+}
+
+#content {
+	padding: 1em 1em 1em 1em;
+}
+
+/* Common */
+
+/* start fix for mobile */
+
+strong, b {
+	font-weight: bold;
+	margin-bottom: 0.4em;
+}
+
+blockquote, sup {
+	font-style: normal;
+	margin: 1em 0;
+	padding: 0.6em 1em;
+	vertical-align: baseline;
+	font-size: 100%;
+	border-left: 3px solid #D0E5F2;
+}
+
+blockquote blockquote {
+	padding: 0 0 0 1em;
+	margin-left: 2em;
+}
+
+blockquote p {
+	margin-bottom: 0;
+}
+
+/* hide bar after p. */
+p + br {
+	display: none;
+}
+
+.typo p, .typo pre, .typo ul, .typo ol, .typo dl, .typo form, .typo hr, .typo table,
+.typo-p, .typo-pre, .typo-ul, .typo-ol, .typo-dl, .typo-form, .typo-hr, .typo-table {
+	margin-bottom: 1.2em;
+	text-justify: inter-ideograph;
+	-ms-text-justify: inter-ideograph;
+	text-autospace: ideograph-alpha;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto
+}
+
+.typo ul, .typo-ul {
+	margin-left: 1.3em;
+	list-style: disc;
+}
+.typo ol, .typo-ol {
+	list-style: decimal;
+	margin-left: 1.9em;
+}
+.typo li ul, .typo li ol, .typo-ul ul, .typo-ul ol, .typo-ol ul, .typo-ol ol {
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 2em;
+}
+.typo li ul, .typo-ul ul, .typo-ol ul {
+	list-style: circle;
+}
+
+
+/* end fix */
+
+u {
+	text-decoration: underline;
+}
+
+i {
+	font-style: italic;
+}
+
+ul + br,
+ol + br {
+	display: none;
+}
+
+time {
+	color: #999;
+	text-align: right;
+	display: block;
+	margin-top: 45px;
+}
+
+#content img,
+#topic img {
+	max-width: 100%;
+	margin: 10px 0;
+	display: block;
+}
+
+img[eeimg] {
+	max-width: 100%;
+	vertical-align: middle;
+}
+
+img[eeimg="1"] {
+	display: inline-block;
+	margin: 0 3px;
+}
+
+img[eeimg="2"] {
+	margin: 10px auto;
+	display: block;
+}
+
+.touch-to-load{width:310px;height:210px;background-size:310px 210px;background-repeat:no-repeat;background-position:center top;background-image:url('data:image/png;base64,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');}
+
+/* Style for suggest edit */
+
+.suggest-edit-head {
+	color: #999;
+	padding: 10px 15px;
+	margin: 0 0 10px;
+	background: #e6eef5;
+	border-radius: 10px;
+	line-height: 1.2em;
+}
+
+.suggest-edit-tip {
+	padding: 0 15px;
+	color: #999;
+	line-height:1.2em;
+}
+
+.suggest-edit-divider {
+	margin: 30px 0 0 0;
+	padding: 0 0 30px;
+	border-top: dotted 1px #999;
+	font-size: 0;
+	line-height: 0;
+	height: 0;
+	display: block;
+}
+
+/* video box style */
+
+.video-thumbnail {
+	height: 84px;
+	width: 131px;
+	margin: 0 !important;
+}
+
+.video-box-inner {
+	height: 84px;
+}
+
+.video-box-button {
+	margin: 15px 0;
+	border: solid 1px #d6d6d6;
+	background-color: #edf0f4;
+	display: block;
+	line-height: 0;
+	text-align: top;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.video-box-button:hover {
+	text-decoration: none;
+}
+
+.video-box-button.tapped, .video-box-button:active {
+	background-color: #e1e6ed;
+}
+
+.video-thumb {
+	float: left;
+	width: 131px;
+	height: 84px;
+	position: relative;
+}
+
+.video-play-icon {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background:transparent url('video_play.png') 50% 50% no-repeat;
+	background-size: 40px 40px;
+}
+
+.video-box-body {
+	padding-top: 7px;
+	margin: 0 10px 0 141px;
+	line-height: 18px;
+	font-size: 13px;
+	color: #6f6f6f;
+	text-decoration: none;
+	overflow: hidden;
+	height: 72px;
+}
+
+.video-url {
+	display: none;
+}
+
+/* style for dark is generated by less DON'T edit it by hand.  templa  */
+
+.dark a {
+	color: #49A1CD;
+}
+
+.dark blockquote,
+
+.dark sup {
+	border-left: 3px solid #49A1CD;
+}
+.dark img {
+	opacity: 0.5;
+}
+
+body.dark {
+	color: #979D9F;
+	background: #212B30;
+}
+
+.dark .video-box-button {
+	border: solid 1px #39424E;
+	background-color: #252B34;
+}
+
+.dark .video-box-button.tapped, .video-box-button:active {
+	background-color: #49A1CD;
+}
+
+.dark .video-box-body {
+	color: #979D9F;
+}
+
+a>.invisible{font:0/0 a;color:transparent;text-shadow:none;background-color:transparent;border:0}

@@ -33,23 +33,23 @@ public class QuestionResponse {
     @JsonProperty("detail")
     public String detail;
     @JsonProperty("answer_count")
-    public Integer answerCount;
+    public int answerCount;
     @JsonProperty("updated_time")
-    public Integer updatedTime;
+    public long updatedTime;
 //    @JsonProperty("redirection")
 //    public Redirection redirection;
     @JsonProperty("comment_count")
-    public Integer commentCount;
+    public int commentCount;
     @JsonProperty("except")
     public String except;
 //    @JsonProperty("draft")
 //    public Draft draft;
     @JsonProperty("follower_count")
-    public Integer followerCount;
+    public int followerCount;
     @JsonProperty("allow_delete")
-    public Boolean allowDelete;
+    public boolean allowDelete;
     @JsonProperty("type")
     public String type;
     @JsonProperty("id")
-    public Integer id;
+    public long id;
 }

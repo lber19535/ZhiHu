@@ -7,6 +7,7 @@ import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.api.bean.response.AnswersResponse;
 import com.bill.zhihu.api.bean.response.FeedsResponse;
 import com.bill.zhihu.api.bean.response.QuestionResponse;
+import com.bill.zhihu.api.bean.response.SingleAnswerResponse;
 import com.bill.zhihu.api.cookie.PersistentCookiesStore;
 import com.bill.zhihu.api.factory.ApiFactory;
 
@@ -93,18 +94,18 @@ public class ZhihuApi {
      * @param questionId 问题  id
      * @return
      */
-    public static Observable<QuestionResponse> getQuestion(String questionId) {
-        return ApiFactory.createQuestionApi().getQuestion(questionId);
+    public static Observable<QuestionResponse> getQuestion(long questionId) {
+        return ApiFactory.createQuestionApi().getQuestion(String.valueOf(questionId));
     }
 
     /**
-     * 加载该问题下的最开始的 20 条答案，加载后续答案需要使用{@link #getNextAnswers(String, int)}
+     * 加载该问题下的最开始的 20 条答案，加载后续答案需要使用{@link #getNextAnswers(long, int)}
      *
      * @param questionId 问题 id
      * @return
      */
-    public static Observable<AnswersResponse> getAnswers(String questionId) {
-        return ApiFactory.createAnswerApi().getAnswers(questionId);
+    public static Observable<AnswersResponse> getAnswers(long questionId) {
+        return ApiFactory.createAnswerApi().getAnswers(String.valueOf(questionId));
     }
 
     /**
@@ -114,8 +115,18 @@ public class ZhihuApi {
      * @param offset 已加载回答的个数
      * @return
      */
-    public static Observable<AnswersResponse> getNextAnswers(String questionId, int offset) {
-        return ApiFactory.createAnswerApi().nextPage(questionId, offset);
+    public static Observable<AnswersResponse> getNextAnswers(long questionId, int offset) {
+        return ApiFactory.createAnswerApi().nextPage(String.valueOf(questionId), offset);
+    }
+
+    /**
+     * 获取答案
+     *
+     * @param answerId
+     * @return
+     */
+    public static Observable<SingleAnswerResponse> getAnswer(long answerId) {
+        return ApiFactory.createAnswerApi().getAnswer(String.valueOf(answerId));
     }
 
     /**

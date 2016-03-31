@@ -21,5 +21,5 @@ public class Topic {
     @JsonProperty("type")
     public String type;
     @JsonProperty("id")
-    public String id;
+    public long id;
 }

@@ -3,7 +3,6 @@ package com.bill.zhihu.api;
 import com.bill.zhihu.api.bean.response.QuestionResponse;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.QuestionService;
-import com.bill.zhihu.api.utils.AuthStore;
 
 import rx.Observable;
 
@@ -19,6 +18,6 @@ public class QuestionApi implements API {
     }
 
     public Observable<QuestionResponse> getQuestion(String questionId){
-        return service.question(AuthStore.getAuthorization(),AuthStore.getUnlockTicket(),questionId);
+        return service.question(questionId);
     }
 }

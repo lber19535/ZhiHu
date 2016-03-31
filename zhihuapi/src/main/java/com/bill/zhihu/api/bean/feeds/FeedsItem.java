@@ -56,7 +56,7 @@ public class FeedsItem implements Parcelable {
         this.updateTime = in.readLong();
         this.verb = in.readString();
         this.actors = new ArrayList<FeedsActor>();
-        in.readList(this.actors, List.class.getClassLoader());
+        in.readList(this.actors, FeedsActor.class.getClassLoader());
         this.type = in.readString();
         this.id = in.readInt();
         this.count = in.readString();

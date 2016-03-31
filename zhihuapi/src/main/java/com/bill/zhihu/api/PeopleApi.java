@@ -3,8 +3,6 @@ package com.bill.zhihu.api;
 import com.bill.zhihu.api.bean.response.PeopleBasicResponse;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.PeopleApiService;
-import com.bill.zhihu.api.utils.AuthStore;
-import com.bill.zhihu.api.utils.TextUtils;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -29,7 +27,7 @@ public class PeopleApi implements API {
 
     public Observable<PeopleBasicResponse> getSelfBasic() {
         return service
-                .selfBasic(TextUtils.upperHead(AuthStore.getTokenType()) + " " + AuthStore.getAccessToken(), AuthStore.getUnlockTicket())
+                .selfBasic()
                 .map(new Func1<PeopleBasicResponse, PeopleBasicResponse>() {
                     @Override
                     public PeopleBasicResponse call(PeopleBasicResponse response) {

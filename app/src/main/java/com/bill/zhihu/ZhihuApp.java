@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Build;
 
 import com.bill.zhihu.api.ZhihuApi;
+import com.bill.zhihu.api.utils.XHeaders;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
@@ -37,6 +38,8 @@ public class ZhihuApp extends Application {
             CrashReport.initCrashReport(this, "900009454", false);
             Logger.init(TAG).logLevel(LogLevel.NONE);
         }
+
+        XHeaders.init(this);
     }
 
     public static Context getContext() {

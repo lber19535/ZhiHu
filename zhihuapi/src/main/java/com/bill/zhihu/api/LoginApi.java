@@ -7,7 +7,9 @@ import com.bill.zhihu.api.bean.response.LoginResponse;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.LoginApiService;
 import com.bill.zhihu.api.utils.AuthStore;
+import com.orhanobut.logger.Logger;
 
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -100,6 +102,11 @@ public class LoginApi implements API {
         return service.captcha().map(new Func1<ResponseBody, Void>() {
             @Override
             public Void call(ResponseBody responseBody) {
+                try {
+                    Logger.d(responseBody.string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return null;
             }
         });

@@ -10,12 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.ui.answer.ActivityAnswer;
-import com.bill.zhihu.api.bean.feeds.FeedsItem;
-import com.bill.zhihu.api.bean.feeds.FeedsItemVerb;
+import com.bill.zhihu.api.BuildConfig;
 import com.bill.zhihu.api.bean.TimeLineItem;
+import com.bill.zhihu.api.bean.feeds.FeedsItem;
+import com.bill.zhihu.api.bean.feeds.FeedsItemTargetType;
+import com.bill.zhihu.api.bean.feeds.FeedsItemVerb;
 import com.bill.zhihu.api.utils.TextUtils;
+import com.bill.zhihu.ui.answer.ActivityAnswer;
 import com.bill.zhihu.ui.question.ActivityQuestion;
+import com.bill.zhihu.util.FeedsItemUtils;
+import com.bill.zhihu.util.IntentUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -51,29 +57,34 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
     @Override
     public int getItemCount() {
-        // TODO Auto-generated method stub
         return timelineItems.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        switch (timelineItems.get(position).verb) {
-            case FeedsItemVerb.COLUMN_POPULAR_ARTICLE:
-            case FeedsItemVerb.MEMBER_ANSWER_QUESTION:
-            case FeedsItemVerb.MEMBER_CREATE_ARTICLE:
-            case FeedsItemVerb.PROMOTION_ANSWER:
-            case FeedsItemVerb.COLUMN_NEW_ARTICLE:
-            case FeedsItemVerb.TOPIC_ACKNOWLEDGED_ANSWER:
-            case FeedsItemVerb.VOTE_UP_ANSWER:
+        FeedsItem item = timelineItems.get(position);
+
+        // record json in log
+        if (false) {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                String json = mapper.writeValueAsString(item);
+                Logger.t(TAG).json(json);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
+
+        switch (item.target.type) {
+            case FeedsItemTargetType.ANSWER:
+            case FeedsItemTargetType.ARTICLE:
             case FeedsItemVerb.VOTE_UP_ARTICLE:
                 return VIEW_TYPE_ANSWER_QUESTION;
-            case FeedsItemVerb.MEMBER_FOLLOW_QUESTION:
-            case FeedsItemVerb.MEMBER_ASK_QUESTION:
-            case FeedsItemVerb.TOPIC_POPULAR_QUESTION:
-            case FeedsItemVerb.MEMBER_FOLLOW_COLUMN:
+            case FeedsItemTargetType.QUESTION:
+            case FeedsItemTargetType.COLUMN:
                 return VIEW_TYPE_ONLY_QUESTION;
             default:
-                Logger.t(TAG).d("new type " + timelineItems.get(position).verb + " maybe cause crash");
+                Logger.t(TAG).d("new type " + item.target.type + " maybe cause crash");
                 return 0;
         }
     }
@@ -82,63 +93,11 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
     public void onBindViewHolder(TimeLineViewHolder holder, int position) {
         final FeedsItem item = timelineItems.get(position);
         // source string, before the title
-        holder.fromTv.setText(formatSourceString(item));
+        holder.fromTv.setText(FeedsItemUtils.formatSourceString(item));
 
         // question or article title in target or question, avatar image
-        switch (timelineItems.get(position).verb) {
-
-            case FeedsItemVerb.MEMBER_ANSWER_QUESTION:
-                holder.questionTv.setText(item.target.question.title);
-                holder.setAvatarImageUrl(item.target.author.avatarUrl);
-                break;
-            case FeedsItemVerb.MEMBER_CREATE_ARTICLE:
-                holder.questionTv.setText(item.target.title);
-                holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
-                break;
-            case FeedsItemVerb.MEMBER_FOLLOW_QUESTION:
-                holder.questionTv.setText(item.target.title);
-                holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
-                break;
-            case FeedsItemVerb.PROMOTION_ANSWER:
-                holder.questionTv.setText(item.target.question.title);
-                break;
-            case FeedsItemVerb.TOPIC_ACKNOWLEDGED_ANSWER:
-                holder.questionTv.setText(item.target.question.title);
-                holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
-                break;
-            case FeedsItemVerb.VOTE_UP_ANSWER:
-                holder.questionTv.setText(item.target.question.title);
-                holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
-                break;
-            case FeedsItemVerb.VOTE_UP_ARTICLE:
-                holder.questionTv.setText(item.target.title);
-                holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
-                break;
-            case FeedsItemVerb.MEMBER_ASK_QUESTION:
-
-                holder.questionTv.setText(item.target.title);
-                holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
-                break;
-            case FeedsItemVerb.MEMBER_FOLLOW_COLUMN:
-                holder.questionTv.setText(item.target.title);
-                holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
-                break;
-            case FeedsItemVerb.TOPIC_POPULAR_QUESTION:
-                holder.questionTv.setText(item.target.title);
-                holder.setAvatarImageUrl(item.actors.get(0).avatarUrl);
-                break;
-            case FeedsItemVerb.COLUMN_POPULAR_ARTICLE:
-                holder.questionTv.setText(item.target.title);
-                holder.setAvatarImageUrl(item.target.author.avatarUrl);
-                break;
-            case FeedsItemVerb.COLUMN_NEW_ARTICLE:
-                holder.questionTv.setText(item.target.column.title);
-                holder.setAvatarImageUrl(item.target.column.imageUrl);
-                break;
-            default:
-                Logger.t(TAG).d("Time line adapter, none of specific verb ", timelineItems.get(position).verb);
-                break;
-        }
+        holder.questionTv.setText(FeedsItemUtils.getTitle(item));
+        holder.setAvatarImageUrl(FeedsItemUtils.getAvatarUrl(item));
 
         int type = getItemViewType(position);
 
@@ -187,8 +146,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(mContext, ActivityAnswer.class);
-                        intent.setAction(TimeLineItem.KEY);
-                        intent.putExtra(TimeLineItem.KEY, item);
+                        intent.putExtra(IntentUtils.ITENT_NAME_FEEDS_ITEM, item);
                         mContext.startActivity(intent);
                     }
                 });
@@ -255,75 +213,6 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                 break;
         }
         return holder;
-    }
-
-    private CharSequence formatSourceString(FeedsItem item) {
-        int highLightTextColor = mContext.getResources().getColor(R.color.blue_light);
-
-        String sourceText;
-        String highLightText;
-        switch (item.verb) {
-            case FeedsItemVerb.COLUMN_POPULAR_ARTICLE:
-                highLightText = item.target.column.title;
-                sourceText = highLightText + " " + "中很多人赞同了该文章";
-                break;
-            case FeedsItemVerb.MEMBER_ANSWER_QUESTION:
-                highLightText = item.actors.get(0).name;
-                sourceText = highLightText + " " + "回答了该问题";
-                break;
-            case FeedsItemVerb.MEMBER_ASK_QUESTION:
-                highLightText = item.actors.get(0).name;
-                sourceText = highLightText + " " + "提了一个问题";
-                break;
-            case FeedsItemVerb.MEMBER_CREATE_ARTICLE:
-                highLightText = item.actors.get(0).name;
-                sourceText = highLightText + " " + "发布了文章";
-                break;
-            case FeedsItemVerb.MEMBER_FOLLOW_COLUMN:
-                highLightText = item.actors.get(0).name;
-                sourceText = highLightText + " " + "关注了专栏";
-                break;
-            case FeedsItemVerb.MEMBER_FOLLOW_QUESTION:
-                highLightText = item.actors.get(0).name;
-                sourceText = highLightText + " " + "关注了该问题";
-                break;
-            case FeedsItemVerb.PROMOTION_ANSWER:
-                highLightText = "";
-                sourceText = "热门回答";
-                break;
-            case FeedsItemVerb.TOPIC_ACKNOWLEDGED_ANSWER:
-                highLightText = item.actors.get(0).name;
-                sourceText = "来自" + " " + highLightText;
-                break;
-            case FeedsItemVerb.TOPIC_POPULAR_QUESTION:
-                highLightText = item.actors.get(0).name;
-                sourceText = "来自" + " " + highLightText;
-                break;
-            case FeedsItemVerb.VOTE_UP_ANSWER:
-                highLightText = item.actors.get(0).name;
-                sourceText = highLightText + " " + "赞同了该回答";
-                break;
-            case FeedsItemVerb.VOTE_UP_ARTICLE:
-                highLightText = item.actors.get(0).name;
-                sourceText = highLightText + " " + "赞同了该文章";
-                break;
-            case FeedsItemVerb.COLUMN_NEW_ARTICLE:
-                highLightText = item.target.column.title;
-                sourceText = highLightText + " " + "中发表聊发表了新文章";
-                break;
-            default:
-                sourceText = "";
-                highLightText = "";
-                break;
-        }
-
-        Logger.t(TAG).d("source text", sourceText);
-        Logger.t(TAG).d("high Light Text", highLightText);
-
-        SpannableStringBuilder ssb = TextUtils.getColorString(sourceText,
-                highLightTextColor, highLightText);
-
-        return ssb;
     }
 
 

@@ -7,9 +7,11 @@ import android.view.MenuInflater;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.activity.BaseActivity;
-import com.bill.zhihu.api.bean.AnswerItemInQuestion;
-import com.bill.zhihu.api.bean.TimeLineItem;
+import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.api.utils.ZhihuLog;
+import com.bill.zhihu.util.FeedsItemUtils;
+import com.bill.zhihu.util.IntentUtils;
+import com.orhanobut.logger.Logger;
 
 /**
  * 答案
@@ -29,33 +31,11 @@ public class ActivityAnswer extends BaseActivity {
 
         // 根据action判断title存放位置
         Intent intent = getIntent();
-        String action = intent.getAction();
-        String questionTitle = null;
-        switch (action) {
-            case TimeLineItem.KEY: {
-                TimeLineItem item = intent.getParcelableExtra(TimeLineItem.KEY);
-                questionTitle = item.getQuestion();
-                break;
-            }
-            case AnswerItemInQuestion.KEY: {
-                AnswerItemInQuestion item = intent.getParcelableExtra(AnswerItemInQuestion.KEY);
-                questionTitle = item.getQuestionTitle();
-                break;
-            }
-            default:
-                break;
-        }
-        ZhihuLog.d(TAG, "question title is " + questionTitle);
-//        questionTv.setText(questionTitle);
+        FeedsItem item = intent.getParcelableExtra(IntentUtils.ITENT_NAME_FEEDS_ITEM);
+        String questionTitle = FeedsItemUtils.getTitle(item);
+
+        Logger.t(TAG).d(TAG, "question title is " + questionTitle);
         setTitle(questionTitle);
-
-
-//        moreIv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showMoreMenu();
-//            }
-//        });
 
         toggleFragment(new FragmentAnswer());
     }
@@ -68,9 +48,4 @@ public class ActivityAnswer extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-//    private void showMoreMenu() {
-//        PopupMenu menu = new PopupMenu(this, moreIv);
-//        menu.getMenuInflater().inflate(R.menu.activity_answer_menu, menu.getMenu());
-//        menu.show();
-//    }
 }

@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Layout.Home.Item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<LinearLayout style="@style/Layout.Home.Item"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/avatar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:id="@+id/avatar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/home_item_bg"
-            android:clickable="true">
-
-            <TextView
-                android:id="@+id/from"
-                style="@style/TextView.Light.Subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="@dimen/global_margin_4" />
-
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/header"
-                style="@style/ImageView.TimeLine.Avatar"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
-        </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_item_bg"
+        android:clickable="true">
 
         <TextView
-            android:id="@+id/question"
-            style="@style/TextView.Light.QuestionAndArticle"
-            android:layout_width="match_parent"
+            android:id="@+id/from"
+            style="@style/TextView.Light.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/avatar"
-            android:layout_marginTop="@dimen/question_margin_top" />
-    </RelativeLayout>
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/header"
+            style="@style/ImageView.TimeLine.Avatar"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/question"
+        style="@style/TextView.Light.QuestionAndArticle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/question_margin_top"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,14 +49,14 @@
 
         <TextView
             android:id="@+id/vote"
-            style="@style/TextView.Vote" />
+            style="@style/TextView.Vote"/>
 
         <TextView
             android:id="@+id/answer"
             style="@style/TextView.Light.AnswerContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/global_margin_4" />
+            android:layout_marginLeft="@dimen/global_margin_4"/>
     </LinearLayout>
 
 </LinearLayout>
