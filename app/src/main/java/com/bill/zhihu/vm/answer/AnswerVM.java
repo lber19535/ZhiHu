@@ -45,7 +45,7 @@ public class AnswerVM {
         binding.answer.bindJs(this, "ZhihuAndroid");
     }
 
-    public void loadAnswer(long id) {
+    public void loadAnswer(String id) {
         model.getAnswer(id)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SingleAnswerResponse>() {

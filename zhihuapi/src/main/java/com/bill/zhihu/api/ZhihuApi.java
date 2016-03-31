@@ -125,8 +125,8 @@ public class ZhihuApi {
      * @param answerId
      * @return
      */
-    public static Observable<SingleAnswerResponse> getAnswer(long answerId) {
-        return ApiFactory.createAnswerApi().getAnswer(String.valueOf(answerId));
+    public static Observable<SingleAnswerResponse> getAnswer(String answerId) {
+        return ApiFactory.createAnswerApi().getAnswer(answerId);
     }
 
     /**

@@ -31,7 +31,7 @@ public class FeedsItemTarget implements Parcelable{
     @JsonProperty("type")
     public  String type;
     @JsonProperty("id")
-    public  long id;
+    public  String id;
     @JsonProperty("author")
     public Author author;
     @JsonProperty("question")
@@ -63,7 +63,7 @@ public class FeedsItemTarget implements Parcelable{
         dest.writeString(this.commentCount);
         dest.writeString(this.followerCount);
         dest.writeString(this.type);
-        dest.writeLong(this.id);
+        dest.writeString(this.id);
         dest.writeParcelable(this.author, flags);
         dest.writeParcelable(this.question, flags);
         dest.writeParcelable(this.column, flags);
@@ -84,7 +84,7 @@ public class FeedsItemTarget implements Parcelable{
         this.commentCount = in.readString();
         this.followerCount = in.readString();
         this.type = in.readString();
-        this.id = in.readLong();
+        this.id = in.readString();
         this.author = in.readParcelable(Author.class.getClassLoader());
         this.question = in.readParcelable(Question.class.getClassLoader());
         this.column = in.readParcelable(FeedsItemColumn.class.getClassLoader());

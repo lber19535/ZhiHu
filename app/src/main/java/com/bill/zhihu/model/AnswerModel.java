@@ -11,7 +11,7 @@ import rx.schedulers.Schedulers;
  */
 public class AnswerModel {
 
-    public Observable<SingleAnswerResponse> getAnswer(long id){
+    public Observable<SingleAnswerResponse> getAnswer(String id){
         return ZhihuApi.getAnswer(id).subscribeOn(Schedulers.io());
     }
 }
