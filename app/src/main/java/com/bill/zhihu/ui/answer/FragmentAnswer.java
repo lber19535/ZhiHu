@@ -47,6 +47,7 @@ public class FragmentAnswer extends Fragment {
     private PopupWindow fabWindow;
 
     private AnswerViewBinding binding;
+    private PopWindowFabViewBinding popBinding;
     private AnswerVM vm;
 
     @Override

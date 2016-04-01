@@ -45,9 +45,9 @@
 -keep public class com.bill.zhihu.api.bean.**{
     *;
 }
--dontwarn android.support.**
--keep class android.support.** { *; }
--keep interface android.support.** { *; }
+#-dontwarn android.support.**
+#-keep class android.support.** { *; }
+#-keep interface android.support.** { *; }
 
 # retrofit2
 -dontwarn retrofit2.**
@@ -63,7 +63,16 @@
 -keepattributes Exceptions
 
 # rxjava
--keep class rx.** {*;}
+#-keep class rx.** {*;}
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+   long producerIndex;
+   long consumerIndex;
+}
+
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+   long producerNode;
+   long consumerNode;
+}
 
 # okio
 -dontwarn okio.**

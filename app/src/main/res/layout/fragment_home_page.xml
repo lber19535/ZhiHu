@@ -50,7 +50,7 @@
             fab:fab_colorNormal="@color/blue"
             fab:fab_colorPressed="@color/blue_dark"
             fab:fab_colorRipple="@color/blue_light"
-            fab:fab_type="mini"/>
+            fab:fab_type="normal"/>
 
 
     </RelativeLayout>
