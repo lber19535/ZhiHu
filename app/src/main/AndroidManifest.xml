@@ -1,26 +1,26 @@
-<manifest
-    package="com.bill.zhihu"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionName="@string/app_version_name">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.bill.zhihu"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionName="@string/app_version_name">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-    <!-- bugly-->
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!-- bugly -->
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application
-        android:name="com.bill.zhihu.ZhihuApp"
+        android:name=".ZhihuApp"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
         <activity android:name=".ui.StartPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -28,7 +28,6 @@
         <activity android:name=".ui.home.ActivityHome"/>
         <activity android:name=".ui.answer.ActivityAnswer"/>
         <activity android:name=".ui.question.ActivityQuestion"/>
-
     </application>
 
 </manifest>

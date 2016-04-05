@@ -10,8 +10,8 @@ android {
         applicationId 'com.bill.zhihu'
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 10
-        versionName "0.1.8"
+        versionCode 11
+        versionName "0.1.9"
         renameApk(appName + "-" + versionName)
 
         ndk {

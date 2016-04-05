@@ -8,6 +8,9 @@
         <variable
             name="vm"
             type="com.bill.zhihu.vm.answer.AnswerVM"/>
+        <variable
+            name="item"
+            type="com.bill.zhihu.api.bean.feeds.FeedsItem"/>
     </data>
 
     <RelativeLayout

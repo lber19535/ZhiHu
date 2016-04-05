@@ -92,3 +92,10 @@
     public void set*(***);
     public *** get*();
 }
+
+# js
+-keepattributes JavascriptInterface
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+

@@ -60,7 +60,7 @@ public class FragmentAnswer extends Fragment {
 
         ZhihuLog.d(TAG, "answer id is " + item.target.id);
 
-        vm = new AnswerVM(getActivity(),binding);
+        vm = new AnswerVM(getActivity(), binding);
 
         vm.playLoadingAnim();
         vm.setAuthor(item);
@@ -181,7 +181,7 @@ public class FragmentAnswer extends Fragment {
         // attach到自定义的webview上，加入滑动过程中的隐藏和现实
         binding.fab.attachToScrollView(binding.answer);
         // bind js
-        binding.answer.bindJs(vm,"ZhihuAndroid");
+        binding.answer.bindJs(vm, "ZhihuAndroid");
 
     }
 

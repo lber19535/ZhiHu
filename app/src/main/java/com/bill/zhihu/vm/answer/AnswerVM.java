@@ -63,7 +63,7 @@ public class AnswerVM {
                     @Override
                     public void onError(Throwable e) {
                         Logger.d("load answer error");
-                        Logger.d(e.toString());
+                        BuglyLog.d(TAG, e.toString());
                     }
 
                     @Override
@@ -78,6 +78,7 @@ public class AnswerVM {
         binding.avatar.setImageURI(Uri.parse(avatarUrl));
         binding.name.setText(item.target.author.name);
         binding.intro.setText(item.target.author.headline);
+        binding.vote.setText(item.target.voteupCount + "");
     }
 
     /**
@@ -103,6 +104,10 @@ public class AnswerVM {
         animator.start();
     }
 
+    public void changeWebviewFontSize(String size) {
+        binding.answer.executeJsMethod("setFontSize", size);
+    }
+
     @JavascriptInterface
     public void loadImage(final String url) {
 
@@ -124,7 +129,7 @@ public class AnswerVM {
                     public void onNext(String uri) {
                         BuglyLog.d(TAG, "load image " + url + " in cache " + uri);
                         try {
-                            binding.answer.executeJsMethod("onImageLoadingComplete", URLEncoder.encode(url,"utf-8"), uri);
+                            binding.answer.executeJsMethod("onImageLoadingComplete", URLEncoder.encode(url, "utf-8"), uri);
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }

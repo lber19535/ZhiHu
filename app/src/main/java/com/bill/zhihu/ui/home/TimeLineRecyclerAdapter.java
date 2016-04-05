@@ -23,6 +23,8 @@ import com.bill.zhihu.util.IntentUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.BuglyLog;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.List;
 
@@ -85,6 +87,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                 return VIEW_TYPE_ONLY_QUESTION;
             default:
                 Logger.t(TAG).d("new type " + item.target.type + " maybe cause crash");
+                CrashReport.postCatchedException(new Throwable("new type " + item.target.type + " maybe cause crash"));
                 return 0;
         }
     }
