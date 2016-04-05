@@ -7,7 +7,11 @@ import android.os.Build;
 
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.utils.XHeaders;
+import com.bill.zhihu.util.InitUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -16,9 +20,7 @@ import com.tencent.bugly.crashreport.CrashReport;
  * Application
  */
 public class ZhihuApp extends Application {
-
-    private static final String TAG = "ZhihuApp";
-
+    
     private static Context mContext;
 
     @Override
@@ -26,20 +28,7 @@ public class ZhihuApp extends Application {
         super.onCreate();
         mContext = this;
 
-        // set globel context
-        ZhihuApi.registerContext(this);
-
-        Fresco.initialize(this);
-
-        if (BuildConfig.DEBUG) {
-            CrashReport.initCrashReport(this, "900009454", true);
-            Logger.init(TAG);
-        } else {
-            CrashReport.initCrashReport(this, "900009454", false);
-            Logger.init(TAG).logLevel(LogLevel.NONE);
-        }
-
-        XHeaders.init(this);
+        InitUtils.init(this);
     }
 
     public static Context getContext() {

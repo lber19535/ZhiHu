@@ -15,11 +15,14 @@ import com.bill.zhihu.ui.Theme;
 import com.bill.zhihu.util.RichCcontentUtils;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.BuglyLog;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 /**
  * Created by bill_lv on 2016/3/29.
@@ -33,6 +36,8 @@ public class AnswerVM {
     private static final float NORMAL_OPTION_IC_ALPHA = 1f;
     private static final long OPTION_ANIM_TIME = 200;
     private static final int PROGRESS_ANIM_DURATION = 500;
+
+    private static final String TAG = "AnswerVM";
 
     private AnswerModel model;
     private Activity activity;
@@ -48,10 +53,11 @@ public class AnswerVM {
     public void loadAnswer(String id) {
         model.getAnswer(id)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SingleAnswerResponse>() {
+                .subscribe(new Subscriber<String>() {
                     @Override
                     public void onCompleted() {
                         Logger.d("load answer completed");
+                        stopLoadingAnim();
                     }
 
                     @Override
@@ -61,9 +67,8 @@ public class AnswerVM {
                     }
 
                     @Override
-                    public void onNext(SingleAnswerResponse singleAnswerResponse) {
-                        binding.answer.setContent(RichCcontentUtils.wrapContent(singleAnswerResponse.content, Theme.LIGHT));
-                        stopLoadingAnim();
+                    public void onNext(String content) {
+                        binding.answer.setContent(content);
                     }
                 });
     }
@@ -99,12 +104,47 @@ public class AnswerVM {
     }
 
     @JavascriptInterface
-    public void loadImage(String url){
+    public void loadImage(final String url) {
+
+        model.getImageCacheUri(url)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        BuglyLog.d(TAG, "image load complete");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        BuglyLog.d(TAG, e.toString());
+                        binding.answer.executeJsMethod("onImageLoadingFailed", url);
+                    }
+
+                    @Override
+                    public void onNext(String uri) {
+                        BuglyLog.d(TAG, "load image " + url + " in cache " + uri);
+                        try {
+                            binding.answer.executeJsMethod("onImageLoadingComplete", URLEncoder.encode(url,"utf-8"), uri);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    @JavascriptInterface
+    public String getFontSize() {
+        return "14";
+    }
+
+    @JavascriptInterface
+    public void openImage(String url) {
         Logger.d(url);
     }
 
     @JavascriptInterface
-    public String getFontSize(){
-        return "14";
+    public void debug(String msg) {
+        Logger.d(msg);
     }
+
 }

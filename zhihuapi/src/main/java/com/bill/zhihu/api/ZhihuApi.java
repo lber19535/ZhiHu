@@ -10,6 +10,7 @@ import com.bill.zhihu.api.bean.response.QuestionResponse;
 import com.bill.zhihu.api.bean.response.SingleAnswerResponse;
 import com.bill.zhihu.api.cookie.PersistentCookiesStore;
 import com.bill.zhihu.api.factory.ApiFactory;
+import com.bill.zhihu.api.utils.XHeaders;
 
 import rx.Observable;
 
@@ -25,8 +26,10 @@ public class ZhihuApi {
      *
      * @param context globel context
      */
-    public static void registerContext(Context context) {
+    public static void init(Context context) {
         mContext = context;
+        // init restful api headers
+        XHeaders.init(context);
     }
 
     public static Context getContext() {

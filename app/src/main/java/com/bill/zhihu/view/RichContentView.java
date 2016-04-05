@@ -2,13 +2,16 @@ package com.bill.zhihu.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.StringBuilderPrinter;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.bill.zhihu.vm.answer.RichContentChromeClient;
 import com.bill.zhihu.vm.answer.RichContentWebClient;
 import com.melnykov.fab.ObservableScrollView;
+import com.tencent.bugly.crashreport.BuglyLog;
 
 /**
  * 为了使用 FloatActionButton 做成webview上下滑动也可以有隐藏的效果做了包装了
@@ -17,7 +20,6 @@ import com.melnykov.fab.ObservableScrollView;
 public class RichContentView extends ObservableScrollView {
 
     private WebView webView;
-
 
 
     public RichContentView(Context context) {
@@ -51,12 +53,32 @@ public class RichContentView extends ObservableScrollView {
     }
 
     @SuppressLint("JavascriptInterface")
-    public void bindJs(Object obj,String name) {
+    public void bindJs(Object obj, String name) {
         webView.addJavascriptInterface(obj, name);
     }
 
     public void setContent(String content) {
         webView.loadDataWithBaseURL("file:///android_asset/", content, "text/html; charset=UTF-8", "UTF-8", null);
+    }
+
+    public void executeJsMethod(String methodName, String... params) {
+
+        StringBuffer sb = new StringBuffer();
+
+        for (String s : params) {
+            sb.append("'");
+            sb.append(s);
+            sb.append("'");
+            sb.append(",");
+        }
+        int lastDot = sb.lastIndexOf(",");
+        if (lastDot != -1)
+            sb.deleteCharAt(lastDot);
+
+        String cmd = "javascript:" + methodName + "(" + sb.toString() + ");";
+        BuglyLog.d("JS ",cmd);
+
+        webView.loadUrl(cmd);
     }
 
 }
