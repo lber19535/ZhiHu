@@ -7,13 +7,11 @@ import android.app.Activity;
 import android.net.Uri;
 import android.webkit.JavascriptInterface;
 
+import com.bill.zhihu.R;
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
-import com.bill.zhihu.api.bean.response.SingleAnswerResponse;
 import com.bill.zhihu.databinding.AnswerViewBinding;
 import com.bill.zhihu.model.AnswerModel;
-import com.bill.zhihu.ui.Theme;
-import com.bill.zhihu.util.RichCcontentUtils;
-import com.facebook.drawee.backends.pipeline.Fresco;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.BuglyLog;
 
@@ -22,7 +20,6 @@ import java.net.URLEncoder;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 
 /**
  * Created by bill_lv on 2016/3/29.
@@ -75,7 +72,7 @@ public class AnswerVM {
 
     public void setAuthor(FeedsItem item) {
         String avatarUrl = item.target.author.avatarUrl.replace("_s", "_l");
-        binding.avatar.setImageURI(Uri.parse(avatarUrl));
+        ImageLoader.getInstance().displayImage(avatarUrl,binding.avatar);
         binding.name.setText(item.target.author.name);
         binding.intro.setText(item.target.author.headline);
         binding.vote.setText(item.target.voteupCount + "");
@@ -139,7 +136,10 @@ public class AnswerVM {
 
     @JavascriptInterface
     public String getFontSize() {
-        return "14";
+        float fontSize = 0;
+        fontSize = activity.getResources().getDimension(R.dimen.default_answer_font);
+
+        return fontSize + "";
     }
 
     @JavascriptInterface

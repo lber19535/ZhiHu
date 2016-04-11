@@ -25,7 +25,7 @@
             android:layout_weight="1"
             />
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/header"
             style="@style/ImageView.TimeLine.Avatar"
             />

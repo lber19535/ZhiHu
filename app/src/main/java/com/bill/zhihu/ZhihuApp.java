@@ -3,18 +3,8 @@ package com.bill.zhihu;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 
-import com.bill.zhihu.api.ZhihuApi;
-import com.bill.zhihu.api.utils.XHeaders;
 import com.bill.zhihu.util.InitUtils;
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.orhanobut.logger.LogLevel;
-import com.orhanobut.logger.Logger;
-import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * Application

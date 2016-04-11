@@ -4,7 +4,6 @@ import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.cookie.ZhihuCookieJar;
 import com.bill.zhihu.api.utils.AuthStore;
 import com.bill.zhihu.api.utils.XHeaders;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;

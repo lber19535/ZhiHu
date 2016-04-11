@@ -56,14 +56,14 @@ public class ZhihuCookieManager {
      * @return
      */
     public static boolean isCookieEmpty() {
-        return PersistentCookiesStore.getInstance().getCookies().size() == 0 ? true : false;
+        return PersistentCookiesStore.getInstance().getCookies().size() == 0;
     }
 
-    public static boolean clearCookie(){
+    public static boolean clearCookie() {
         return PersistentCookiesStore.getInstance().removeAll();
     }
 
-    public static boolean setLoginCookies(){
+    public static boolean setLoginCookies() {
 //        PersistentCookiesStore.getInstance().add(Uri.parse("https://api.zhihu.com"),new HttpCookie(""));
         return false;
     }

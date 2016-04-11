@@ -40,17 +40,14 @@
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fab"
+            style="@style/FloatingActionButton.Globe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/global_margin_16"
-            android:src="@drawable/ic_up_arrow"
-            fab:fab_colorNormal="@color/blue"
-            fab:fab_colorPressed="@color/blue_dark"
-            fab:fab_colorRipple="@color/blue_light"
-            fab:fab_type="normal"/>
+            android:src="@drawable/ic_up_arrow"/>
 
 
     </RelativeLayout>

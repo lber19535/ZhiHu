@@ -2,8 +2,6 @@ package com.bill.zhihu.api.utils;
 
 import android.util.Log;
 
-import com.bill.zhihu.api.BuildConfig;
-
 import java.util.HashMap;
 
 /**

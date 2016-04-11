@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.activity.BaseActivity;
-import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.databinding.StartPageViewBinding;
 import com.bill.zhihu.ui.home.ActivityHome;
 import com.bill.zhihu.ui.login.ActivityLogin;
@@ -14,7 +13,6 @@ import com.bill.zhihu.vm.StartPageVM;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 
 /**

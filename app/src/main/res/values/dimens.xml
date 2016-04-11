@@ -35,6 +35,10 @@
     <dimen name="vote_width">32dp</dimen>
     <dimen name="loading_wheel_size">40dp</dimen>
     <!-- 回答界面-->
+    <!-- 答案-->
+    <dimen name="default_answer_font">@dimen/font_16</dimen>
+
+
 
 
 </resources>

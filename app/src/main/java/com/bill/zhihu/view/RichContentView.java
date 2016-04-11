@@ -2,9 +2,7 @@ package com.bill.zhihu.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.StringBuilderPrinter;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 

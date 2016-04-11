@@ -99,3 +99,28 @@
     @android.webkit.JavascriptInterface <methods>;
 }
 
+# remove log
+-assumenosideeffects class android.util.Log {
+    public static boolean isLoggable(java.lang.String, int);
+    public static int v(...);
+    public static int i(...);
+    public static int w(...);
+    public static int d(...);
+    public static int e(...);
+}
+-assumenosideeffects class com.orhanobut.logger.Logger {
+     public static *** init(...);
+     public static void clear();
+     public static *** t(...);
+     public static void d(...);
+     public static void e(...);
+     public static void i(...);
+     public static void v(...);
+     public static void w(...);
+     public static void wtf(...);
+     public static void json(...);
+     public static void xml(...);
+}
+-assumenosideeffects class com.orhanobut.logger.Settings {
+    public *** logLevel(...);
+}

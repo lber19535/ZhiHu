@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 
 /**
- *
  * 解压Gzip压缩过的工具类
  * Created by Bill-pc on 2015/6/27.
  */
@@ -22,7 +21,6 @@ public class GzipUtils {
      */
     public static String decodeString(byte[] byteArray) {
         GZIPInputStream gis = null;
-        ByteArrayOutputStream bao = null;
         StringBuffer sb = new StringBuffer();
         try {
             gis = new GZIPInputStream(new ByteArrayInputStream(byteArray));
@@ -35,13 +33,10 @@ public class GzipUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (gis != null && bao != null) {
-                try {
-                    gis.close();
-                    bao.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                gis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 

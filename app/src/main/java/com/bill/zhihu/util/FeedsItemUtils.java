@@ -185,9 +185,6 @@ public class FeedsItemUtils {
         Logger.t(TAG).d("source text", sourceText);
         Logger.t(TAG).d("high Light Text", highLightText);
 
-        SpannableStringBuilder ssb = TextUtils.getColorString(sourceText,
-                highLightTextColor, highLightText);
-
-        return ssb;
+        return TextUtils.getColorString(sourceText, highLightTextColor, highLightText);
     }
 }

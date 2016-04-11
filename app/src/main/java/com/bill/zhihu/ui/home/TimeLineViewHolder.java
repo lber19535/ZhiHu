@@ -4,10 +4,11 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bill.zhihu.R;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -21,7 +22,7 @@ public class TimeLineViewHolder extends ViewHolder {
 
     public TextView questionTv;
     public TextView fromTv;
-    public SimpleDraweeView avatarIv;
+    public ImageView avatarIv;
 
     protected TimeLineItemOnClickListener onClickListener;
     protected TimeLineItemOnLongClickListener onLongClickListener;
@@ -32,7 +33,7 @@ public class TimeLineViewHolder extends ViewHolder {
         super(itemView);
         questionTv = (TextView) itemView.findViewById(R.id.question);
         fromTv = (TextView) itemView.findViewById(R.id.from);
-        avatarIv = (SimpleDraweeView) itemView.findViewById(R.id.header);
+        avatarIv = (ImageView) itemView.findViewById(R.id.header);
 
     }
 
@@ -44,8 +45,7 @@ public class TimeLineViewHolder extends ViewHolder {
      */
     public void setAvatarImageUrl(String url) {
         Logger.d("avatar img url", url);
-        Uri uri = Uri.parse(url);
-        avatarIv.setImageURI(uri);
+        ImageLoader.getInstance().displayImage(url, avatarIv);
 
     }
 

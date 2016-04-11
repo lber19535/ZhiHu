@@ -11,7 +11,6 @@ import com.bill.zhihu.util.RichCcontentUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.BuglyLog;
 
 import org.jsoup.Jsoup;

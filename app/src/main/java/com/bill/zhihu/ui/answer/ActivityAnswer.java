@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import com.bill.zhihu.R;
 import com.bill.zhihu.activity.BaseActivity;
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
-import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.util.FeedsItemUtils;
 import com.bill.zhihu.util.IntentUtils;
 import com.orhanobut.logger.Logger;

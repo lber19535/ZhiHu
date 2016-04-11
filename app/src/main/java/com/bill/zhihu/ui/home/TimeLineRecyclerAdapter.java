@@ -4,26 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bill.zhihu.BuildConfig;
 import com.bill.zhihu.R;
-import com.bill.zhihu.api.BuildConfig;
-import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.api.bean.feeds.FeedsItemTargetType;
 import com.bill.zhihu.api.bean.feeds.FeedsItemVerb;
 import com.bill.zhihu.api.utils.TextUtils;
 import com.bill.zhihu.ui.answer.ActivityAnswer;
-import com.bill.zhihu.ui.question.ActivityQuestion;
 import com.bill.zhihu.util.FeedsItemUtils;
 import com.bill.zhihu.util.IntentUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orhanobut.logger.Logger;
-import com.tencent.bugly.crashreport.BuglyLog;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.List;
@@ -67,7 +63,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
         FeedsItem item = timelineItems.get(position);
 
         // record json in log
-        if (false) {
+        if (BuildConfig.DEBUG) {
             ObjectMapper mapper = new ObjectMapper();
             try {
                 String json = mapper.writeValueAsString(item);
@@ -118,9 +114,9 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
             @Override
             public void onClick(View v) {
                 // 问题界面
-                Intent intent = new Intent(mContext, ActivityQuestion.class);
-                intent.putExtra(TimeLineItem.KEY, item);
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, ActivityQuestion.class);
+//                intent.putExtra(TimeLineItem.KEY, item);
+//                mContext.startActivity(intent);
             }
         };
 
@@ -170,27 +166,27 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         // TODO Auto-generated method stub
         super.onDetachedFromRecyclerView(recyclerView);
-        System.out.println("onDetachedFromRecyclerView");
+//        System.out.println("onDetachedFromRecyclerView");
     }
 
     @Override
     public void onViewAttachedToWindow(TimeLineViewHolder holder) {
         // TODO Auto-generated method stub
         super.onViewAttachedToWindow(holder);
-        System.out.println("onViewAttachedToWindow");
+//        System.out.println("onViewAttachedToWindow");
     }
 
     @Override
     public void onViewDetachedFromWindow(TimeLineViewHolder holder) {
         // TODO Auto-generated method stub
         super.onViewDetachedFromWindow(holder);
-        System.out.println("onViewDetachedFromWindow");
+//        System.out.println("onViewDetachedFromWindow");
     }
 
     @Override
     public void onViewRecycled(TimeLineViewHolder holder) {
         super.onViewRecycled(holder);
-        System.out.println("onViewRecycled");
+//        System.out.println("onViewRecycled");
         holder.avatarIv.setImageBitmap(null);
         holder.cancelImageLoad();
     }

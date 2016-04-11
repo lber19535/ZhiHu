@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.view.View;
 
-import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.api.bean.response.FeedsResponse;
 import com.bill.zhihu.databinding.HomePageViewBinding;
@@ -20,7 +19,6 @@ import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by bill_lv on 2016/3/25.

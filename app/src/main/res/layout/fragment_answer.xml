@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:fab="http://schemas.android.com/apk/res-auto"
-        xmlns:wheel="http://schemas.android.com/apk/res-auto" >
+        xmlns:wheel="http://schemas.android.com/apk/res-auto">
 
     <data class="AnswerViewBinding">
 
         <variable
             name="vm"
             type="com.bill.zhihu.vm.answer.AnswerVM"/>
+
         <variable
             name="item"
             type="com.bill.zhihu.api.bean.feeds.FeedsItem"/>
@@ -25,7 +26,7 @@
             android:orientation="horizontal"
             android:padding="8dp">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/avatar"
                 style="@style/ImageView.Answer.Avatar"/>
 
@@ -103,17 +104,14 @@
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fab"
+            style="@style/FloatingActionButton.Globe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/global_margin_16"
-            android:src="@drawable/ic_plus"
-            fab:fab_colorNormal="@color/blue"
-            fab:fab_colorPressed="@color/blue_dark"
-            fab:fab_colorRipple="@color/blue_light"
-            fab:fab_type="normal"/>
+            android:src="@drawable/ic_plus"/>
 
     </RelativeLayout>
 </layout>

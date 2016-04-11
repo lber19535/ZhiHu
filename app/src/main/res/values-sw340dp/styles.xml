@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="FloatingActionButton.Globe" parent="Widget.Design.FloatingActionButton">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/grey_dark</item>
+        <item name="fab_colorNormal">@color/blue</item>
+        <item name="fab_colorPressed">@color/blue_dark</item>
+        <item name="fab_colorRipple">@color/blue_light</item>
+        <item name="fab_type">normal</item>
+    </style>
+
+</resources>

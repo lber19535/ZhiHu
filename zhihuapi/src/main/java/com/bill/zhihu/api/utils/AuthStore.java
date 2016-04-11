@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 
 import com.bill.zhihu.api.ZhihuApi;
 
-import java.util.HashMap;
-
 /**
  * Created by bill_lv on 2016/2/17.
  */

@@ -11,22 +11,15 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.databinding.AnswerViewBinding;
 import com.bill.zhihu.databinding.PopWindowFabViewBinding;
-import com.bill.zhihu.model.AnswerModel;
-import com.bill.zhihu.util.FeedsItemUtils;
 import com.bill.zhihu.util.IntentUtils;
-import com.bill.zhihu.view.RichContentView;
 import com.bill.zhihu.vm.answer.AnswerVM;
-import com.melnykov.fab.FloatingActionButton;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 /**
  * 答案
