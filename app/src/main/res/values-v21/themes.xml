@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="AppTheme.Light">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <!-- 底部导航栏颜色 -->
+        <item name="android:navigationBarColor">@color/blue</item>
+    </style>
+
+</resources>

@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="AppTheme.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/blue_dark</item>
+        <item name="android:windowBackground">?colorPrimary</item>
+        <item name="actionOverflowButtonStyle">@style/Toolbar.OverFlowButton</item>
+        <item name="colorButtonNormal">@color/blue</item>
+    </style>
 
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppTheme.Light">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
 </resources>

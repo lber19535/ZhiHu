@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme" parent="AppTheme.Light">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue_dark</item>
-        <!-- 底部导航栏颜色 -->
-        <item name="android:navigationBarColor">@color/blue</item>
+    <style name="LoginInputTextStyle" parent="Widget.Design.TextInputLayout">
+        <item name="android:colorControlActivated">@color/white</item>
+        <item name="android:colorControlHighlight">@color/white</item>
+        <item name="android:colorControlNormal">@color/white</item>
     </style>
+
 
 </resources>

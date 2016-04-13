@@ -27,4 +27,6 @@
     <color name="answer_head_remark">@color/content_summary</color>
     <!-- answer frame-->
     <color name="answer_frame_head">@color/white</color>
+    <!-- toolbar shadow-->
+    <color name="tool_bar_shadow_color">#88333333</color>
 </resources>

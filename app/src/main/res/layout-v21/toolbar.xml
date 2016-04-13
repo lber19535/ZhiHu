@@ -14,9 +14,4 @@
         >
     </android.support.v7.widget.Toolbar>
 
-    <View
-        android:background="@drawable/tool_bar_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"/>
-
 </android.support.design.widget.AppBarLayout>

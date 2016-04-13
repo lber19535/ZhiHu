@@ -40,7 +40,7 @@
                 android:layout_toRightOf="@id/avatar"
                 android:orientation="vertical">
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/name"
                     style="@style/TextView.Light.AnswerHead"
                     android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
                     android:lines="1"
                     android:text="@string/name"/>
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/intro"
                     style="@style/TextView.AnswerRemark"
                     android:layout_width="wrap_content"
@@ -70,13 +70,13 @@
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     style="@style/TextView.AnswerHead.Vote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/answer_vote"/>
 
-                <TextView
+                <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/vote"
                     style="@style/TextView.AnswerHead.Vote"
                     android:layout_width="wrap_content"
