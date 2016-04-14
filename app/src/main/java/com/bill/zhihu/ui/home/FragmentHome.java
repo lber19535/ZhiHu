@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.databinding.HomePageViewBinding;
-import com.bill.zhihu.vm.HomeVM;
+import com.bill.zhihu.vm.home.HomeVM;
 
 /**
  * 主页
@@ -39,7 +39,6 @@ public class FragmentHome extends Fragment {
         vm = new HomeVM(binding, getActivity());
         binding.setVm(vm);
 
-
         initView();
 
         vm.playLoadingAnim();
@@ -52,8 +51,6 @@ public class FragmentHome extends Fragment {
 
     // 初始化相关的view参数
     private void initView() {
-
-        binding.fab.attachToRecyclerView(binding.timeLineList);
 
         // 设置下拉刷新圆圈的颜色
         binding.swipeToRefresh.setColorSchemeResources(SWIPE_COLOR_SCHEMA);

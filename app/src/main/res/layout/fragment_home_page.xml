@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:fab="http://schemas.android.com/apk/res-auto"
-        xmlns:rf="http://schemas.android.com/apk/res-auto"
-        xmlns:wheel="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data class="HomePageViewBinding">
 
         <variable
             name="vm"
-            type="com.bill.zhihu.vm.HomeVM"/>
+            type="com.bill.zhihu.vm.home.HomeVM"/>
     </data>
 
     <RelativeLayout
@@ -16,39 +14,44 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.bill.zhihu.view.SwipyRefreshLayout
-            android:id="@+id/swipe_to_refresh"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:setOnRefreshListener="@{vm.onRefresh}"
-            rf:direction="both">
+            android:layout_height="match_parent">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/time_line_list"
+            <com.bill.zhihu.view.SwipyRefreshLayout
+                android:id="@+id/swipe_to_refresh"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:setOnRefreshListener="@{vm.onRefresh}"
+                app:direction="both">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/time_line_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"/>
+            </com.bill.zhihu.view.SwipyRefreshLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"/>
-        </com.bill.zhihu.view.SwipyRefreshLayout>
+                android:layout_margin="@dimen/global_margin_16"
+                android:src="@drawable/ic_up_arrow"
+                app:layout_anchor="@id/time_line_list"
+                app:layout_anchorGravity="bottom|right|end"
+                app:layout_behavior="com.bill.zhihu.vm.home.SimpleBehavior"/>
+
+        </android.support.design.widget.CoordinatorLayout>
+
 
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/loading_img"
             android:layout_width="@dimen/loading_wheel_size"
             android:layout_height="@dimen/loading_wheel_size"
             android:layout_centerInParent="true"
-            wheel:matProg_barColor="@color/blue"
-            wheel:matProg_progressIndeterminate="true"/>
-
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fab"
-            style="@style/FloatingActionButton.Globe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="@dimen/global_margin_16"
-            android:src="@drawable/ic_up_arrow"/>
-
+            app:matProg_barColor="@color/blue"
+            app:matProg_progressIndeterminate="true"/>
 
     </RelativeLayout>
 </layout>

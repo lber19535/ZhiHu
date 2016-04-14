@@ -5,17 +5,17 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 
 import com.bill.zhihu.vm.answer.RichContentChromeClient;
 import com.bill.zhihu.vm.answer.RichContentWebClient;
-import com.melnykov.fab.ObservableScrollView;
 import com.tencent.bugly.crashreport.BuglyLog;
 
 /**
  * 为了使用 FloatActionButton 做成webview上下滑动也可以有隐藏的效果做了包装了
  * Created by Bill-pc on 2015/7/15.
  */
-public class RichContentView extends ObservableScrollView {
+public class RichContentView extends FrameLayout {
 
     private WebView webView;
 

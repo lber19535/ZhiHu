@@ -18,7 +18,6 @@ import com.bill.zhihu.api.bean.QuestionContent;
 import com.bill.zhihu.api.bean.TimeLineItem;
 import com.bill.zhihu.view.SwipyRefreshLayout;
 import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
-import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import butterknife.Bind;
@@ -38,8 +37,8 @@ public class FragmentQuestion extends Fragment {
     SwipyRefreshLayout swipeToRefreshBtn;
     @Bind(R.id.loading_img)
     ProgressWheel progressWheel;
-    @Bind(R.id.fab)
-    FloatingActionButton fabBtn;
+//    @Bind(R.id.fab)
+//    FloatingActionButton fabBtn;
 
     private View rootView;
     private QuestionRecyclerAdapter recyclerAdapter;
@@ -84,7 +83,7 @@ public class FragmentQuestion extends Fragment {
             }
         });
 
-        fabBtn.attachToRecyclerView(answerListRv);
+//        fabBtn.attachToRecyclerView(answerListRv);
 
         playLoadingAnim();
 

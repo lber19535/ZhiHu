@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:fab="http://schemas.android.com/apk/res-auto"
-        xmlns:wheel="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data class="AnswerViewBinding">
 
@@ -16,7 +15,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <RelativeLayout
             android:id="@+id/answer_head"
@@ -87,31 +87,46 @@
 
         </RelativeLayout>
 
-        <com.bill.zhihu.view.RichContentView
-            android:id="@+id/answer"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/answer_head"
-            android:background="@color/white"/>
+            android:layout_below="@+id/answer_head"
+            android:background="@color/white">
+
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/answer_wrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <com.bill.zhihu.view.RichContentView
+                    android:id="@+id/answer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/answer_head"
+                    />
+            </android.support.v4.widget.NestedScrollView>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/global_margin_16"
+                android:src="@drawable/ic_plus"
+                app:layout_anchor="@id/answer_wrapper"
+                app:layout_anchorGravity="bottom|right|end"
+                app:layout_behavior="com.bill.zhihu.vm.home.SimpleBehavior"/>
+
+        </android.support.design.widget.CoordinatorLayout>
+
 
         <com.pnikosis.materialishprogress.ProgressWheel
             android:id="@+id/loading_img"
             android:layout_width="@dimen/loading_wheel_size"
             android:layout_height="@dimen/loading_wheel_size"
             android:layout_centerInParent="true"
-            wheel:matProg_barColor="@color/blue"
-            wheel:matProg_progressIndeterminate="true"/>
-
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fab"
-            style="@style/FloatingActionButton.Globe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="@dimen/global_margin_16"
-            android:src="@drawable/ic_plus"/>
+            app:matProg_barColor="@color/blue"
+            app:matProg_progressIndeterminate="true"/>
 
     </RelativeLayout>
 </layout>
