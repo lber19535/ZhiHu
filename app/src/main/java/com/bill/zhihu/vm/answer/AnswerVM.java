@@ -4,19 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.net.Uri;
-import android.webkit.JavascriptInterface;
 
-import com.bill.zhihu.R;
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.databinding.AnswerViewBinding;
 import com.bill.zhihu.model.AnswerModel;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.BuglyLog;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -26,12 +20,6 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 public class AnswerVM {
 
-    // option菜单展开和收起时icon的角度
-    private static final float NORMAL_OPTION_IC_DEGREE = 0;
-    private static final float EXPAND_OPTION_IC_DEGREE = 45;
-    private static final float EXPAND_OPTION_IC_ALPHA = 0.5f;
-    private static final float NORMAL_OPTION_IC_ALPHA = 1f;
-    private static final long OPTION_ANIM_TIME = 200;
     private static final int PROGRESS_ANIM_DURATION = 500;
 
     private static final String TAG = "AnswerVM";
@@ -44,7 +32,7 @@ public class AnswerVM {
         this.activity = activity;
         this.binding = binding;
         this.model = new AnswerModel();
-        binding.answer.bindJs(this, "ZhihuAndroid");
+        binding.answer.bindJs(binding.answer, "ZhihuAndroid");
     }
 
     public void loadAnswer(String id) {
@@ -99,57 +87,6 @@ public class AnswerVM {
             }
         });
         animator.start();
-    }
-
-    public void changeWebviewFontSize(String size) {
-        binding.answer.executeJsMethod("setFontSize", size);
-    }
-
-    @JavascriptInterface
-    public void loadImage(final String url) {
-
-        model.getImageCacheUri(url)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-                        BuglyLog.d(TAG, "image load complete");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        BuglyLog.d(TAG, e.toString());
-                        binding.answer.executeJsMethod("onImageLoadingFailed", url);
-                    }
-
-                    @Override
-                    public void onNext(String uri) {
-                        BuglyLog.d(TAG, "load image " + url + " in cache " + uri);
-                        try {
-                            binding.answer.executeJsMethod("onImageLoadingComplete", URLEncoder.encode(url, "utf-8"), uri);
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
-
-    @JavascriptInterface
-    public String getFontSize() {
-        float fontSize = 0;
-        fontSize = activity.getResources().getDimension(R.dimen.default_answer_font);
-
-        return fontSize + "";
-    }
-
-    @JavascriptInterface
-    public void openImage(String url) {
-        Logger.d(url);
-    }
-
-    @JavascriptInterface
-    public void debug(String msg) {
-        Logger.d(msg);
     }
 
 }

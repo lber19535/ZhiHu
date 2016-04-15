@@ -183,10 +183,7 @@ public class TimeLineItem implements Parcelable {
             sb.append(field.getName());
             try {
                 sb.append(field.get(this).toString());
-            } catch (IllegalAccessException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalAccessException | IllegalArgumentException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -240,7 +237,7 @@ public class TimeLineItem implements Parcelable {
         this.avatarImgUrl = in.readString();
         this.source = in.createStringArrayList();
         this.sourceText = in.readString();
-        this.sourceUrls = new ArrayList<Url>();
+        this.sourceUrls = new ArrayList<>();
         in.readList(this.sourceUrls, Url.class.getClassLoader());
         this.timeStamp = in.readString();
         this.time = in.readString();

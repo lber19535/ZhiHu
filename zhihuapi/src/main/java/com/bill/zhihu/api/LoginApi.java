@@ -79,15 +79,14 @@ public class LoginApi implements API {
             Mac localMac = Mac.getInstance("HmacSHA1");
             localMac.init(keySpec);
             byte[] b = localMac.doFinal(src.getBytes());
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
-            for (int i = 0; i < b.length; i++) {
-                sb.append(String.format("%02x", new Object[]{Byte.valueOf(b[i])}));
+            for (byte aB : b) {
+                sb.append(String.format("%02x", new Object[]{Byte.valueOf(aB)}));
             }
+
             return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             e.printStackTrace();
         }
         return null;

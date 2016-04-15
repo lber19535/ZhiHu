@@ -1,6 +1,5 @@
 package com.bill.zhihu.ui.home;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.View.OnClickListener;

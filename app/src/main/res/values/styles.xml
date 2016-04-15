@@ -121,11 +121,26 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="LoginInputTextStyle.Text" parent="TextAppearance.Design.Hint">
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="LoginButtonStyle" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@color/blue_dark</item>
+    </style>
+
+    <style name="CheckedTextView" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@drawable/checked_text_color</item>
+        <item name="android:drawablePadding">@dimen/global_padding_8</item>
+    </style>
+
+    <style name="ExpandableItemStyle">
+        <item name="android:layout_height">@dimen/design_fab_size_normal</item>
+        <item name="android:layout_width">@dimen/design_fab_size_normal</item>
+        <item name="android:background">@drawable/bg_expand_selector</item>
+        <item name="android:layout_margin">@dimen/global_margin_8</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_18</item>
     </style>
 </resources>

@@ -1,9 +1,9 @@
 package com.bill.zhihu.api.bean.response;
 
 import com.bill.zhihu.api.bean.common.Author;
+import com.bill.zhihu.api.bean.common.SuggestEdit;
 import com.bill.zhihu.api.bean.question.Relationship;
 import com.bill.zhihu.api.bean.question.Status;
-import com.bill.zhihu.api.bean.common.SuggestEdit;
 import com.bill.zhihu.api.bean.question.Topic;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,7 +27,7 @@ public class QuestionResponse {
     @JsonProperty("url")
     public String url;
     @JsonProperty("topics")
-    public List<Topic> topics = new ArrayList<Topic>();
+    public List<Topic> topics = new ArrayList<>();
     @JsonProperty("author")
     public Author author;
     @JsonProperty("detail")

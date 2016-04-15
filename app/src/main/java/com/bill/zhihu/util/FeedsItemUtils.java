@@ -1,7 +1,5 @@
 package com.bill.zhihu.util;
 
-import android.text.SpannableStringBuilder;
-
 import com.bill.zhihu.R;
 import com.bill.zhihu.ZhihuApp;
 import com.bill.zhihu.api.bean.feeds.FeedsItem;

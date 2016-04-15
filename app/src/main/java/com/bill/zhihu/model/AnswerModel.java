@@ -1,29 +1,19 @@
 package com.bill.zhihu.model;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.view.View;
-
 import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.api.bean.response.SingleAnswerResponse;
 import com.bill.zhihu.ui.Theme;
 import com.bill.zhihu.util.RichCcontentUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.tencent.bugly.crashreport.BuglyLog;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -47,7 +37,7 @@ public class AnswerModel {
                 .map(new Func1<SingleAnswerResponse, String>() {
                     @Override
                     public String call(SingleAnswerResponse singleAnswerResponse) {
-                        StringBuffer sb = new StringBuffer(singleAnswerResponse.content);
+                        StringBuilder sb = new StringBuilder(singleAnswerResponse.content);
                         sb.append(createTimeTag(singleAnswerResponse.createdTime, singleAnswerResponse.updatedTime));
 
                         String content = RichCcontentUtils.wrapContent(sb.toString(), Theme.LIGHT);
@@ -63,39 +53,6 @@ public class AnswerModel {
                         return doc.toString();
                     }
                 }).subscribeOn(Schedulers.io());
-    }
-
-
-    public Observable<String> getImageCacheUri(final String url) {
-        return Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(final Subscriber<? super String> subscriber) {
-                ImageLoader.getInstance().loadImage(url, new ImageLoadingListener() {
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
-                        BuglyLog.d(TAG, "load img " + imageUri);
-                    }
-
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        subscriber.onError(new Throwable(failReason.getCause()));
-                    }
-
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        File file = ImageLoader.getInstance().getDiskCache().get(imageUri);
-                        subscriber.onNext(Uri.fromFile(file).toString());
-                        subscriber.onCompleted();
-                    }
-
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-                        subscriber.onError(new Throwable("loading cancelled"));
-                        subscriber.onCompleted();
-                    }
-                });
-            }
-        }).subscribeOn(Schedulers.io());
     }
 
     private String createTimeTag(long createTime, long updateTime) {

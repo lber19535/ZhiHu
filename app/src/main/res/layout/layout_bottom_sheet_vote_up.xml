@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:padding="@dimen/global_margin_16">
+
+    <android.support.v7.widget.AppCompatCheckedTextView
+        style="@style/CheckedTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/abc_ic_nohelp"
+        android:gravity="center_horizontal"
+        android:text="没有帮助"
+        android:textAlignment="gravity"/>
+
+    <android.support.v7.widget.AppCompatCheckedTextView
+        style="@style/CheckedTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/abc_ic_thank"
+        android:gravity="center_horizontal"
+        android:text="感谢"
+        android:textAlignment="gravity"/>
+
+    <android.support.v7.widget.AppCompatCheckedTextView
+        style="@style/CheckedTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/abc_ic_vote_down"
+        android:gravity="center_horizontal"
+        android:text="反对"
+        android:textAlignment="gravity"/>
+
+    <android.support.v7.widget.AppCompatCheckedTextView
+        android:id="@+id/vote"
+        style="@style/CheckedTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/abc_ic_vote_up"
+        android:gravity="center_horizontal"
+        android:text="赞同"
+        android:textAlignment="gravity"/>
+
+</LinearLayout>

@@ -18,7 +18,7 @@ public class ZhihuLog {
      */
     private static final int LOG_MSG_MAX_LEN = 4000;
 
-    private static HashMap<String, Boolean> debugMap = new HashMap<String, Boolean>();
+    private static HashMap<String, Boolean> debugMap = new HashMap<>();
 
     /**
      * 输出log

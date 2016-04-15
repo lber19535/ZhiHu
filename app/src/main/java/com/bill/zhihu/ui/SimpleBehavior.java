@@ -1,4 +1,4 @@
-package com.bill.zhihu.vm.home;
+package com.bill.zhihu.ui;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
