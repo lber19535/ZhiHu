@@ -5,12 +5,14 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 
-import com.bill.zhihu.api.bean.feeds.FeedsItem;
+import com.bill.zhihu.api.bean.common.Author;
 import com.bill.zhihu.databinding.AnswerViewBinding;
-import com.bill.zhihu.model.AnswerModel;
+import com.bill.zhihu.model.FontSize;
+import com.bill.zhihu.model.answer.AnswerModel;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.BuglyLog;
+import com.tramsun.libs.prefcompat.Pref;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,7 +34,7 @@ public class AnswerVM {
         this.activity = activity;
         this.binding = binding;
         this.model = new AnswerModel();
-        binding.answer.bindJs(binding.answer, "ZhihuAndroid");
+//        binding.answer.bindJs(binding.answer, "ZhihuAndroid");
     }
 
     public void loadAnswer(String id) {
@@ -58,12 +60,25 @@ public class AnswerVM {
                 });
     }
 
-    public void setAuthor(FeedsItem item) {
-        String avatarUrl = item.target.author.avatarUrl.replace("_s", "_l");
-        ImageLoader.getInstance().displayImage(avatarUrl,binding.avatar);
-        binding.name.setText(item.target.author.name);
-        binding.intro.setText(item.target.author.headline);
-        binding.vote.setText(item.target.voteupCount + "");
+    public void setAuthor(Author author) {
+        String avatarUrl = author.avatarUrl.replace("_s", "_l");
+        ImageLoader.getInstance().displayImage(avatarUrl, binding.avatar);
+        binding.name.setText(author.name);
+        binding.intro.setText(author.headline);
+    }
+
+    /**
+     * chaneg the content font size
+     *
+     * @param fontSize {@link com.bill.zhihu.model.FontSize}
+     */
+    public void setAnswerFontSize(String fontSize) {
+        binding.answer.setFontSize(fontSize);
+        Pref.putString(FontSize.RICH_CONTENT_VIEW_FONT_KEY, fontSize);
+    }
+
+    public void setVoteupCount(String voteupCount) {
+        binding.vote.setText(voteupCount);
     }
 
     /**

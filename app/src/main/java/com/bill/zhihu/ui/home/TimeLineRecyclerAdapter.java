@@ -15,7 +15,9 @@ import com.bill.zhihu.api.bean.feeds.FeedsItemTargetType;
 import com.bill.zhihu.api.bean.feeds.FeedsItemVerb;
 import com.bill.zhihu.api.utils.TextUtils;
 import com.bill.zhihu.ui.answer.ActivityAnswer;
+import com.bill.zhihu.ui.question.ActivityQuestion;
 import com.bill.zhihu.util.FeedsItemUtils;
+import com.bill.zhihu.constant.IntentConstant;
 import com.bill.zhihu.util.IntentUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -114,9 +116,21 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
             @Override
             public void onClick(View v) {
                 // 问题界面
-//                Intent intent = new Intent(mContext, ActivityQuestion.class);
-//                intent.putExtra(TimeLineItem.KEY, item);
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, ActivityQuestion.class);
+                intent.setAction(IntentConstant.INTENT_ACTION_FEEDS_ITEM);
+                intent.putExtra(IntentConstant.INTENT_NAME_FEEDS_ITEM, item);
+                mContext.startActivity(intent);
+            }
+        };
+
+        View.OnClickListener articleListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 文章
+                Intent intent = new Intent(mContext, ActivityQuestion.class);
+                intent.setAction(IntentConstant.INTENT_ACTION_FEEDS_ITEM);
+                intent.putExtra(IntentConstant.INTENT_NAME_FEEDS_ITEM, item);
+                mContext.startActivity(intent);
             }
         };
 
@@ -145,7 +159,8 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(mContext, ActivityAnswer.class);
-                        intent.putExtra(IntentUtils.ITENT_NAME_FEEDS_ITEM, item);
+                        intent.setAction(IntentConstant.INTENT_ACTION_ANSWER_INTENT_VALUE);
+                        intent.putExtra(IntentConstant.INTENT_NAME_ANSWER_INTENT_VALUE, IntentUtils.convert(item));
                         mContext.startActivity(intent);
                     }
                 });

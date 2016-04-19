@@ -1,6 +1,6 @@
 package com.bill.zhihu.api.cookie;
 
-import com.bill.zhihu.api.utils.ZhihuLog;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -25,8 +25,8 @@ public class ZhihuCookieManager {
         List<Cookie> cookies = PersistentCookiesStore.getInstance().getCookies();
 
         for (Cookie cookie : cookies) {
-            ZhihuLog.dValue(TAG, "cookie", cookie.name());
-            ZhihuLog.dValue(TAG, "cookie value", cookie.value());
+            Logger.t(TAG).d("cookie" + cookie.name());
+            Logger.t(TAG).d("cookie value" + cookie.value());
             if (cookie.name().equals(name)) {
                 return true;
             }

@@ -1,45 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:rf="http://schemas.android.com/apk/res-auto"
-    xmlns:wheel="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.bill.zhihu.view.SwipyRefreshLayout
-        android:id="@+id/swipe_to_refresh"
+    <data class="QuestionViewBinding">
+
+        <variable
+            name="vm"
+            type="com.bill.zhihu.vm.QuestionVM"/>
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        rf:direction="both">
+        android:background="@color/white">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/answer_list"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white" />
-    </com.bill.zhihu.view.SwipyRefreshLayout>
+            android:layout_height="match_parent">
 
-    <com.pnikosis.materialishprogress.ProgressWheel
-        android:id="@+id/loading_img"
-        android:layout_width="@dimen/loading_wheel_size"
-        android:layout_height="@dimen/loading_wheel_size"
-        android:layout_centerInParent="true"
-        wheel:matProg_barColor="@color/blue"
-        wheel:matProg_progressIndeterminate="true" />
+            <com.bill.zhihu.view.SwipyRefreshLayout
+                android:id="@+id/swipe_to_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:setOnRefreshListener="@{vm.onRefresh}"
+                app:direction="both">
 
-   <!-- <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="@dimen/global_margin_16"
-        android:src="@drawable/ic_up_arrow"
-        fab:fab_colorNormal="@color/blue"
-        fab:fab_colorPressed="@color/blue_dark"
-        fab:fab_colorRipple="@color/blue_light"
-        fab:fab_type="mini" />-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/answer_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
 
-</RelativeLayout>
+                <!--<ListView
+                    android:id="@+id/answer_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>-->
+
+            </com.bill.zhihu.view.SwipyRefreshLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/global_margin_16"
+                android:background="@android:color/transparent"
+                app:backgroundTint="@android:color/transparent"
+                app:borderWidth="0dp"
+                app:elevation="0dp"
+                app:layout_anchor="@id/swipe_to_refresh"
+                app:layout_anchorGravity="bottom|right|end"
+                app:layout_behavior="com.bill.zhihu.ui.answer.ExpandSelectorBehavior"/>
+
+            <com.karumi.expandableselector.ExpandableSelector
+                android:id="@+id/expand_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/global_margin_16"
+                app:layout_anchor="@id/swipe_to_refresh"
+                app:layout_anchorGravity="bottom|right|end"/>
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <com.pnikosis.materialishprogress.ProgressWheel
+            android:id="@+id/loading_img"
+            android:layout_width="@dimen/loading_wheel_size"
+            android:layout_height="@dimen/loading_wheel_size"
+            android:layout_centerInParent="true"
+            app:matProg_barColor="@color/blue"
+            app:matProg_progressIndeterminate="true"/>
+
+
+    </RelativeLayout>
+</layout>

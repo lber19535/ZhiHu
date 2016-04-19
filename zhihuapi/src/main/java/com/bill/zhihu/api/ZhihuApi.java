@@ -97,29 +97,29 @@ public class ZhihuApi {
      * @param questionId 问题  id
      * @return
      */
-    public static Observable<QuestionResponse> getQuestion(long questionId) {
-        return ApiFactory.createQuestionApi().getQuestion(String.valueOf(questionId));
+    public static Observable<QuestionResponse> getQuestion(String questionId) {
+        return ApiFactory.createQuestionApi().getQuestion(questionId);
     }
 
     /**
-     * 加载该问题下的最开始的 20 条答案，加载后续答案需要使用{@link #getNextAnswers(long, int)}
+     * 加载该问题下的最开始的 20 条答案，加载后续答案需要使用{@link #getNextAnswers(String, int)}
      *
      * @param questionId 问题 id
      * @return
      */
-    public static Observable<AnswersResponse> getAnswers(long questionId) {
-        return ApiFactory.createAnswerApi().getAnswers(String.valueOf(questionId));
+    public static Observable<AnswersResponse> getAnswers(String questionId) {
+        return ApiFactory.createAnswerApi().getAnswers(questionId);
     }
 
     /**
      * 加载该问题下更多的答案
      *
      * @param questionId 问题 id
-     * @param offset 已加载回答的个数
+     * @param offset     已加载回答的个数
      * @return
      */
-    public static Observable<AnswersResponse> getNextAnswers(long questionId, int offset) {
-        return ApiFactory.createAnswerApi().nextPage(String.valueOf(questionId), offset);
+    public static Observable<AnswersResponse> getNextAnswers(String questionId, int offset) {
+        return ApiFactory.createAnswerApi().nextPage(questionId, offset);
     }
 
     /**

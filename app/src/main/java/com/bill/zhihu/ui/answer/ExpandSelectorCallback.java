@@ -15,7 +15,7 @@ public abstract class ExpandSelectorCallback {
         isHide = hide;
     }
 
-    abstract void onHide();
+    abstract public void onHide();
 
-    abstract void onShow();
+    abstract public void onShow();
 }

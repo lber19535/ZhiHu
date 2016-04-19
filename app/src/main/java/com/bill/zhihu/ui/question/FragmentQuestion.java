@@ -1,28 +1,29 @@
 package com.bill.zhihu.ui.question;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.api.bean.QuestionContent;
-import com.bill.zhihu.api.bean.TimeLineItem;
-import com.bill.zhihu.view.SwipyRefreshLayout;
-import com.bill.zhihu.view.SwipyRefreshLayoutDirection;
-import com.pnikosis.materialishprogress.ProgressWheel;
+import com.bill.zhihu.api.bean.feeds.FeedsItem;
+import com.bill.zhihu.constant.ColorConstant;
+import com.bill.zhihu.constant.IntentConstant;
+import com.bill.zhihu.databinding.QuestionViewBinding;
+import com.bill.zhihu.ui.answer.ExpandSelectorBehavior;
+import com.bill.zhihu.ui.answer.ExpandSelectorCallback;
+import com.bill.zhihu.util.AnimeUtils;
+import com.bill.zhihu.vm.QuestionVM;
+import com.karumi.expandableselector.ExpandableItem;
+import com.karumi.expandableselector.OnExpandableItemClickListener;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 问题界面 包括问题列表、问题、问题详情、话题
@@ -31,96 +32,91 @@ import butterknife.OnClick;
  */
 public class FragmentQuestion extends Fragment {
 
-    @Bind(R.id.answer_list)
-    RecyclerView answerListRv;
-    @Bind(R.id.swipe_to_refresh)
-    SwipyRefreshLayout swipeToRefreshBtn;
-    @Bind(R.id.loading_img)
-    ProgressWheel progressWheel;
-//    @Bind(R.id.fab)
-//    FloatingActionButton fabBtn;
-
-    private View rootView;
-    private QuestionRecyclerAdapter recyclerAdapter;
-
-    private QuestionContent questionContent = new QuestionContent();
+    private QuestionViewBinding binding;
+    private QuestionVM vm;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_question, container, false);
-        ButterKnife.bind(this, rootView);
 
-        TimeLineItem item = getActivity().getIntent().getParcelableExtra(TimeLineItem.KEY);
+        FeedsItem item = getActivity().getIntent().getParcelableExtra(IntentConstant.INTENT_NAME_FEEDS_ITEM);
 
-//        ZhihuApi.loadQuestionPage(item.getQuestionUrl().getUrl(), new CmdLoadQuestion.CallBackListener() {
-//            @Override
-//            public void callBack(QuestionContent content) {
-//                stopLoadingAnim();
-//                questionContent.setQuestionDetail(content.getQuestionDetail());
-//                questionContent.setQuestionTitle(content.getQuestionTitle());
-//                questionContent.setAnswers(content.getAnswers());
-//                questionContent.setQuestionId(content.getQuestionId());
-//                questionContent.setTopics(content.getTopics());
-//                recyclerAdapter.notifyDataSetChanged();
-//            }
-//        });
-        // adapter
-        recyclerAdapter = new QuestionRecyclerAdapter(getActivity(), questionContent);
-        answerListRv.setAdapter(recyclerAdapter);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_question, container, false);
+        if (item.target.question != null)
+            vm = new QuestionVM(binding, getActivity(), item.target.question.id);
+        else
+            vm = new QuestionVM(binding, getActivity(), item.target.id);
+
+        binding.setVm(vm);
+
+        initView();
+
+        vm.playLoadingAnim();
+        vm.loadQuestion();
+//        vm.loadAnswers();
+
+        return binding.getRoot();
+    }
+
+    private void initView() {
         // 设置layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 getActivity());
-        layoutManager.setOrientation(LinearLayout.VERTICAL);
-        answerListRv.setLayoutManager(layoutManager);
+        binding.answerList.setLayoutManager(layoutManager);
         // divider
-        answerListRv.addItemDecoration(new QuestionItemDecoration());
+        binding.answerList.addItemDecoration(new QuestionItemDecoration());
+        binding.answerList.setHasFixedSize(true);
 
-        swipeToRefreshBtn.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+        binding.swipeToRefresh.setColorSchemeResources(ColorConstant.SWIPE_COLOR_SCHEMA);
+
+        final List<ExpandableItem> expandableItems = new ArrayList<>();
+        ExpandableItem plusItem = new ExpandableItem();
+        plusItem.setResourceId(R.drawable.ic_plus);
+        expandableItems.add(plusItem);
+        ExpandableItem voteItem = new ExpandableItem();
+        voteItem.setResourceId(R.drawable.ic_message_white);
+        expandableItems.add(voteItem);
+        ExpandableItem shareItem = new ExpandableItem();
+        shareItem.setResourceId(R.drawable.ic_share_white);
+        expandableItems.add(shareItem);
+        ExpandableItem starItem = new ExpandableItem();
+        starItem.setResourceId(R.drawable.ic_visibility_white);
+        expandableItems.add(starItem);
+
+        binding.expandSelector.showExpandableItems(expandableItems);
+        binding.expandSelector.setOnExpandableItemClickListener(new OnExpandableItemClickListener() {
             @Override
-            public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                swipeToRefreshBtn.setRefreshing(false);
+            public void onExpandableItemClickListener(int index, View view) {
+                switch (index){
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 4:
+                }
             }
         });
 
-//        fabBtn.attachToRecyclerView(answerListRv);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.fab.getLayoutParams();
+        ExpandSelectorBehavior behavior = (ExpandSelectorBehavior) params.getBehavior();
+        behavior.setCallback(new ExpandSelectorCallback() {
 
-        playLoadingAnim();
-
-        return rootView;
-    }
-
-    /**
-     * webview加载动画
-     */
-    private void playLoadingAnim() {
-        progressWheel.spin();
-    }
-
-    /**
-     * 加载动画消失
-     */
-    private void stopLoadingAnim() {
-        ObjectAnimator animator = ObjectAnimator.ofFloat(progressWheel, "alpha", 1, 0);
-        animator.setDuration(500);
-        animator.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                progressWheel.stopSpinning();
+            public void onHide() {
+                if (!isHide()) {
+                    if (binding.expandSelector.isExpanded()) {
+                        binding.expandSelector.collapse();
+                    }
+                    AnimeUtils.createScaleHideAnime(binding.expandSelector).start();
+                }
+            }
+
+            @Override
+            public void onShow() {
+                if (isHide()) {
+                    AnimeUtils.createScaleShowAnime(binding.expandSelector).start();
+                }
             }
         });
-        animator.start();
     }
 
-    @OnClick(R.id.fab)
-    public void backToTop(View v){
-        answerListRv.smoothScrollToPosition(0);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
 }

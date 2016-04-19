@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bill.zhihu.R;
+import com.bill.zhihu.constant.ColorConstant;
 import com.bill.zhihu.databinding.HomePageViewBinding;
 import com.bill.zhihu.vm.home.HomeVM;
 
@@ -23,9 +24,7 @@ public class FragmentHome extends Fragment {
     private HomePageViewBinding binding;
     private HomeVM vm;
 
-    private static final int[] SWIPE_COLOR_SCHEMA= {R.color.swipe_color1,
-            R.color.swipe_color2, R.color.swipe_color3,
-            R.color.swipe_color4};
+
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -53,7 +52,7 @@ public class FragmentHome extends Fragment {
     private void initView() {
 
         // 设置下拉刷新圆圈的颜色
-        binding.swipeToRefresh.setColorSchemeResources(SWIPE_COLOR_SCHEMA);
+        binding.swipeToRefresh.setColorSchemeResources(ColorConstant.SWIPE_COLOR_SCHEMA);
 
         // 设置layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(

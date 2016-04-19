@@ -1,5 +1,7 @@
 package com.bill.zhihu.api.utils;
 
+import com.orhanobut.logger.Logger;
+
 /**
  * 头像工具类
  * <p/>
@@ -18,10 +20,10 @@ public class AvatarUtils {
      */
     public static String small2normal(String avatarUrl) {
         if (avatarUrl.contains("_s")) {
-            return avatarUrl.replace("_s", "");
+            return avatarUrl.replace("_s", "_l");
         } else {
-            ZhihuLog.d(TAG, "avatar url is not a small pic url");
-            ZhihuLog.dValue(TAG, "avatarUrl", avatarUrl);
+            Logger.t(TAG).d("avatar url is not a small pic url");
+            Logger.t(TAG).d("avatarUrl " + avatarUrl);
             return avatarUrl;
         }
     }

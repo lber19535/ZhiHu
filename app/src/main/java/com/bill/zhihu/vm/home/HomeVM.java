@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.api.bean.response.FeedsResponse;
+import com.bill.zhihu.constant.AnimeConstant;
 import com.bill.zhihu.databinding.HomePageViewBinding;
 import com.bill.zhihu.model.HomeModel;
 import com.bill.zhihu.ui.home.TimeLineRecyclerAdapter;
@@ -32,8 +33,6 @@ public class HomeVM {
 
     private List<FeedsItem> timelineItems;
     private TimeLineRecyclerAdapter adapter;
-
-    private static final int PROGRESS_ANIM_DURATION = 500;
 
     private HomeModel model;
 
@@ -112,7 +111,7 @@ public class HomeVM {
 
     public void stopLoadingAnim() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(binding.loadingImg, "alpha", 1, 0);
-        animator.setDuration(PROGRESS_ANIM_DURATION);
+        animator.setDuration(AnimeConstant.PROGRESS_ANIM_DURATION);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {

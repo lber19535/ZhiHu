@@ -6,7 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.api.utils.ZhihuLog;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.orhanobut.logger.Logger;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,8 +30,6 @@ public class QuestionAnswerViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.answer_summary)
     TextView answerSummaryTv;  // 答案缩略
 
-//    private CmdLoadAvatarImage avatarImage;
-
     public QuestionAnswerViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
@@ -42,17 +41,8 @@ public class QuestionAnswerViewHolder extends RecyclerView.ViewHolder {
      * @param url
      */
     public void loadAvatarImage(String url) {
-        ZhihuLog.dValue(TAG, "avatar img url", url);
-//        avatarImage = new CmdLoadAvatarImage(url);
-//        avatarImage
-//                .setOnCmdCallBack(new CmdLoadAvatarImage.CallbackListener() {
-//
-//                    @Override
-//                    public void callback(Bitmap captchaImg) {
-//                        headerIv.setImageBitmap(captchaImg);
-//                    }
-//                });
-//        avatarImage.exec();
+        Logger.d(TAG, "avatar img url", url);
+        ImageLoader.getInstance().displayImage(url, headerIv);
 
     }
 
@@ -60,7 +50,7 @@ public class QuestionAnswerViewHolder extends RecyclerView.ViewHolder {
      * 取消加载，可以用于list滚动的时候取消加载已经看不到的item
      */
     public void cancelImageLoad() {
-//        avatarImage.cancel();
+
     }
 
 }

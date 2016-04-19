@@ -1136,7 +1136,7 @@ public class SwipyRefreshLayout extends ViewGroup {
      * triggers a refresh should implement this interface.
      */
     public interface OnRefreshListener {
-        public void onRefresh(SwipyRefreshLayoutDirection direction);
+        void onRefresh(SwipyRefreshLayoutDirection direction);
     }
 
     public SwipyRefreshLayoutDirection getDirection() {

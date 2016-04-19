@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Layout.Question.Answer.Item"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/global_padding_8">
 
     <TextView
         android:id="@+id/question_title"
-        style="@style/TextView.Light.AnswerHead"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <WebView
-        android:id="@+id/question_detail"
+        style="@style/TextView.Light.QuestionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/global_margin_4" />
+        android:paddingLeft="@dimen/global_padding_8"
+        android:paddingRight="@dimen/global_padding_8"
+        android:paddingTop="@dimen/global_padding_8"/>
+
+    <com.bill.zhihu.view.RichContentView
+        android:id="@+id/question_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

@@ -31,7 +31,6 @@ public class FeedsItem implements Parcelable {
     @JsonProperty("count")
     public String count;
 
-
     @Override
     public int describeContents() {
         return 0;

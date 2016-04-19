@@ -19,5 +19,7 @@ public class ActivityQuestion extends BaseActivity {
         setContentView(R.layout.activity_question);
 
         toggleFragment(new FragmentQuestion());
+
+        initToolBar();
     }
 }

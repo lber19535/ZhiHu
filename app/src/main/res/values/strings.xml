@@ -33,6 +33,7 @@
     <!-- menu -->
     <string name="menu_home_token">My Token</string>
     <string name="menu_answer_tip_off">举报</string>
+    <string name="menu_answer_font_size">字体</string>
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -50,4 +51,11 @@
 
     <!-- version name -->
     <!--<string name="app_version_name">{version}</string>-->
+
+    <array name="font_size_array">
+        <item>小</item>
+        <item>普通</item>
+        <item>大</item>
+        <item>超大</item>
+    </array>
 </resources>

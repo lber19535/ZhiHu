@@ -1,19 +1,18 @@
 package com.bill.zhihu.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
-import android.widget.FrameLayout;
 
 import com.bill.zhihu.R;
+import com.bill.zhihu.model.FontSize;
 import com.bill.zhihu.util.RichCcontentUtils;
 import com.bill.zhihu.vm.answer.RichContentChromeClient;
 import com.bill.zhihu.vm.answer.RichContentWebClient;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.BuglyLog;
+import com.tramsun.libs.prefcompat.Pref;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -25,56 +24,31 @@ import rx.android.schedulers.AndroidSchedulers;
  * 为了使用 FloatActionButton 做成webview上下滑动也可以有隐藏的效果做了包装了
  * Created by Bill-pc on 2015/7/15.
  */
-public class RichContentView extends FrameLayout {
+public class RichContentView extends WebView {
 
     private static String TAG = "RichContentView";
 
-    private WebView webView;
-
-
     public RichContentView(Context context) {
         super(context);
-        if (isInEditMode())
-            return;
     }
 
     public RichContentView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        if (isInEditMode())
-            return;
-
-        webView = new WebView(context, attrs);
-        addView(webView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setAllowContentAccess(true);
-        webView.getSettings().setAllowFileAccess(true);
-        webView.setWebChromeClient(new RichContentChromeClient());
-        webView.setWebViewClient(new RichContentWebClient());
-
+        getSettings().setAppCacheEnabled(true);
+        getSettings().setJavaScriptEnabled(true);
+        getSettings().setAllowContentAccess(true);
+        getSettings().setAllowFileAccess(true);
+        setWebChromeClient(new RichContentChromeClient());
+        setWebViewClient(new RichContentWebClient());
+        addJavascriptInterface(this, "ZhihuAndroid");
     }
 
     public RichContentView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    /**
-     * 获取webview
-     *
-     * @return
-     */
-    public WebView getWebView() {
-        return webView;
-    }
-
-    @SuppressLint("JavascriptInterface")
-    public void bindJs(Object obj, String name) {
-        webView.addJavascriptInterface(obj, name);
-    }
-
     public void setContent(String content) {
-        webView.loadDataWithBaseURL("file:///android_asset/", content, "text/html; charset=UTF-8", "UTF-8", null);
+        loadDataWithBaseURL("file:///android_asset/", content, "text/html; charset=UTF-8", "UTF-8", null);
     }
 
     public void executeJsMethod(String methodName, String... params) {
@@ -94,7 +68,7 @@ public class RichContentView extends FrameLayout {
         String cmd = "javascript:" + methodName + "(" + sb.toString() + ");";
         BuglyLog.d("JS ", cmd);
 
-        webView.loadUrl(cmd);
+        loadUrl(cmd);
     }
 
     @JavascriptInterface
@@ -126,16 +100,18 @@ public class RichContentView extends FrameLayout {
                 });
     }
 
-    public void changeWebviewFontSize(String size) {
-        executeJsMethod("setFontSize", size);
-    }
-
     @JavascriptInterface
     public String getFontSize() {
 
-        float fontSize = getContext().getResources().getDimension(R.dimen.default_answer_font);
+        String fontSize = Pref.getString(FontSize.RICH_CONTENT_VIEW_FONT_KEY, FontSize.NORMAL);
+        System.out.println(fontSize);
 
-        return fontSize + "";
+        return fontSize;
+    }
+
+    @JavascriptInterface
+    public void setFontSize(String fontSize) {
+        executeJsMethod("setFontSize", fontSize);
     }
 
     @JavascriptInterface

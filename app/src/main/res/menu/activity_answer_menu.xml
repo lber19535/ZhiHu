@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/report"
         android:title="@string/menu_answer_tip_off"
+        />
+
+    <item
+        android:id="@+id/font_size"
+        android:title="@string/menu_answer_font_size"
         />
 
 </menu>

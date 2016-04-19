@@ -3,15 +3,23 @@ package com.bill.zhihu.ui.question;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.ui.answer.ActivityAnswer;
-import com.bill.zhihu.api.bean.AnswerItemInQuestion;
-import com.bill.zhihu.api.bean.QuestionContent;
+import com.bill.zhihu.api.bean.answer.AnswerItem;
+import com.bill.zhihu.api.bean.response.QuestionResponse;
 import com.bill.zhihu.api.utils.TextUtils;
-import com.bill.zhihu.api.utils.ZhihuLog;
+import com.bill.zhihu.constant.IntentConstant;
+import com.bill.zhihu.model.FontSize;
+import com.bill.zhihu.model.question.QuestionItem;
+import com.bill.zhihu.ui.Theme;
+import com.bill.zhihu.ui.answer.ActivityAnswer;
+import com.bill.zhihu.util.IntentUtils;
+import com.bill.zhihu.util.RichCcontentUtils;
+
+import java.util.List;
 
 /**
  * 问题页面的adapter
@@ -22,102 +30,89 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter {
 
     private static final String TAG = "QuestionRecyclerAdapter";
 
-    // 问题详情放在第一个
-    private static final int LIST_HEADER_QUESTION_INDEX = 0;
+    private static final int QUESTION_DETAIL = 1;
+    private static final int ANSWER_ITEM = 2;
 
-    // view type
-    private static final int VIEW_TYPE_QUESTION = 0;
-    private static final int VIEW_TYPE_ANSWER = 1;
-
-    // 问题界面的内容 包括问题回答列表等
-    private QuestionContent questionContent;
 
     private Context mContext;
+    private List<QuestionItem> questionItems;
 
-
-    public QuestionRecyclerAdapter(Context mContext, QuestionContent questionContent) {
-        this.questionContent = questionContent;
+    public QuestionRecyclerAdapter(Context mContext, List<QuestionItem> answerItems) {
+        this.questionItems = answerItems;
         this.mContext = mContext;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
-        switch (viewType) {
-            case VIEW_TYPE_ANSWER: {
-                viewHolder = new QuestionAnswerViewHolder(View.inflate(mContext, R.layout.list_item_question_answer, null));
-                break;
-            }
-            case VIEW_TYPE_QUESTION: {
-                viewHolder = new QuestionViewHolder(View.inflate(mContext, R.layout.list_item_question, null));
-                break;
-            }
-            default:
-                break;
-        }
-        if (viewHolder == null) {
-            ZhihuLog.d(TAG, "view holder is null, type is " + viewType);
+        if (viewType == ANSWER_ITEM) {
+            viewHolder = new QuestionAnswerViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_question_answer, parent, false));
+        } else if (viewType == QUESTION_DETAIL) {
+            viewHolder = new QuestionViewHolder(LayoutInflater.from(mContext).inflate(R.layout.list_item_question, parent, false));
         }
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        // header设置问题详情的item
-        if (position == LIST_HEADER_QUESTION_INDEX) {
-            QuestionViewHolder viewHolder = (QuestionViewHolder) holder;
-            // 问题详情
-            viewHolder.questionDetailWv.getSettings().setJavaScriptEnabled(false);
-            viewHolder.questionDetailWv.loadDataWithBaseURL("file:///android_asset/", questionContent.getQuestionDetail(), "text/html; charset=UTF-8", null, null);
-            ZhihuLog.dValue(TAG, "detail ", questionContent.getQuestionDetail());
-            viewHolder.questionDetailWv.reload();
-            // 问题标题
-            viewHolder.answerTv.setText(questionContent.getQuestionTitle());
-        } else {
-            QuestionAnswerViewHolder viewHolder = (QuestionAnswerViewHolder) holder;
-            final AnswerItemInQuestion item = questionContent.getAnswers().get(position - 1);
-            // 头像
-            viewHolder.loadAvatarImage(item.getAvatarUrl());
-            // 答案缩略
-            viewHolder.answerSummaryTv.setText(item.getAnswerSummary());
-            // name
-            viewHolder.nameTv.setText(item.getPeopleName());
-            // 赞同
-            viewHolder.voteTv.setText(TextUtils.getSummaryNumber(item.getVoteCount()));
 
+        if (getItemViewType(position) == QUESTION_DETAIL) {
+            QuestionViewHolder viewHolder = (QuestionViewHolder) holder;
+            QuestionResponse response = questionItems.get(position).getQuestionResponse();
+            viewHolder.answerTv.setText(response.title);
+
+            if (response.detail.isEmpty()) {
+                viewHolder.questionDetailWv.setVisibility(View.INVISIBLE);
+            } else {
+                viewHolder.questionDetailWv.setContent(RichCcontentUtils.replaceImage(RichCcontentUtils.wrapTopic(response.detail, Theme.LIGHT)));
+                viewHolder.questionDetailWv.setFontSize(FontSize.SMALL);
+            }
+
+
+        } else if (getItemViewType(position) == ANSWER_ITEM) {
+            QuestionAnswerViewHolder viewHolder = (QuestionAnswerViewHolder) holder;
+            final AnswerItem item = questionItems.get(position).getAnswerItem();
+            // 头像
+            viewHolder.loadAvatarImage(item.author.avatarUrl);
+            // 答案缩略
+            viewHolder.answerSummaryTv.setText(item.excerpt);
+            // name
+            viewHolder.nameTv.setText(item.author.name);
+            // 赞同
+            viewHolder.voteTv.setText(TextUtils.getSummaryNumber(item.voteupCount));
             viewHolder.answerSummaryTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ActivityAnswer.class);
-                    intent.setAction(AnswerItemInQuestion.KEY);
-                    intent.putExtra(AnswerItemInQuestion.KEY, item);
+                    intent.setAction(IntentConstant.INTENT_ACTION_ANSWER_INTENT_VALUE);
+                    intent.putExtra(IntentConstant.INTENT_NAME_ANSWER_INTENT_VALUE, IntentUtils.convert(item));
                     mContext.startActivity(intent);
                 }
             });
-
-        }
-    }
-
-    @Override
-    public void onViewRecycled(RecyclerView.ViewHolder holder) {
-        super.onViewRecycled(holder);
-        if (holder instanceof QuestionAnswerViewHolder) {
-            ((QuestionAnswerViewHolder) holder).headerIv.setImageBitmap(null);
-            ((QuestionAnswerViewHolder) holder).cancelImageLoad();
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == LIST_HEADER_QUESTION_INDEX)
-            return VIEW_TYPE_QUESTION;
-        else
-            return VIEW_TYPE_ANSWER;
+        if (position == 0) {
+            return QUESTION_DETAIL;
+        } else {
+            return ANSWER_ITEM;
+        }
     }
+
+//    @Override
+//    public void onViewRecycled(RecyclerView.ViewHolder holder) {
+//        super.onViewRecycled(holder);
+//        if (holder instanceof QuestionAnswerViewHolder) {
+//            ((QuestionAnswerViewHolder) holder).headerIv.setImageBitmap(null);
+//            ((QuestionAnswerViewHolder) holder).cancelImageLoad();
+//        }
+//    }
 
     @Override
     public int getItemCount() {
         // 出了要显示回答列表外，还要在显示一个包含问题详情的item在开头
-        return questionContent.getAnswers().size() + 1;
+        return questionItems.size();
     }
 }

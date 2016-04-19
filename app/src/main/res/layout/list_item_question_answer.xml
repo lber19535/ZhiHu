@@ -19,13 +19,13 @@
         <TextView
             android:id="@+id/vote"
             style="@style/TextView.Vote"
-            android:layout_marginTop="@dimen/global_margin_4" />
+            android:layout_marginTop="@dimen/global_margin_8" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/global_margin_4"
+        android:layout_marginLeft="@dimen/global_margin_8"
         android:orientation="vertical">
 
         <TextView

@@ -4,6 +4,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 /**
@@ -39,13 +41,13 @@ public class TextUtils {
     public static SpannableStringBuilder getColorString(String src, int color,
                                                         String... targets) {
         SpannableStringBuilder ssb = new SpannableStringBuilder(src);
-        ZhihuLog.dValue(TAG, " spannable string src ", src);
+        Logger.t(TAG).d(" spannable string src " + src);
         for (String string : targets) {
             int start = src.indexOf(string);
             int end = start + string.length();
-            ZhihuLog.dValue(TAG, " spannable string src start", start);
-            ZhihuLog.dValue(TAG, " spannable string src end", end);
-            ZhihuLog.dValue(TAG, " spannable string  ", string);
+            Logger.t(TAG).d(" spannable string src start" + start);
+            Logger.t(TAG).d(" spannable string src end" + end);
+            Logger.t(TAG).d(" spannable string  " + string);
             ForegroundColorSpan fcs = new ForegroundColorSpan(color);
             ssb.setSpan(fcs, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         }

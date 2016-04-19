@@ -1,7 +1,5 @@
 package com.bill.zhihu.ui.answer;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,15 +7,20 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.api.bean.feeds.FeedsItem;
-import com.bill.zhihu.api.utils.ZhihuLog;
 import com.bill.zhihu.databinding.AnswerViewBinding;
-import com.bill.zhihu.util.IntentUtils;
+import com.bill.zhihu.constant.IntentConstant;
+import com.bill.zhihu.model.FontSize;
+import com.bill.zhihu.model.answer.AnswerIntentValue;
+import com.bill.zhihu.util.AnimeUtils;
 import com.bill.zhihu.vm.answer.AnswerVM;
 import com.karumi.expandableselector.ExpandableItem;
 import com.karumi.expandableselector.OnExpandableItemClickListener;
@@ -38,24 +41,26 @@ public class FragmentAnswer extends Fragment {
     private AnswerVM vm;
     private BottomSheetDialog bottomSheetDialog;
 
-    private AnimatorSet showSet = new AnimatorSet();
-    private AnimatorSet hideSet = new AnimatorSet();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_answer, container, false);
+
         initView();
-
-        Intent intent = getActivity().getIntent();
-        FeedsItem item = intent.getParcelableExtra(IntentUtils.ITENT_NAME_FEEDS_ITEM);
-
-        ZhihuLog.d(TAG, "answer id is " + item.target.id);
+        setHasOptionsMenu(true);
 
         vm = new AnswerVM(getActivity(), binding);
 
+        Intent intent = getActivity().getIntent();
+
         vm.playLoadingAnim();
-        vm.setAuthor(item);
-        vm.loadAnswer(item.target.id);
+
+        if (intent.getAction().equals(IntentConstant.INTENT_ACTION_ANSWER_INTENT_VALUE)) {
+            AnswerIntentValue value = intent.getParcelableExtra(IntentConstant.INTENT_NAME_ANSWER_INTENT_VALUE);
+            vm.setAuthor(value.getAuthor());
+            vm.setVoteupCount(value.getVoteupCount());
+            vm.loadAnswer(value.getAnswerId());
+        }
+
         return binding.getRoot();
     }
 
@@ -96,35 +101,24 @@ public class FragmentAnswer extends Fragment {
         });
 
 
-        final ObjectAnimator hideAlpha = ObjectAnimator.ofFloat(binding.expandSelector, "alpha", 1, 0);
-        final ObjectAnimator showAlpha = ObjectAnimator.ofFloat(binding.expandSelector, "alpha", 0, 1);
-        final ObjectAnimator hideScaleX = ObjectAnimator.ofFloat(binding.expandSelector, "scaleX", 1, 0);
-        final ObjectAnimator showScaleX = ObjectAnimator.ofFloat(binding.expandSelector, "scaleX", 0, 1);
-        final ObjectAnimator hideScaleY = ObjectAnimator.ofFloat(binding.expandSelector, "scaleY", 1, 0);
-        final ObjectAnimator showScaleY = ObjectAnimator.ofFloat(binding.expandSelector, "scaleY", 0, 1);
-
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) binding.fab.getLayoutParams();
         ExpandSelectorBehavior behavior = (ExpandSelectorBehavior) params.getBehavior();
         behavior.setCallback(new ExpandSelectorCallback() {
 
             @Override
-            void onHide() {
+            public void onHide() {
                 if (!isHide()) {
                     if (binding.expandSelector.isExpanded()) {
                         binding.expandSelector.collapse();
                     }
-                    hideSet = new AnimatorSet();
-                    hideSet.playTogether(hideAlpha, hideScaleX, hideScaleY);
-                    hideSet.start();
+                    AnimeUtils.createScaleHideAnime(binding.expandSelector).start();
                 }
             }
 
             @Override
-            void onShow() {
+            public void onShow() {
                 if (isHide()) {
-                    showSet = new AnimatorSet();
-                    showSet.playTogether(showAlpha, showScaleX, showScaleY);
-                    showSet.start();
+                    AnimeUtils.createScaleShowAnime(binding.expandSelector).start();
                 }
             }
         });
@@ -137,7 +131,7 @@ public class FragmentAnswer extends Fragment {
         dialogContent.findViewById(R.id.vote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("xzxzxzcasdsa");
+
             }
         });
         bottomSheetDialog.setContentView(dialogContent);
@@ -152,4 +146,46 @@ public class FragmentAnswer extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.activity_answer_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.font_size:
+                createFontSizeDialog().show();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public AlertDialog createFontSizeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("字体大小")
+                .setItems(R.array.font_size_array, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                vm.setAnswerFontSize(FontSize.SMALL);
+                                break;
+                            case 1:
+                                vm.setAnswerFontSize(FontSize.NORMAL);
+                                break;
+                            case 2:
+                                vm.setAnswerFontSize(FontSize.LARGE);
+                                break;
+                            case 3:
+                                vm.setAnswerFontSize(FontSize.HUGE);
+                                break;
+                        }
+                    }
+                });
+        return builder.create();
+    }
 }

@@ -65,6 +65,11 @@
         <item name="android:text">@string/from</item>
     </style>
 
+    <style name="TextView.Light.QuestionTitle" parent="TextView.Light.AnswerHead">
+        <item name="android:textSize">@dimen/font_20</item>
+        <item name="android:text">@string/question</item>
+    </style>
+
     <style name="TextView.AnswerRemark" parent="TextView.Light.AnswerHead">
         <item name="android:textColor">@color/answer_head_remark</item>
     </style>
@@ -93,7 +98,8 @@
         <item name="popupTheme">@style/Toolbar.Popup</item>
     </style>
 
-    <style name="TextView.AnswerHead.Vote" parent="TextView.AnswerRemark"></style>
+    <style name="TextView.AnswerHead.Vote" parent="TextView.AnswerRemark">
+    </style>
 
     <style name="Layout.Answer.BottomItem" parent="AppTheme.Light">
         <item name="android:layout_weight">1</item>
@@ -109,7 +115,10 @@
         <item name="android:paddingBottom">@dimen/global_padding_8</item>
     </style>
 
-    <style name="Layout.Question.Answer.Item" parent="Layout.Home.Item"/>
+    <style name="Layout.Question.Answer.Item" parent="Layout.Home.Item">
+        <item name="android:paddingLeft">@dimen/global_padding_8</item>
+        <item name="android:paddingRight">@dimen/global_padding_8</item>
+    </style>
 
     <style name="PopWindowAnswerAnim">
         <item name="android:windowEnterAnimation">@anim/pop_window_answer_enter</item>
@@ -135,6 +144,7 @@
         <item name="android:drawablePadding">@dimen/global_padding_8</item>
     </style>
 
+    <!-- expand selector must use the style to set properties, if set theme in layout, they maybe show some weird appearance-->
     <style name="ExpandableItemStyle">
         <item name="android:layout_height">@dimen/design_fab_size_normal</item>
         <item name="android:layout_width">@dimen/design_fab_size_normal</item>
