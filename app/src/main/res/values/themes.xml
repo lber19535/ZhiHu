@@ -7,6 +7,7 @@
         <item name="android:windowBackground">?colorPrimary</item>
         <item name="actionOverflowButtonStyle">@style/Toolbar.OverFlowButton</item>
         <item name="colorButtonNormal">@color/blue</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowToggle</item>
     </style>
 
     <!-- Application theme. -->

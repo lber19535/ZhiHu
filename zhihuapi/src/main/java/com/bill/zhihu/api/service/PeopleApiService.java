@@ -16,8 +16,8 @@ public interface PeopleApiService {
     Observable<PeopleBasicResponse> selfBasic();
 
     @GET("/people/{id}/following_topics")
-    Observable<ResponseBody> followTopic(@Path("id") String id);
+    Observable<ResponseBody> followTopic(@Path("id") String uid);
 
     @GET("/people/{id}/followees")
-    Observable<ResponseBody> followees(@Path("id") String id);
+    Observable<ResponseBody> followees(@Path("id") String uid);
 }

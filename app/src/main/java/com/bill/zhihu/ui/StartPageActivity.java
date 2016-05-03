@@ -9,7 +9,7 @@ import com.bill.zhihu.activity.BaseActivity;
 import com.bill.zhihu.databinding.StartPageViewBinding;
 import com.bill.zhihu.ui.home.ActivityHome;
 import com.bill.zhihu.ui.login.ActivityLogin;
-import com.bill.zhihu.vm.StartPageVM;
+import com.bill.zhihu.presenter.StartPagePresenter;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -23,7 +23,7 @@ import rx.functions.Action1;
 public class StartPageActivity extends BaseActivity {
 
     private StartPageViewBinding viewBinding;
-    private StartPageVM vm;
+    private StartPagePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class StartPageActivity extends BaseActivity {
 
         viewBinding = DataBindingUtil.setContentView(this, R.layout.activity_start_page);
 
-        vm = new StartPageVM(viewBinding, this);
+        presenter = new StartPagePresenter(viewBinding, this);
 
     }
 
@@ -39,7 +39,7 @@ public class StartPageActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        vm.initStartPage()
+        presenter.initStartPage()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
 

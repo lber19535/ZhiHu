@@ -10,7 +10,6 @@ import android.view.View;
 public class AnimeUtils {
 
     public static AnimatorSet createScaleShowAnime(View view) {
-
         ObjectAnimator showAlpha = ObjectAnimator.ofFloat(view, "alpha", 0, 1);
         ObjectAnimator showScaleX = ObjectAnimator.ofFloat(view, "scaleX", 0, 1);
         ObjectAnimator showScaleY = ObjectAnimator.ofFloat(view, "scaleY", 0, 1);

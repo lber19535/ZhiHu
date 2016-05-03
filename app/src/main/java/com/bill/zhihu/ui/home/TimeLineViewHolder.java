@@ -26,14 +26,13 @@ public class TimeLineViewHolder extends ViewHolder {
     protected TimeLineItemOnClickListener onClickListener;
     protected TimeLineItemOnLongClickListener onLongClickListener;
 
-//    private CmdLoadAvatarImage avatarImage;
-
     public TimeLineViewHolder(View itemView) {
         super(itemView);
-        questionTv = (TextView) itemView.findViewById(R.id.question);
-        fromTv = (TextView) itemView.findViewById(R.id.from);
-        avatarIv = (ImageView) itemView.findViewById(R.id.header);
-
+        if (itemView != null && itemView.getVisibility() != View.GONE) {
+            questionTv = (TextView) itemView.findViewById(R.id.question);
+            fromTv = (TextView) itemView.findViewById(R.id.from);
+            avatarIv = (ImageView) itemView.findViewById(R.id.header);
+        }
     }
 
 

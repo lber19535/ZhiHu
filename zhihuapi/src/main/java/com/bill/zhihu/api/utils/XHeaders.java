@@ -28,6 +28,9 @@ public class XHeaders {
     public static final String AUTHORIZATION_VALUE = "oauth 8d5227e0aaaa4797a763ac64e0c3b8";
     public static final String ACCOUNT_UNLOCK_KEY = "x-account-unlock";
 
+    public static final String VERSION_NAME = "2.4.4";
+    public static final String VERSION_CODE = "244";
+
     private static int width;
     private static int height;
 
@@ -46,8 +49,8 @@ public class XHeaders {
         return "OS=Android" +
                 "&Release=" + Build.VERSION.RELEASE +
                 "&Model=" + Build.MODEL.replace(" ", "+") +
-                "&VersionName=2.4.4" +
-                "&VersionCode=244" +
+                "&VersionName=" + VERSION_NAME +
+                "&VersionCode=" + VERSION_CODE +
                 "&Width=" + width +
                 "&Height=" + height +
                 "&Installer=%E7%9F%A5%E4%B9%8E";

@@ -30,13 +30,14 @@
 }
 
 # realm
--keep class io.realm.annotations.RealmModule
--keep @io.realm.annotations.RealmModule class *
--dontwarn javax.**
--dontwarn io.realm.**
+#-keep class io.realm.annotations.RealmModule
+#-keep @io.realm.annotations.RealmModule class *
+#-dontwarn javax.**
+#-dontwarn io.realm.**
 
 # bugly
 -keep public class com.tencent.bugly.**{*;}
+-dontwarn com.tencent.bugly.**
 
 # app
 -keep public class com.bill.zhihu.R$*{
@@ -50,17 +51,29 @@
 #-keep interface android.support.** { *; }
 
 # retrofit2
--dontwarn retrofit2.**
 -dontwarn java.lang.invoke.**
 -dontwarn rx.internal.util.unsafe.**
 -dontwarn java.lang.reflect.**
--dontwarn retrofit.**
+-dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
--keepclasseswithmembers class * {
-    @retrofit.http.* <methods>;
-}
 -keepattributes Signature
 -keepattributes Exceptions
+-keepattributes *Annotation*
+
+-keepattributes RuntimeVisibleAnnotations
+-keepattributes RuntimeInvisibleAnnotations
+-keepattributes RuntimeVisibleParameterAnnotations
+-keepattributes RuntimeInvisibleParameterAnnotations
+
+-keepattributes EnclosingMethod
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+-keepclasseswithmembers interface * {
+    @retrofit2.http.* <methods>;
+}
 
 # rxjava
 #-keep class rx.** {*;}
@@ -120,6 +133,9 @@
      public static void wtf(...);
      public static void json(...);
      public static void xml(...);
+}
+-assumenosideeffects class com.orhanobut.logger.Printer {
+    public *** ***(...);
 }
 -assumenosideeffects class com.orhanobut.logger.Settings {
     public *** logLevel(...);

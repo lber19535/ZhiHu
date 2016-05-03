@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -16,16 +15,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bill.zhihu.R;
-import com.bill.zhihu.databinding.AnswerViewBinding;
 import com.bill.zhihu.constant.IntentConstant;
+import com.bill.zhihu.databinding.AnswerViewBinding;
 import com.bill.zhihu.model.FontSize;
 import com.bill.zhihu.model.answer.AnswerIntentValue;
 import com.bill.zhihu.util.AnimeUtils;
-import com.bill.zhihu.vm.answer.AnswerVM;
+import com.bill.zhihu.presenter.answer.AnswerPresenter;
 import com.karumi.expandableselector.ExpandableItem;
 import com.karumi.expandableselector.OnExpandableItemClickListener;
+import com.tramsun.libs.prefcompat.Pref;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,8 +39,7 @@ public class FragmentAnswer extends Fragment {
     private static final String TAG = "FragmentAnswer";
 
     private AnswerViewBinding binding;
-    private AnswerVM vm;
-    private BottomSheetDialog bottomSheetDialog;
+    private AnswerPresenter presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,20 +47,16 @@ public class FragmentAnswer extends Fragment {
 
         initView();
         setHasOptionsMenu(true);
-
-        vm = new AnswerVM(getActivity(), binding);
-
         Intent intent = getActivity().getIntent();
-
-        vm.playLoadingAnim();
-
         if (intent.getAction().equals(IntentConstant.INTENT_ACTION_ANSWER_INTENT_VALUE)) {
             AnswerIntentValue value = intent.getParcelableExtra(IntentConstant.INTENT_NAME_ANSWER_INTENT_VALUE);
-            vm.setAuthor(value.getAuthor());
-            vm.setVoteupCount(value.getVoteupCount());
-            vm.loadAnswer(value.getAnswerId());
-        }
 
+            presenter = new AnswerPresenter(getActivity(), binding, value.getAnswerId());
+            presenter.playLoadingAnim();
+            presenter.setAuthor(value.getAuthor());
+            presenter.setVoteupCount(value.getVoteupCount());
+            presenter.loadAnswer(value.getAnswerId());
+        }
         return binding.getRoot();
     }
 
@@ -84,14 +80,18 @@ public class FragmentAnswer extends Fragment {
         binding.expandSelector.setOnExpandableItemClickListener(new OnExpandableItemClickListener() {
             @Override
             public void onExpandableItemClickListener(int index, View view) {
-                if (binding.expandSelector.isExpanded())
+                if (binding.expandSelector.isExpanded()) {
                     binding.expandSelector.collapse();
-
+                    binding.expandSelector.getExpandableItem(0).setResourceId(R.drawable.ic_plus);
+                } else {
+                    binding.expandSelector.getExpandableItem(0).setResourceId(R.drawable.ic_close);
+                }
                 switch (index) {
                     case 1:
-                        showVoteBottomSheet();
+                        presenter.createVoteBottomSheet().show();
                         break;
                     case 2:
+                        presenter.share();
                         break;
                     case 3:
                         break;
@@ -125,27 +125,6 @@ public class FragmentAnswer extends Fragment {
 
     }
 
-    private void showVoteBottomSheet() {
-        bottomSheetDialog = new BottomSheetDialog(getActivity());
-        View dialogContent = getActivity().getLayoutInflater().inflate(R.layout.layout_bottom_sheet_vote_up, null);
-        dialogContent.findViewById(R.id.vote).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        bottomSheetDialog.setContentView(dialogContent);
-        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                bottomSheetDialog = null;
-            }
-        });
-
-        bottomSheetDialog.show();
-
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -167,25 +146,37 @@ public class FragmentAnswer extends Fragment {
 
     public AlertDialog createFontSizeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        String fontSize = Pref.getString(FontSize.RICH_CONTENT_VIEW_FONT_KEY, FontSize.NORMAL);
+        String[] stringArray = getResources().getStringArray(R.array.font_size_array);
+        int checkedItem = Arrays.asList(FontSize.SIZE_ARRAY).indexOf(fontSize);
         builder.setTitle("字体大小")
-                .setItems(R.array.font_size_array, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(stringArray, checkedItem, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                vm.setAnswerFontSize(FontSize.SMALL);
+                                presenter.setAnswerFontSize(FontSize.SMALL);
                                 break;
                             case 1:
-                                vm.setAnswerFontSize(FontSize.NORMAL);
+                                presenter.setAnswerFontSize(FontSize.NORMAL);
                                 break;
                             case 2:
-                                vm.setAnswerFontSize(FontSize.LARGE);
+                                presenter.setAnswerFontSize(FontSize.LARGE);
                                 break;
                             case 3:
-                                vm.setAnswerFontSize(FontSize.HUGE);
+                                presenter.setAnswerFontSize(FontSize.HUGE);
                                 break;
                         }
                     }
+                })
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
                 });
+
         return builder.create();
     }
 }

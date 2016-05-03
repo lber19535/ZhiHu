@@ -7,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,7 +21,7 @@ import com.bill.zhihu.databinding.QuestionViewBinding;
 import com.bill.zhihu.ui.answer.ExpandSelectorBehavior;
 import com.bill.zhihu.ui.answer.ExpandSelectorCallback;
 import com.bill.zhihu.util.AnimeUtils;
-import com.bill.zhihu.vm.QuestionVM;
+import com.bill.zhihu.presenter.QuestionPresenter;
 import com.karumi.expandableselector.ExpandableItem;
 import com.karumi.expandableselector.OnExpandableItemClickListener;
 
@@ -33,7 +36,7 @@ import java.util.List;
 public class FragmentQuestion extends Fragment {
 
     private QuestionViewBinding binding;
-    private QuestionVM vm;
+    private QuestionPresenter presenter;
 
     @Nullable
     @Override
@@ -43,17 +46,16 @@ public class FragmentQuestion extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_question, container, false);
         if (item.target.question != null)
-            vm = new QuestionVM(binding, getActivity(), item.target.question.id);
+            presenter = new QuestionPresenter(binding, getActivity(), item.target.question.id);
         else
-            vm = new QuestionVM(binding, getActivity(), item.target.id);
+            presenter = new QuestionPresenter(binding, getActivity(), item.target.id);
 
-        binding.setVm(vm);
-
+        binding.setPresenter(presenter);
+        setHasOptionsMenu(true);
         initView();
 
-        vm.playLoadingAnim();
-        vm.loadQuestion();
-//        vm.loadAnswers();
+        presenter.playLoadingAnim();
+        presenter.loadQuestionAndAnswer();
 
         return binding.getRoot();
     }
@@ -85,12 +87,19 @@ public class FragmentQuestion extends Fragment {
 
         binding.expandSelector.showExpandableItems(expandableItems);
         binding.expandSelector.setOnExpandableItemClickListener(new OnExpandableItemClickListener() {
+
             @Override
             public void onExpandableItemClickListener(int index, View view) {
-                switch (index){
-                    case 0:
+                if (binding.expandSelector.isExpanded()) {
+                    binding.expandSelector.collapse();
+                    binding.expandSelector.getExpandableItem(0).setResourceId(R.drawable.ic_plus);
+                } else {
+                    binding.expandSelector.getExpandableItem(0).setResourceId(R.drawable.ic_close);
+                }
+                switch (index) {
                     case 1:
                     case 2:
+                        presenter.share();
                     case 4:
                 }
             }
@@ -119,4 +128,14 @@ public class FragmentQuestion extends Fragment {
         });
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.activity_question_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 }

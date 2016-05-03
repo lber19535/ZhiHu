@@ -5,8 +5,8 @@
     <data class="AnswerViewBinding">
 
         <variable
-            name="vm"
-            type="com.bill.zhihu.vm.answer.AnswerVM"/>
+            name="presenter"
+            type="com.bill.zhihu.presenter.answer.AnswerPresenter"/>
 
         <variable
             name="item"
@@ -70,13 +70,14 @@
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.AppCompatTextView
+                <android.support.v7.widget.AppCompatCheckedTextView
+                    android:id="@+id/vote_txt"
                     style="@style/TextView.AnswerHead.Vote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/answer_vote"/>
 
-                <android.support.v7.widget.AppCompatTextView
+                <android.support.v7.widget.AppCompatCheckedTextView
                     android:id="@+id/vote"
                     style="@style/TextView.AnswerHead.Vote"
                     android:layout_width="wrap_content"
@@ -131,6 +132,7 @@
                 android:id="@+id/expand_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 android:layout_margin="@dimen/global_margin_16"
                 app:layout_anchor="@id/answer_wrapper"
                 app:layout_anchorGravity="bottom|right|end"/>

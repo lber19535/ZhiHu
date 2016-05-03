@@ -26,6 +26,10 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+
 /**
  * recycler的适配器
  *
@@ -40,6 +44,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
     private static final int VIEW_TYPE_ONLY_QUESTION = 0x01;
     private static final int VIEW_TYPE_ANSWER_QUESTION = 0x02;
+    private static final int VIEW_TYPE_ROUNDTABLE = 0x03;
 
     private List<FeedsItem> timelineItems;
     private LayoutInflater mInflater;
@@ -66,13 +71,20 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
         // record json in log
         if (BuildConfig.DEBUG) {
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                String json = mapper.writeValueAsString(item);
-                Logger.t(TAG).json(json);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-            }
+            Observable.just(item)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Action1<FeedsItem>() {
+                        @Override
+                        public void call(FeedsItem item) {
+                            ObjectMapper mapper = new ObjectMapper();
+                            try {
+                                String json = mapper.writeValueAsString(item);
+                                Logger.t(TAG).json(json);
+                            } catch (JsonProcessingException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
         }
 
         switch (item.target.type) {
@@ -83,6 +95,8 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
             case FeedsItemTargetType.QUESTION:
             case FeedsItemTargetType.COLUMN:
                 return VIEW_TYPE_ONLY_QUESTION;
+            case FeedsItemTargetType.ROUNDTABLE:
+                return VIEW_TYPE_ROUNDTABLE;
             default:
                 Logger.t(TAG).d("new type " + item.target.type + " maybe cause crash");
                 CrashReport.postCatchedException(new Throwable("new type " + item.target.type + " maybe cause crash"));
@@ -93,12 +107,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
     @Override
     public void onBindViewHolder(TimeLineViewHolder holder, int position) {
         final FeedsItem item = timelineItems.get(position);
-        // source string, before the title
-        holder.fromTv.setText(FeedsItemUtils.formatSourceString(item));
 
-        // question or article title in target or question, avatar image
-        holder.questionTv.setText(FeedsItemUtils.getTitle(item));
-        holder.setAvatarImageUrl(FeedsItemUtils.getAvatarUrl(item));
 
         int type = getItemViewType(position);
 
@@ -137,6 +146,13 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
         switch (type) {
             // 只有问题或者文章标题
             case VIEW_TYPE_ONLY_QUESTION: {
+                // source string, before the title
+                holder.fromTv.setText(FeedsItemUtils.formatSourceString(item));
+
+                // question or article title in target or question, avatar image
+                holder.questionTv.setText(FeedsItemUtils.getTitle(item));
+                holder.setAvatarImageUrl(FeedsItemUtils.getAvatarUrl(item));
+
                 TimeLineOnlyQuestionViewHolder questionViewHolder = (TimeLineOnlyQuestionViewHolder) holder;
                 questionViewHolder.setOnFromOrAvatarClickListener(fromOrAvatarListener);
                 questionViewHolder.setOnQuestionClickListener(questionListener);
@@ -144,6 +160,14 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
             }
             // 问题+答案，发布的文章
             case VIEW_TYPE_ANSWER_QUESTION: {
+
+                // source string, before the title
+                holder.fromTv.setText(FeedsItemUtils.formatSourceString(item));
+
+                // question or article title in target or question, avatar image
+                holder.questionTv.setText(FeedsItemUtils.getTitle(item));
+                holder.setAvatarImageUrl(FeedsItemUtils.getAvatarUrl(item));
+
                 TimeLineWithAnswerViewHolder answerViewHolder = (TimeLineWithAnswerViewHolder) holder;
 
                 Logger.t(TAG).d(TAG, "answerViewHolder " + answerViewHolder);
@@ -164,6 +188,9 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                         mContext.startActivity(intent);
                     }
                 });
+                break;
+            }
+            case VIEW_TYPE_ROUNDTABLE: {
                 break;
             }
             default:
@@ -202,7 +229,8 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
     public void onViewRecycled(TimeLineViewHolder holder) {
         super.onViewRecycled(holder);
 //        System.out.println("onViewRecycled");
-        holder.avatarIv.setImageBitmap(null);
+        if (holder.avatarIv != null)
+            holder.avatarIv.setImageBitmap(null);
         holder.cancelImageLoad();
     }
 
@@ -222,7 +250,11 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
                         R.layout.list_item_tl_question_with_answer, container, false);
                 holder = new TimeLineWithAnswerViewHolder(itemView);
                 break;
-
+            case VIEW_TYPE_ROUNDTABLE:
+                itemView = mInflater.inflate(
+                        R.layout.list_item_tl_empty, container, false);
+                itemView.setVisibility(View.GONE);
+                holder = new TimeLineEmptyViewHolder(itemView);
             default:
                 break;
         }

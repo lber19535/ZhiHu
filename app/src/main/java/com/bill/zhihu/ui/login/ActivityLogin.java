@@ -1,6 +1,5 @@
 package com.bill.zhihu.ui.login;
 
-import android.app.Fragment;
 import android.os.Bundle;
 
 import com.bill.zhihu.R;
@@ -13,8 +12,6 @@ import com.bill.zhihu.activity.BaseActivity;
  *
  */
 public class ActivityLogin extends BaseActivity {
-
-    private Fragment loginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

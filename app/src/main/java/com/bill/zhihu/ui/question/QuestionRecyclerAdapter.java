@@ -17,7 +17,7 @@ import com.bill.zhihu.model.question.QuestionItem;
 import com.bill.zhihu.ui.Theme;
 import com.bill.zhihu.ui.answer.ActivityAnswer;
 import com.bill.zhihu.util.IntentUtils;
-import com.bill.zhihu.util.RichCcontentUtils;
+import com.bill.zhihu.util.RichContentUtils;
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter {
             if (response.detail.isEmpty()) {
                 viewHolder.questionDetailWv.setVisibility(View.INVISIBLE);
             } else {
-                viewHolder.questionDetailWv.setContent(RichCcontentUtils.replaceImage(RichCcontentUtils.wrapTopic(response.detail, Theme.LIGHT)));
+                viewHolder.questionDetailWv.setContent(RichContentUtils.replaceImage(RichContentUtils.wrapTopic(response.detail, Theme.LIGHT)));
                 viewHolder.questionDetailWv.setFontSize(FontSize.SMALL);
             }
 

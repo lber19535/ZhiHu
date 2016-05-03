@@ -1,9 +1,9 @@
 package com.bill.zhihu.api.bean.response;
 
+import com.bill.zhihu.api.bean.answer.AnswerRelationship;
 import com.bill.zhihu.api.bean.common.Author;
 import com.bill.zhihu.api.bean.common.Question;
 import com.bill.zhihu.api.bean.common.SuggestEdit;
-import com.bill.zhihu.api.bean.question.Relationship;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -16,13 +16,13 @@ public class SingleAnswerResponse {
     @JsonProperty("suggest_edit")
     public SuggestEdit suggestEdit;
     @JsonProperty("is_copyable")
-    public Boolean isCopyable;
+    public boolean isCopyable;
     @JsonProperty("can_comment")
     public CanComment canComment;
     @JsonProperty("is_mine")
-    public Boolean isMine;
+    public boolean isMine;
     @JsonProperty("relationship")
-    public Relationship relationship;
+    public AnswerRelationship relationship;
     @JsonProperty("author")
     public Author author;
     @JsonProperty("url")
@@ -46,7 +46,7 @@ public class SingleAnswerResponse {
     @JsonProperty("type")
     public String type;
     @JsonProperty("id")
-    public long id;
+    public String id;
     @JsonProperty("thanks_count")
     public int thanksCount;
 

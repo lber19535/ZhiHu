@@ -6,8 +6,15 @@ import android.content.res.Resources;
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.api.bean.response.AnswersResponse;
 import com.bill.zhihu.api.bean.response.FeedsResponse;
+import com.bill.zhihu.api.bean.response.GetCaptchaResponse;
+import com.bill.zhihu.api.bean.response.NoHelpResponse;
+import com.bill.zhihu.api.bean.response.PeopleBasicResponse;
+import com.bill.zhihu.api.bean.response.PostCaptchaResponse;
 import com.bill.zhihu.api.bean.response.QuestionResponse;
+import com.bill.zhihu.api.bean.response.ShowCaptchaResponse;
 import com.bill.zhihu.api.bean.response.SingleAnswerResponse;
+import com.bill.zhihu.api.bean.response.ThankResponse;
+import com.bill.zhihu.api.bean.response.VoteResponse;
 import com.bill.zhihu.api.cookie.PersistentCookiesStore;
 import com.bill.zhihu.api.factory.ApiFactory;
 import com.bill.zhihu.api.utils.XHeaders;
@@ -73,12 +80,31 @@ public class ZhihuApi {
     }
 
     /**
-     * 初次登陆之前必须调用，用来去掉验证码
+     * 初次登陆之前必须调用，用来验证是否需要验证码
+     *
+     * @return
+     */
+    public static Observable<ShowCaptchaResponse> showCaptcha() {
+        return ApiFactory.createLoginApi().showCaptcha();
+    }
+
+    /**
+     * 初次登陆之前必须调用，用来获取验证码
      *
      * @return 如果请求成功则会正常 next，失败则会 error
      */
-    public static Observable<Void> captcha() {
-        return ApiFactory.createLoginApi().captcha();
+    public static Observable<GetCaptchaResponse> getCaptcha() {
+        return ApiFactory.createLoginApi().getCaptcha();
+    }
+
+
+    /**
+     * 初次登陆之前必须调用，用来获取验证码
+     *
+     * @return 如果请求成功则会正常 next，失败则会 error
+     */
+    public static Observable<PostCaptchaResponse> postCaptcha(String captcha) {
+        return ApiFactory.createLoginApi().postCaptcha(captcha);
     }
 
     /**
@@ -151,7 +177,32 @@ public class ZhihuApi {
         return null;
     }
 
-    public static void getPeopleSelfBasic() {
-        ApiFactory.createPeopleApi().getSelfBasic();
+    public static Observable<PeopleBasicResponse> getPeopleSelfBasic() {
+        return ApiFactory.createPeopleApi().getSelfBasic();
+    }
+
+    /**
+     * @param answerId
+     * @param voteType must use {@link com.bill.zhihu.api.bean.common.VoteType}
+     */
+    public static Observable<VoteResponse> vote(String answerId, int voteType){
+        return ApiFactory.createAnswerApi().vote(answerId, voteType);
+    }
+
+    public static Observable<NoHelpResponse> nohelp(String answerId){
+        return ApiFactory.createAnswerApi().nohelp(answerId);
+    }
+
+    public static Observable<NoHelpResponse> cancelNohelp(String answerId){
+        return ApiFactory.createAnswerApi().cancelNohelp(answerId);
+    }
+
+
+    public static Observable<ThankResponse> thanks(String answerId){
+        return ApiFactory.createAnswerApi().thanks(answerId);
+    }
+
+    public static Observable<ThankResponse> cancelThanks(String answerId){
+        return ApiFactory.createAnswerApi().cancelThanks(answerId);
     }
 }

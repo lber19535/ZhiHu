@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/topic"
+        android:title="话题"
+        />
+    <item
+        android:id="@+id/focus_people"
+        android:title="关注的人"
+        />
+    <item
+        android:id="@+id/invite"
+        android:title="邀请"
+        />
+    <item
+        android:id="@+id/add_answer"
+        android:title="添加答案"
+        />
+
+</menu>

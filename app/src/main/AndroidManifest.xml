@@ -7,16 +7,18 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <!-- bugly -->
     <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".ZhihuApp"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:fullBackupContent="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.StartPageActivity">
             <intent-filter>
@@ -29,6 +31,11 @@
         <activity android:name=".ui.home.ActivityHome"/>
         <activity android:name=".ui.answer.ActivityAnswer"/>
         <activity android:name=".ui.question.ActivityQuestion"/>
+        <activity android:name=".ui.ActivityLargeImage"/>
+
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:theme="@android:style/Theme.Translucent"/>
     </application>
 
 </manifest>

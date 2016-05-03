@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/main"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:checkable="true"
+            android:checked="true"
+            android:icon="@drawable/ic_home_blue"
+            android:title="首页"/>
+        <item
+            android:id="@+id/nav_find"
+            android:checkable="true"
+            android:icon="@drawable/ic_explore_lime"
+            android:title="发现"/>
+        <item
+            android:id="@+id/nav_focus"
+            android:checkable="true"
+            android:icon="@drawable/ic_visibility_teal"
+            android:title="关注"/>
+        <item
+            android:id="@+id/nav_collection"
+            android:checkable="true"
+            android:icon="@drawable/ic_collections_orange"
+            android:title="收藏"/>
+    </group>
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/change_style"
+            android:title="切换主题"/>
+        <item
+            android:id="@+id/settings"
+            android:title="设置"/>
+    </group>
+
+</menu>

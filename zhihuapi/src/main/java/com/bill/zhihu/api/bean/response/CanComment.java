@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CanComment {
     @JsonProperty("status")
-    public Boolean status;
+    public boolean status;
     @JsonProperty("reason")
     public String reason;
 }

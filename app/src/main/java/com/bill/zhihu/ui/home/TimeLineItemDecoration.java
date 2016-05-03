@@ -43,7 +43,6 @@ public class TimeLineItemDecoration extends ItemDecoration {
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, State state) {
-        // TODO Auto-generated method stub
         super.onDraw(c, parent, state);
         int count = parent.getChildCount();
         for (int i = 0; i < count; i++) {

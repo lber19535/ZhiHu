@@ -2,7 +2,7 @@ package com.bill.zhihu.api.bean.response;
 
 import com.bill.zhihu.api.bean.common.Author;
 import com.bill.zhihu.api.bean.common.SuggestEdit;
-import com.bill.zhihu.api.bean.question.Relationship;
+import com.bill.zhihu.api.bean.question.QuestionRelationship;
 import com.bill.zhihu.api.bean.question.Status;
 import com.bill.zhihu.api.bean.question.Topic;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -20,8 +20,8 @@ public class QuestionResponse {
     public Status status;
     @JsonProperty("suggest_edit")
     public SuggestEdit suggestEdit;
-    @JsonProperty("relationship")
-    public Relationship relationship;
+    @JsonProperty("questionRelationship")
+    public QuestionRelationship questionRelationship;
     @JsonProperty("title")
     public String title;
     @JsonProperty("url")

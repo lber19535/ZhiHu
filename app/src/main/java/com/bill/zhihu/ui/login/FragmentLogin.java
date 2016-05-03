@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.databinding.LoginViewBinding;
-import com.bill.zhihu.model.login.User;
-import com.bill.zhihu.vm.LoginVM;
+import com.bill.zhihu.presenter.LoginPresenter;
 
 /**
  * 登录
@@ -23,18 +22,18 @@ public class FragmentLogin extends Fragment {
     private static final String TAG = "FragmentLogin";
 
     private LoginViewBinding binding;
-    private LoginVM vm;
+    private LoginPresenter presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
-        vm = new LoginVM(binding, getActivity());
-        binding.setUser(new User());
-        binding.setVm(vm);
+        presenter = new LoginPresenter(binding, getActivity());
 
-        vm.avoidCaptcha();
+        binding.setPresenter(presenter);
+
+        presenter.showCaptcha();
 
         return binding.getRoot();
     }

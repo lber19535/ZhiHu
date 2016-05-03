@@ -21,7 +21,6 @@ import okhttp3.Cookie;
 
 /**
  * 持久化cookies数据
- * 由于Android 6.0 开始移除了httpclient，所以这里使用net包中的cookiestore，相应的httpclient也换成了 {@code URLConnection}
  * <p/>
  * Created by Bill Lv on 2015/8/30.
  */
@@ -43,7 +42,6 @@ public class PersistentCookiesStore {
 
     private PersistentCookiesStore(Context mContext) {
         Logger.t(TAG).d("cookie store is init");
-
         // realm 配置
         configuration = new RealmConfiguration.Builder(mContext).name(COOKIE_FILE_NAME).build();
         realm = Realm.getInstance(configuration);

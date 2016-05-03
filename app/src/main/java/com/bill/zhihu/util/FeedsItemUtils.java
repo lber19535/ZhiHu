@@ -57,6 +57,8 @@ public class FeedsItemUtils {
 
             case FeedsItemVerb.COLUMN_NEW_ARTICLE:
                 return item.target.column.title;
+            case FeedsItemVerb.ANSWER_QUESTION_ROUNDTABLE:
+                return item.target.title;
 
             default:
                 Logger.t(TAG).d("Time line adapter, none of specific verb ", item.verb);

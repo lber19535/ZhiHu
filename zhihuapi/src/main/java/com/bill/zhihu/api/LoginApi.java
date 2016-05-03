@@ -3,20 +3,20 @@ package com.bill.zhihu.api;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.bill.zhihu.api.bean.response.GetCaptchaResponse;
 import com.bill.zhihu.api.bean.response.LoginResponse;
+import com.bill.zhihu.api.bean.response.PostCaptchaResponse;
+import com.bill.zhihu.api.bean.response.ShowCaptchaResponse;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.LoginApiService;
 import com.bill.zhihu.api.utils.AuthStore;
-import com.orhanobut.logger.Logger;
 
-import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Func1;
@@ -24,7 +24,7 @@ import rx.functions.Func1;
 /**
  * 登陆 API，包含设置不需要验证码和登陆两个接口。
  * <p/>
- * 登陆前务必使用 captcha 方法设置不需要验证码，并且获取 cookie，否则将登陆失败
+ * 登陆前务必使用 showCaptcha 方法设置不需要验证码，并且获取 cookie，否则将登陆失败
  * <p/>
  * Created by bill_lv on 2016/2/16.
  */
@@ -53,17 +53,19 @@ public class LoginApi implements API {
                 "&signature=" + signature(time) +
                 "&source=com.zhihu.android&timestamp=" + time + "&username=" + username + "&uuid";
 
-        service.captcha();
         return service.signIn(field).map(new Func1<LoginResponse, Boolean>() {
             @Override
             public Boolean call(LoginResponse signInResponse) {
-                AuthStore.setAccessToken(signInResponse.accessToken);
-                AuthStore.setTokenType(signInResponse.tokenType);
-                AuthStore.setUID(signInResponse.UID);
-                AuthStore.setUnlockTicket(signInResponse.unlockTicket);
+                if (signInResponse.error == null) {
+                    AuthStore.setAccessToken(signInResponse.accessToken);
+                    AuthStore.setTokenType(signInResponse.tokenType);
+                    AuthStore.setUID(signInResponse.UID);
+                    AuthStore.setUnlockTicket(signInResponse.unlockTicket);
 
-                updateLoginState(true);
+                    updateLoginState(true);
+                } else {
 
+                }
                 return true;
             }
         });
@@ -93,22 +95,31 @@ public class LoginApi implements API {
     }
 
     /**
-     * 设置登录不需要验证码
+     * 是否需要验证码
      *
      * @return
      */
-    public Observable<Void> captcha() {
-        return service.captcha().map(new Func1<ResponseBody, Void>() {
-            @Override
-            public Void call(ResponseBody responseBody) {
-                try {
-                    Logger.d(responseBody.string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-        });
+    public Observable<ShowCaptchaResponse> showCaptcha() {
+        return service.showCaptcha();
+    }
+
+    /**
+     * 获取验证码，验证码是 base64 编码格式
+     *
+     * @return
+     */
+    public Observable<GetCaptchaResponse> getCaptcha() {
+        return service.getCaptcha();
+    }
+
+    /**
+     * 获取验证码，验证码是 base64 编码格式
+     *
+     * @return
+     */
+    public Observable<PostCaptchaResponse> postCaptcha(String captcha) {
+        String postBody = "input_text=" + captcha;
+        return service.postCaptcha(postBody);
     }
 
     /**

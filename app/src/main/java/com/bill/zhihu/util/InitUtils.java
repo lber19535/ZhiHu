@@ -2,7 +2,6 @@ package com.bill.zhihu.util;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Looper;
 import android.os.StrictMode;
 
 import com.bill.zhihu.BuildConfig;
@@ -29,6 +28,7 @@ import rx.schedulers.Schedulers;
 public class InitUtils {
 
     private static final String TAG = "ZhihuApp";
+    private static final int IMAGE_LOADER_THREAD_POOL_SIZE = 6;
 
     public static void init(Application application) {
         initApi(application);
@@ -45,8 +45,14 @@ public class InitUtils {
 
     private static void initImageLib(Context context) {
         // cache the image in local file
-        DisplayImageOptions opt = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(context).defaultDisplayImageOptions(opt).build();
+        DisplayImageOptions opt = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(context)
+                .defaultDisplayImageOptions(opt)
+                .threadPoolSize(IMAGE_LOADER_THREAD_POOL_SIZE)
+                .build();
         ImageLoader.getInstance().init(configuration);
     }
 

@@ -19,6 +19,8 @@
     <string name="from">来自</string>
     <string name="question">问题/文章标题</string>
     <string name="vote">11</string>
+    <string name="nav_open">open</string>
+    <string name="nav_close">close</string>
     <string name="content">回答缩略</string>
     <!-- answer -->
     <string name="share">分享</string>

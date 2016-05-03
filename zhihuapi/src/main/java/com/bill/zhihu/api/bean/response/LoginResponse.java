@@ -1,5 +1,6 @@
 package com.bill.zhihu.api.bean.response;
 
+import com.bill.zhihu.api.bean.login.LoginError;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LoginResponse {
+
+    @JsonProperty("error")
+    public LoginError error;
     @JsonProperty("access_token")
     public String accessToken;
     @JsonProperty("uid")

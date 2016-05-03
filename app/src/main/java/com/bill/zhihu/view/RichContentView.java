@@ -1,21 +1,25 @@
 package com.bill.zhihu.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
-import com.bill.zhihu.R;
+import com.bill.zhihu.constant.IntentConstant;
 import com.bill.zhihu.model.FontSize;
-import com.bill.zhihu.util.RichCcontentUtils;
-import com.bill.zhihu.vm.answer.RichContentChromeClient;
-import com.bill.zhihu.vm.answer.RichContentWebClient;
+import com.bill.zhihu.ui.ActivityLargeImage;
+import com.bill.zhihu.util.ImageLoadUtils;
+import com.bill.zhihu.presenter.answer.RichContentChromeClient;
+import com.bill.zhihu.presenter.answer.RichContentWebClient;
+import com.bill.zhihu.util.ImageUrlUtils;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.BuglyLog;
 import com.tramsun.libs.prefcompat.Pref;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -27,6 +31,8 @@ import rx.android.schedulers.AndroidSchedulers;
 public class RichContentView extends WebView {
 
     private static String TAG = "RichContentView";
+
+    private ArrayList<CharSequence> imgHDUrl = new ArrayList<>();
 
     public RichContentView(Context context) {
         super(context);
@@ -74,7 +80,9 @@ public class RichContentView extends WebView {
     @JavascriptInterface
     public void loadImage(final String url) {
 
-        RichCcontentUtils.getImageCacheUri(url)
+        imgHDUrl.add(url);
+
+        ImageLoadUtils.getImageCacheUri(url)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
@@ -104,7 +112,6 @@ public class RichContentView extends WebView {
     public String getFontSize() {
 
         String fontSize = Pref.getString(FontSize.RICH_CONTENT_VIEW_FONT_KEY, FontSize.NORMAL);
-        System.out.println(fontSize);
 
         return fontSize;
     }
@@ -116,6 +123,11 @@ public class RichContentView extends WebView {
 
     @JavascriptInterface
     public void openImage(String url) {
+        Intent intent = new Intent(getContext(), ActivityLargeImage.class);
+        intent.setAction(IntentConstant.INTENT_ACTION_LARGE_IMAGE);
+        intent.putExtra(IntentConstant.INTENT_LARGE_IMAGE_URL, ImageUrlUtils.webimgSmall2Normal(url));
+        intent.putCharSequenceArrayListExtra(IntentConstant.INTENT_LARGE_IMAGE_URL_ARRAY,imgHDUrl);
+        getContext().startActivity(intent);
         Logger.d(url);
     }
 

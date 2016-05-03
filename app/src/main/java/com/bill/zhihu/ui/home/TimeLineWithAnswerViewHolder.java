@@ -22,7 +22,6 @@ public class TimeLineWithAnswerViewHolder extends TimeLineViewHolder {
 
     }
 
-
     private void initView(View itemView) {
         answerTv = (TextView) itemView.findViewById(R.id.answer);
         voteTv = (TextView) itemView.findViewById(R.id.vote);

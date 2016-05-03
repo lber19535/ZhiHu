@@ -9,4 +9,5 @@ public class FeedsItemTargetType {
     public static final String QUESTION = "question";
     public static final String ANSWER = "answer";
     public static final String ARTICLE = "article";
+    public static final String ROUNDTABLE = "roundtable";
 }

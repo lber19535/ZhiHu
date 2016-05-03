@@ -99,6 +99,7 @@
     </style>
 
     <style name="TextView.AnswerHead.Vote" parent="TextView.AnswerRemark">
+        <item name="android:textColor">@drawable/answer_header_vote_color</item>
     </style>
 
     <style name="Layout.Answer.BottomItem" parent="AppTheme.Light">
@@ -152,5 +153,9 @@
         <item name="android:layout_margin">@dimen/global_margin_8</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/font_18</item>
+    </style>
+
+    <style name="DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/white</item>
     </style>
 </resources>

@@ -6,17 +6,17 @@
 
         <variable
             name="user"
-            type="com.bill.zhihu.model.login.User"/>
+            type="com.bill.zhihu.model.login.UserModel"/>
 
         <variable
-            name="vm"
-            type="com.bill.zhihu.vm.LoginVM"/>
+            name="presenter"
+            type="com.bill.zhihu.presenter.LoginPresenter"/>
     </data>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/blue"
+        android:background="@color/blue_light"
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
@@ -59,6 +59,27 @@
                 android:textColor="@color/white"/>
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/captcha_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/global_margin_32"
+            android:layout_marginRight="@dimen/global_margin_32"
+            android:hint="@string/login_captcha"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:theme="@style/LoginInputTextStyle"
+            android:visibility="gone"
+            app:hintTextAppearance="@style/LoginInputTextStyle.Text">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/white"
+                android:addTextChangedListener="@{user.captchaWatcher}"
+                android:textColor="@color/white"/>
+        </android.support.design.widget.TextInputLayout>
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/login_btn"
             style="@style/LoginButtonStyle"
@@ -68,7 +89,7 @@
             android:layout_marginLeft="@dimen/global_margin_32"
             android:layout_marginRight="@dimen/global_margin_32"
             android:layout_marginTop="@dimen/global_margin_32"
-            android:onClick="@{vm.onClickLogin}"
+            android:onClick="@{presenter.onClickLogin}"
             android:text="@string/login_btn"
             android:textSize="@dimen/font_22"/>
 

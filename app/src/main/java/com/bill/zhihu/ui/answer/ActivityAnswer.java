@@ -1,17 +1,15 @@
 package com.bill.zhihu.ui.answer;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import com.bill.zhihu.R;
 import com.bill.zhihu.activity.BaseActivity;
 import com.bill.zhihu.model.answer.AnswerIntentValue;
 import com.bill.zhihu.constant.IntentConstant;
+import com.bill.zhihu.transformer.ZhihuSwipeBackTransformer;
+import com.hannesdorfmann.swipeback.Position;
+import com.hannesdorfmann.swipeback.SwipeBack;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -26,7 +24,13 @@ public class ActivityAnswer extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_answer);
+//        setContentView(R.layout.activity_answer);
+
+        // Init the swipe back
+        SwipeBack.attach(this, Position.LEFT)
+                .setContentView(R.layout.activity_answer)
+                .setSwipeBackTransformer(new ZhihuSwipeBackTransformer())
+                .setSwipeBackView(R.layout.layout_swipeback);
 
         initToolBar();
 
@@ -39,5 +43,14 @@ public class ActivityAnswer extends BaseActivity {
         setTitle(questionTitle);
 
         toggleFragment(new FragmentAnswer());
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.swipeback_stack_to_front,
+                R.anim.swipeback_stack_right_out);
     }
 }
