@@ -21,6 +21,7 @@ import com.bill.zhihu.model.login.UserModel;
 import com.bill.zhihu.ui.home.ActivityHome;
 import com.bill.zhihu.util.ToastUtil;
 import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.Printer;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -94,7 +95,7 @@ public class LoginPresenter {
 
                         @Override
                         public void onNext(Drawable captchaImg) {
-                            binding.captchaLayout.getEditText().setCompoundDrawablesWithIntrinsicBounds(null, null, captchaImg, null);
+                            binding.captchaImg.setImageDrawable(captchaImg);
                         }
                     });
         } else {
@@ -116,7 +117,6 @@ public class LoginPresenter {
         }
 
         if (needCaptcha) {
-            System.out.println(user.getCaptcha());
             Logger.d(user.getCaptcha());
             ZhihuApi.postCaptcha(user.getCaptcha())
                     .subscribeOn(Schedulers.io())

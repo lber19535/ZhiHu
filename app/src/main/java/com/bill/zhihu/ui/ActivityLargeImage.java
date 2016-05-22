@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import com.bill.zhihu.R;
 import com.bill.zhihu.activity.BaseActivity;
 import com.bill.zhihu.constant.IntentConstant;
+import com.bill.zhihu.transformer.ZhihuSwipeBackTransformer;
+import com.bill.zhihu.util.SwipeBackUtils;
+import com.hannesdorfmann.swipeback.Position;
+import com.hannesdorfmann.swipeback.SwipeBack;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -42,7 +46,9 @@ public class ActivityLargeImage extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_large_image);
+
+        // Init the swipe back
+        SwipeBackUtils.attach(this, R.layout.activity_large_image);
 
         ButterKnife.bind(this);
         Intent intent = getIntent();

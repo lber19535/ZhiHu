@@ -3,14 +3,15 @@ package com.bill.zhihu.presenter;
 import android.app.Activity;
 
 import com.bill.zhihu.R;
+import com.bill.zhihu.api.ZhihuApi;
 import com.bill.zhihu.databinding.StartPageViewBinding;
-import com.bill.zhihu.model.StartPageModel;
 
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by bill_lv on 2016/3/24.
@@ -19,15 +20,13 @@ public class StartPagePresenter {
 
     private StartPageViewBinding viewBinding;
     private Activity activity;
-    private StartPageModel model;
 
     private int SLOGAN_ANIME_DURATION = 500;
-
 
     public StartPagePresenter(StartPageViewBinding viewBinding, Activity activity) {
         this.viewBinding = viewBinding;
         this.activity = activity;
-        this.model = new StartPageModel(activity);
+//        this.model = new StartPageModel(activity);
     }
 
     /**
@@ -36,7 +35,8 @@ public class StartPagePresenter {
      * @return
      */
     public Observable<Boolean> initStartPage() {
-        return model.initStartPage()
+        return ZhihuApi.haveLogin()
+                .subscribeOn(Schedulers.io())
                 .delay(SLOGAN_ANIME_DURATION, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<Boolean, Boolean>() {

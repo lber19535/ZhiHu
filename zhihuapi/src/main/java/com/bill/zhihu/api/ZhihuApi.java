@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 import com.bill.zhihu.api.bean.feeds.FeedsItem;
 import com.bill.zhihu.api.bean.response.AnswersResponse;
+import com.bill.zhihu.api.bean.response.ArticleResponse;
 import com.bill.zhihu.api.bean.response.FeedsResponse;
 import com.bill.zhihu.api.bean.response.GetCaptchaResponse;
 import com.bill.zhihu.api.bean.response.NoHelpResponse;
@@ -204,5 +205,13 @@ public class ZhihuApi {
 
     public static Observable<ThankResponse> cancelThanks(String answerId){
         return ApiFactory.createAnswerApi().cancelThanks(answerId);
+    }
+
+    public static Observable<ArticleResponse> getArticle(String articleId){
+        return ApiFactory.createArticlesApi().getArticle(articleId);
+    }
+
+    public static Observable<VoteResponse> getArticleVoting(String articleId){
+        return ApiFactory.createArticlesApi().isArticleVoted(articleId);
     }
 }

@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-
+        overridePendingTransition(R.anim.swipeback_slide_left_in, R.anim.swipeback_slide_right_out);
     }
 
     /**
@@ -73,5 +73,9 @@ public class BaseActivity extends AppCompatActivity {
         setTitle(getResources().getString(R.string.app_name));
     }
 
+    @Override
+    public void finish() {
+        super.finish();
 
+    }
 }

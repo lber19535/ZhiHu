@@ -1,0 +1,163 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data class="ArticlesViewBinding">
+
+        <variable
+            name="presenter"
+            type="com.bill.zhihu.presenter.ArticlesPresenter"/>
+
+        <variable
+            name="item"
+            type="com.bill.zhihu.api.bean.feeds.FeedsItem"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:id="@+id/answer_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    style="@style/ImageView.Answer.Avatar"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/avatar"
+                    android:layout_alignTop="@id/avatar"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toLeftOf="@+id/vote_layout"
+                    android:layout_toRightOf="@id/avatar"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/name"
+                        style="@style/TextView.Light.AnswerHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@string/name"/>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/intro"
+                        style="@style/TextView.AnswerRemark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@string/intro"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/vote_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatCheckedTextView
+                        android:id="@+id/vote_txt"
+                        style="@style/TextView.AnswerHead.Vote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/answer_vote"/>
+
+                    <android.support.v7.widget.AppCompatCheckedTextView
+                        android:id="@+id/vote"
+                        style="@style/TextView.AnswerHead.Vote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:text="0"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/answer_head"
+                android:background="@color/grey_light"/>
+
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/divider"
+                android:background="@color/white">
+
+                <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/answer_wrapper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <com.bill.zhihu.view.RichContentView
+                        android:id="@+id/answer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/answer_head"
+                        />
+                </android.support.v4.widget.NestedScrollView>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/global_margin_16"
+                    android:background="@android:color/transparent"
+                    app:backgroundTint="@android:color/transparent"
+                    app:borderWidth="0dp"
+                    app:elevation="0dp"
+                    app:layout_anchor="@id/answer_wrapper"
+                    app:layout_anchorGravity="bottom|right|end"
+                    app:layout_behavior="com.bill.zhihu.ui.answer.ExpandSelectorBehavior"/>
+
+                <com.karumi.expandableselector.ExpandableSelector
+                    android:id="@+id/expand_selector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/global_margin_16"
+                    android:visibility="invisible"
+                    app:layout_anchor="@id/answer_wrapper"
+                    app:layout_anchorGravity="bottom|right|end"/>
+
+            </android.support.design.widget.CoordinatorLayout>
+
+
+            <com.pnikosis.materialishprogress.ProgressWheel
+                android:id="@+id/loading_img"
+                android:layout_width="@dimen/loading_wheel_size"
+                android:layout_height="@dimen/loading_wheel_size"
+                android:layout_centerInParent="true"
+                app:matProg_barColor="@color/blue"
+                app:matProg_progressIndeterminate="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>

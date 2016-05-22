@@ -135,7 +135,17 @@
      public static void xml(...);
 }
 -assumenosideeffects class com.orhanobut.logger.Printer {
-    public *** ***(...);
+    public *** init(...);
+    public void clear();
+    public *** t(...);
+    public void d(...);
+    public void e(...);
+    public void i(...);
+    public void v(...);
+    public void w(...);
+    public void wtf(...);
+    public void json(...);
+    public void xml(...);
 }
 -assumenosideeffects class com.orhanobut.logger.Settings {
     public *** logLevel(...);

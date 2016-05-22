@@ -34,9 +34,9 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/white"
                 android:addTextChangedListener="@{user.accountWatcher}"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -53,32 +53,46 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/white"
                 android:addTextChangedListener="@{user.pwdWatcher}"
                 android:inputType="textPassword"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"/>
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/captcha_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/global_margin_32"
-            android:layout_marginRight="@dimen/global_margin_32"
-            android:hint="@string/login_captcha"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:theme="@style/LoginInputTextStyle"
-            android:visibility="gone"
-            app:hintTextAppearance="@style/LoginInputTextStyle.Text">
+            android:layout_marginRight="@dimen/global_margin_32">
 
-            <android.support.design.widget.TextInputEditText
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/captcha_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/login_captcha"
+                android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:addTextChangedListener="@{user.captchaWatcher}"
-                android:textColor="@color/white"/>
-        </android.support.design.widget.TextInputLayout>
+                android:theme="@style/LoginInputTextStyle"
+                android:visibility="visible"
+                app:hintTextAppearance="@style/LoginInputTextStyle.Text">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:addTextChangedListener="@{user.captchaWatcher}"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/captcha_img"
+                android:layout_width="96dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/login_btn"

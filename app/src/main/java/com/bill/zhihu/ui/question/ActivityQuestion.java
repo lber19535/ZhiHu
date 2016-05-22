@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.bill.zhihu.R;
 import com.bill.zhihu.activity.BaseActivity;
 import com.bill.zhihu.transformer.ZhihuSwipeBackTransformer;
+import com.bill.zhihu.util.SwipeBackUtils;
 import com.hannesdorfmann.swipeback.Position;
 import com.hannesdorfmann.swipeback.SwipeBack;
 
@@ -21,10 +22,7 @@ public class ActivityQuestion extends BaseActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_question);
         // Init the swipe back
-        SwipeBack.attach(this, Position.LEFT)
-                .setContentView(R.layout.activity_answer)
-                .setSwipeBackTransformer(new ZhihuSwipeBackTransformer())
-                .setSwipeBackView(R.layout.layout_swipeback);
+        SwipeBackUtils.attach(this, R.layout.activity_question);
 
         toggleFragment(new FragmentQuestion());
 

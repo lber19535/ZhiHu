@@ -3,6 +3,7 @@ package com.bill.zhihu.transformer;
 import android.app.Activity;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.bill.zhihu.R;
 import com.hannesdorfmann.swipeback.SwipeBack;
@@ -18,6 +19,8 @@ public class ZhihuSwipeBackTransformer implements SwipeBackTransformer {
     @Override
     public void onSwipeBackViewCreated(SwipeBack swipeBack, Activity activity, View swipeBackView) {
         backIv = (AppCompatImageView) swipeBackView.findViewById(R.id.back_arrow);
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 
     @Override

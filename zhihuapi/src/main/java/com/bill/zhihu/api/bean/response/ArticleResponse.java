@@ -3,11 +3,13 @@ package com.bill.zhihu.api.bean.response;
 import com.bill.zhihu.api.bean.articles.Column;
 import com.bill.zhihu.api.bean.common.Author;
 import com.bill.zhihu.api.bean.common.SuggestEdit;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by bill_lv on 2016/5/3.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticleResponse {
     @JsonProperty("updated")
     public int updated;

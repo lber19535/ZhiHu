@@ -34,10 +34,8 @@ public class PersistentCookiesStore {
 
     private ConcurrentHashMap<URI, List<Cookie>> cookieMap;
 
-    private static PersistentCookiesStore instance;
-
     private static class CookieHolder {
-        public static final PersistentCookiesStore store = new PersistentCookiesStore(ZhihuApi.getContext());
+        public static final PersistentCookiesStore INSTANCE  = new PersistentCookiesStore(ZhihuApi.getContext());
     }
 
     private PersistentCookiesStore(Context mContext) {
@@ -79,7 +77,7 @@ public class PersistentCookiesStore {
     }
 
     public static PersistentCookiesStore getInstance() {
-        return CookieHolder.store;
+        return CookieHolder.INSTANCE ;
     }
 
     public void add(URI uri, Cookie cookie) {

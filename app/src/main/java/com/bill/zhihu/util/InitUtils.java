@@ -2,6 +2,7 @@ package com.bill.zhihu.util;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.HandlerThread;
 import android.os.StrictMode;
 
 import com.bill.zhihu.BuildConfig;
@@ -30,13 +31,17 @@ public class InitUtils {
     private static final String TAG = "ZhihuApp";
     private static final int IMAGE_LOADER_THREAD_POOL_SIZE = 6;
 
-    public static void init(Application application) {
+    public static void init(final Application application) {
+        initLogger();
         initApi(application);
         initImageLib(application);
-        initDebug(application);
+
         initLeakCanary(application);
         initBlockCanary(application);
+        initDebug(application);
         initPref(application);
+
+
     }
 
     private static void initApi(Context context) {
@@ -56,15 +61,36 @@ public class InitUtils {
         ImageLoader.getInstance().init(configuration);
     }
 
-    private static void initDebug(Context context) {
+    private static void initLogger() {
         if (BuildConfig.DEBUG) {
-            CrashReport.initCrashReport(context, "900009454", true);
             Logger.init(TAG);
         } else {
-            CrashReport.initCrashReport(context, "900009454", false);
             Logger.init(TAG).logLevel(LogLevel.NONE);
         }
-        Logger.d("xxxx");
+    }
+
+    private static void initDebug(final Context context) {
+        Logger.t(TAG).d("init bugly");
+        Observable.just("init bugly").subscribeOn(Schedulers.io()).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
+                Logger.t(TAG).d("init bugly complete");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Logger.t(TAG).d(e.toString());
+            }
+
+            @Override
+            public void onNext(String s) {
+                if (BuildConfig.DEBUG) {
+                    CrashReport.initCrashReport(context, "900009454", true);
+                } else {
+                    CrashReport.initCrashReport(context, "900009454", false);
+                }
+            }
+        });
     }
 
     private static void initLeakCanary(Application application) {
@@ -86,7 +112,8 @@ public class InitUtils {
 
     private static void initPref(final Application application) {
         // because use strict mode of thread, so io behaviors must be used in background
-        Observable.just("init pref").subscribeOn(Schedulers.io()).subscribe(new Subscriber<String>() {
+        Logger.t(TAG).d("init pref");
+        Observable.just("init pref thread").subscribeOn(Schedulers.io()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
                 Logger.t(TAG).d("init pref complete");
@@ -94,7 +121,7 @@ public class InitUtils {
 
             @Override
             public void onError(Throwable e) {
-                Logger.t(TAG).e(e.toString());
+                Logger.t(TAG).d(e.toString());
             }
 
             @Override

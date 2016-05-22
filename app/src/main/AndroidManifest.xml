@@ -32,6 +32,7 @@
         <activity android:name=".ui.answer.ActivityAnswer"/>
         <activity android:name=".ui.question.ActivityQuestion"/>
         <activity android:name=".ui.ActivityLargeImage"/>
+        <activity android:name=".ui.article.ActivityArticles"/>
 
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"

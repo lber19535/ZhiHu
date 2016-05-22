@@ -2,6 +2,7 @@ package com.bill.zhihu.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -44,6 +45,9 @@ public class RichContentView extends WebView {
         getSettings().setJavaScriptEnabled(true);
         getSettings().setAllowContentAccess(true);
         getSettings().setAllowFileAccess(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            setWebContentsDebuggingEnabled(false);
+        }
         setWebChromeClient(new RichContentChromeClient());
         setWebViewClient(new RichContentWebClient());
         addJavascriptInterface(this, "ZhihuAndroid");
@@ -126,7 +130,7 @@ public class RichContentView extends WebView {
         Intent intent = new Intent(getContext(), ActivityLargeImage.class);
         intent.setAction(IntentConstant.INTENT_ACTION_LARGE_IMAGE);
         intent.putExtra(IntentConstant.INTENT_LARGE_IMAGE_URL, ImageUrlUtils.webimgSmall2Normal(url));
-        intent.putCharSequenceArrayListExtra(IntentConstant.INTENT_LARGE_IMAGE_URL_ARRAY,imgHDUrl);
+        intent.putCharSequenceArrayListExtra(IntentConstant.INTENT_LARGE_IMAGE_URL_ARRAY, imgHDUrl);
         getContext().startActivity(intent);
         Logger.d(url);
     }

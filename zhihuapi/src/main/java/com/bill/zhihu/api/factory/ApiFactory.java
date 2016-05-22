@@ -1,6 +1,7 @@
 package com.bill.zhihu.api.factory;
 
 import com.bill.zhihu.api.AnswerApi;
+import com.bill.zhihu.api.ArticlesApi;
 import com.bill.zhihu.api.FeedsApi;
 import com.bill.zhihu.api.LoginApi;
 import com.bill.zhihu.api.PeopleApi;
@@ -8,6 +9,7 @@ import com.bill.zhihu.api.QuestionApi;
 import com.bill.zhihu.api.net.ZhihuRetrofit;
 import com.bill.zhihu.api.service.API;
 import com.bill.zhihu.api.service.AnswerService;
+import com.bill.zhihu.api.service.ArticleService;
 import com.bill.zhihu.api.service.FeedsApiService;
 import com.bill.zhihu.api.service.LoginApiService;
 import com.bill.zhihu.api.service.PeopleApiService;
@@ -95,6 +97,21 @@ public class ApiFactory {
         QuestionApi api = (QuestionApi) checkApiInstance(service);
         if (api == null) {
             return (QuestionApi) createApi(service, new QuestionApi(service));
+        } else {
+            return api;
+        }
+    }
+
+    /**
+     * Create {@link QuestionApi}
+     *
+     * @return
+     */
+    public static ArticlesApi createArticlesApi() {
+        ArticleService service = ZhihuRetrofit.retrofit().create(ArticleService.class);
+        ArticlesApi api = (ArticlesApi) checkApiInstance(service);
+        if (api == null) {
+            return (ArticlesApi) createApi(service, new ArticlesApi(service));
         } else {
             return api;
         }

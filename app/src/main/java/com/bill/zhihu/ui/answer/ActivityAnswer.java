@@ -8,6 +8,7 @@ import com.bill.zhihu.activity.BaseActivity;
 import com.bill.zhihu.model.answer.AnswerIntentValue;
 import com.bill.zhihu.constant.IntentConstant;
 import com.bill.zhihu.transformer.ZhihuSwipeBackTransformer;
+import com.bill.zhihu.util.SwipeBackUtils;
 import com.hannesdorfmann.swipeback.Position;
 import com.hannesdorfmann.swipeback.SwipeBack;
 import com.orhanobut.logger.Logger;
@@ -24,13 +25,9 @@ public class ActivityAnswer extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_answer);
 
         // Init the swipe back
-        SwipeBack.attach(this, Position.LEFT)
-                .setContentView(R.layout.activity_answer)
-                .setSwipeBackTransformer(new ZhihuSwipeBackTransformer())
-                .setSwipeBackView(R.layout.layout_swipeback);
+        SwipeBackUtils.attach(this,R.layout.activity_answer);
 
         initToolBar();
 

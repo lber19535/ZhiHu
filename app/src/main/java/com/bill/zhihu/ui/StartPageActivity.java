@@ -33,12 +33,6 @@ public class StartPageActivity extends BaseActivity {
 
         presenter = new StartPagePresenter(viewBinding, this);
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
         presenter.initStartPage()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Boolean>() {
@@ -57,4 +51,5 @@ public class StartPageActivity extends BaseActivity {
                     }
                 });
     }
+
 }

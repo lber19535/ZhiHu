@@ -16,7 +16,7 @@ import com.bill.zhihu.model.FontSize;
 import com.bill.zhihu.model.question.QuestionItem;
 import com.bill.zhihu.ui.Theme;
 import com.bill.zhihu.ui.answer.ActivityAnswer;
-import com.bill.zhihu.util.IntentUtils;
+import com.bill.zhihu.util.IntentConverter;
 import com.bill.zhihu.util.RichContentUtils;
 
 import java.util.List;
@@ -85,7 +85,7 @@ public class QuestionRecyclerAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ActivityAnswer.class);
                     intent.setAction(IntentConstant.INTENT_ACTION_ANSWER_INTENT_VALUE);
-                    intent.putExtra(IntentConstant.INTENT_NAME_ANSWER_INTENT_VALUE, IntentUtils.convert(item));
+                    intent.putExtra(IntentConstant.INTENT_NAME_ANSWER_INTENT_VALUE, IntentConverter.convert(item));
                     mContext.startActivity(intent);
                 }
             });

@@ -15,10 +15,11 @@ import com.bill.zhihu.api.bean.feeds.FeedsItemTargetType;
 import com.bill.zhihu.api.bean.feeds.FeedsItemVerb;
 import com.bill.zhihu.api.utils.TextUtils;
 import com.bill.zhihu.ui.answer.ActivityAnswer;
+import com.bill.zhihu.ui.article.ActivityArticles;
 import com.bill.zhihu.ui.question.ActivityQuestion;
 import com.bill.zhihu.util.FeedsItemUtils;
 import com.bill.zhihu.constant.IntentConstant;
-import com.bill.zhihu.util.IntentUtils;
+import com.bill.zhihu.util.IntentConverter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orhanobut.logger.Logger;
@@ -90,7 +91,6 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
         switch (item.target.type) {
             case FeedsItemTargetType.ANSWER:
             case FeedsItemTargetType.ARTICLE:
-            case FeedsItemVerb.VOTE_UP_ARTICLE:
                 return VIEW_TYPE_ANSWER_QUESTION;
             case FeedsItemTargetType.QUESTION:
             case FeedsItemTargetType.COLUMN:
@@ -108,10 +108,9 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
     public void onBindViewHolder(TimeLineViewHolder holder, int position) {
         final FeedsItem item = timelineItems.get(position);
 
-
         int type = getItemViewType(position);
 
-        Logger.t(TAG).d("type", type);
+        Logger.t(TAG).d("type" + type);
 
         // load source picture of people
         View.OnClickListener fromOrAvatarListener = new View.OnClickListener() {
@@ -124,11 +123,51 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
         View.OnClickListener questionListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 问题界面
-                Intent intent = new Intent(mContext, ActivityQuestion.class);
-                intent.setAction(IntentConstant.INTENT_ACTION_FEEDS_ITEM);
-                intent.putExtra(IntentConstant.INTENT_NAME_FEEDS_ITEM, item);
-                mContext.startActivity(intent);
+                switch (item.target.type) {
+                    case FeedsItemTargetType.ANSWER:
+                    case FeedsItemTargetType.QUESTION: {
+                        // 问题界面
+                        Intent intent = new Intent(mContext, ActivityQuestion.class);
+                        intent.setAction(IntentConstant.INTENT_ACTION_FEEDS_ITEM);
+                        intent.putExtra(IntentConstant.INTENT_NAME_FEEDS_ITEM, item);
+                        mContext.startActivity(intent);
+                        break;
+                    }
+                    case FeedsItemTargetType.COLUMN:
+                    case FeedsItemTargetType.ARTICLE: {
+                        // 文章标题
+                        Intent intent = new Intent(mContext, ActivityArticles.class);
+                        intent.setAction(IntentConstant.INTENT_ACTION_FEEDS_ITEM);
+                        intent.putExtra(IntentConstant.INTENT_NAME_FEEDS_ITEM, item);
+                        mContext.startActivity(intent);
+                        break;
+                    }
+                }
+
+            }
+        };
+
+        View.OnClickListener answerListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (item.target.type) {
+                    case FeedsItemTargetType.ANSWER: {
+                        Intent intent = new Intent(mContext, ActivityAnswer.class);
+                        intent.setAction(IntentConstant.INTENT_ACTION_ANSWER_INTENT_VALUE);
+                        intent.putExtra(IntentConstant.INTENT_NAME_ANSWER_INTENT_VALUE, IntentConverter.convert(item));
+                        mContext.startActivity(intent);
+                        break;
+                    }
+                    case FeedsItemTargetType.ARTICLE: {
+                        // 文章内容
+                        Intent intent = new Intent(mContext, ActivityArticles.class);
+                        intent.setAction(IntentConstant.INTENT_ACTION_FEEDS_ITEM);
+                        intent.putExtra(IntentConstant.INTENT_NAME_FEEDS_ITEM, item);
+                        mContext.startActivity(intent);
+                        break;
+                    }
+                }
+
             }
         };
 
@@ -179,15 +218,7 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
 
                 answerViewHolder.setOnFromOrAvatarClickListener(fromOrAvatarListener);
                 answerViewHolder.setOnQuestionClickListener(questionListener);
-                answerViewHolder.setOnAnswerClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, ActivityAnswer.class);
-                        intent.setAction(IntentConstant.INTENT_ACTION_ANSWER_INTENT_VALUE);
-                        intent.putExtra(IntentConstant.INTENT_NAME_ANSWER_INTENT_VALUE, IntentUtils.convert(item));
-                        mContext.startActivity(intent);
-                    }
-                });
+                answerViewHolder.setOnAnswerClickListener(answerListener);
                 break;
             }
             case VIEW_TYPE_ROUNDTABLE: {
@@ -253,7 +284,6 @@ public class TimeLineRecyclerAdapter extends Adapter<TimeLineViewHolder> {
             case VIEW_TYPE_ROUNDTABLE:
                 itemView = mInflater.inflate(
                         R.layout.list_item_tl_empty, container, false);
-                itemView.setVisibility(View.GONE);
                 holder = new TimeLineEmptyViewHolder(itemView);
             default:
                 break;
