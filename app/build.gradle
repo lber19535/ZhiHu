@@ -17,12 +17,17 @@ android {
 
         ndk {
             //设置支持的SO库架构
-//            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
             abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
     }
 
     signingConfigs {
+        release {
+            storeFile file("../keystore/zhihu.keystore.jks")
+            storePassword System.getenv("KEYSTORE_PASS")
+            keyAlias System.getenv("ALIAS_NAME")
+            keyPassword System.getenv("ALIAS_PASS")
+        }
         preview {
             storeFile file("../keystore/debug.keystore")
             storePassword "android"
@@ -42,6 +47,7 @@ android {
             shrinkResources true
             resValue "string", "app_version_name", "${defaultConfig.versionName}-release"
             resValue "string", "app_name", "知乎"
+            signingConfig signingConfigs.release
         }
         debug {
             applicationIdSuffix ".debug"

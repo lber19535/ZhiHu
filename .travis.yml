@@ -1,0 +1,24 @@
+language: android  
+jdk: openjdk7  
+android:  
+  components:
+    - build-tools-23.0.3
+    - android-23
+    - extra-android-m2repository
+    - extra-android-support
+# git:  
+#   submodules: false
+# before_install:  
+#   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+#   - git submodule init && git submodule update
+script:  
+  - ./gradlew assembleRelease
+before_deploy:  
+  - mv "app/build/outputs/apk/app-$TRAVIS_TAG-release.apk" "app/build/outputs/apk/zhihu.apk"
+deploy:  
+  provider: releases
+  api_key: "9736ac63ffcc8aa654543dee348bfaf3b424fcb5"
+  file: app/build/outputs/apk/zhihu.apk
+  skip_cleanup: true
+  on:
+    tags: true
