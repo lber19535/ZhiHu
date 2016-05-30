@@ -30,7 +30,7 @@ script:
 
 before_deploy:
   - ./deploy.sh
-  - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
+  - echo "deploying $RELEASE_APK_FILE to GitHub releases"
 
 deploy:  
   provider: releases
