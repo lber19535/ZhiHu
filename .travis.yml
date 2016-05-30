@@ -12,7 +12,7 @@ notifications:
 
 android:  
   components:
-    // for update build tools
+    # for update build tools
     - platform-tools
     - tools
     - build-tools-23.0.3
