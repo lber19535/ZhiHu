@@ -26,7 +26,7 @@ before_install:
 script:  
   - ./gradlew assembleRelease -PdisablePreDex --info
 before_deploy:  
-  - sh deploy.sh
+  - ./deploy.sh
 
 deploy:  
   provider: releases
