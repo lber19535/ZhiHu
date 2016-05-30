@@ -11,8 +11,6 @@ TARGET_APK_NAME="$(find $APK_PATH -name '*release.apk')"
 RELEASE_APK_FILE="zhihu-$TRAVIS_TAG-$DATE-release.apk"
 
 echo "$TARGET_APK_NAME"
+echo "$RELEASE_APK_FILE"
 
 mv "$TARGET_APK_NAME" "$APK_PATH/$RELEASE_APK_FILE"
-
-export RELEASE_APK_FILE
-
