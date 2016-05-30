@@ -1,5 +1,6 @@
 language: android  
 jdk: oraclejdk7
+cache: false
 # sudo: required
 # env:
   # global:
@@ -11,6 +12,8 @@ notifications:
 
 android:  
   components:
+    - platform-tools
+    - tools
     - build-tools-23.0.3
     - android-23
     - extra-android-m2repository
@@ -22,8 +25,8 @@ before_install:
   # - javac -J-Xmx1024m -version
   # - ulimit -s 1082768
   - chmod +x gradlew
-  - echo y | android update sdk --no-ui --all --filter tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository,android-23
-  - echo y | android update sdk --no-ui --all --filter build-tools-23.0.3
+  # - echo y | android update sdk --no-ui --all --filter tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository,android-23
+  # - echo y | android update sdk --no-ui --all --filter build-tools-23.0.3
 #   - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
 #   - git submodule init && git submodule update
 script:  
