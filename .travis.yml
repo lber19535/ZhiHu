@@ -22,6 +22,7 @@ android:
 
 before_install:  
   - chmod +x gradlew
+  - chmod +x deploy.sh
 
 script:  
   - ./gradlew assembleRelease -PdisablePreDex --info
