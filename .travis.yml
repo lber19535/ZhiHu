@@ -26,7 +26,7 @@ before_install:
 script:  
   - ./gradlew assembleRelease -PdisablePreDex --info
 before_deploy:  
-  - mv "app/build/outputs/apk/app-$TRAVIS_TAG-release.apk" "app/build/outputs/apk/zhihu.apk"
+  - sh deploy.sh
 
 deploy:  
   provider: releases
