@@ -1,6 +1,7 @@
 language: android  
 jdk: oraclejdk7
 cache: false
+# for fix 137 error
 sudo: required
 
 env:
@@ -26,15 +27,16 @@ before_install:
 
 script:  
   - ./gradlew assembleRelease -PdisablePreDex --info
+
 before_deploy:
   - ./deploy.sh
+  - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
 
 deploy:  
   provider: releases
   api_key:
-    api_key:
     secure: wifs3kkICwPtxd+OEoNMABi8IUl2VrMZslnP/oXuBA53NkrmQW9Mh2zXOCAh5P5sZMnD017AMBkHGzyDMKqI/XTFZxMDwWSighJs+HSVmhUZ/t4jpmEKZjfn/q50SlrFvSqiw9dltFwjynT+CRuIHW07ng0nfwyT3JXeyJeQImDlPOfHA7H2DgGnXxI72sjk1rhFtaPRT66vj3BQ2FmbM4Puo/eddwxdW/jXxOpLUx8oSUkENwGL2+70Cqv/00AZk+0gklZNqGRiwcjJrMkpEFaP0AV/ruJHqL9/G0baLqh8I/IBTZ8DnGv9hG4cxizmdyOBo0Q6xYmAGXvTf1gAn3voShsxA/SsHsjNDW2Wh6WZOLtg48cEydLHKpjz0Dffiq2mSbuTl5DO8qmv882udm441xHqz7RaAlvvCnSzHEMUo84flOgBAbdPtma+yiSgPHUcOq8f5opCM+ymrjfEjapw756UaQTaHp6shrqRKihIogWDgg8NzSEfrKTZSjTZpQAQPg7axqkQtlQhP8jg1d6pEjMIcWOJ7WFh1lhFCRDFTXvZppnpH88w679s3g7CWk3kR5Cg20zvnPznHBiqsFRktYy2O5EJM0pXOIRZtRla+M95cG6367wo6o/19R75QQKEACcLVvDbf0S7N96qV3U5EZwvdgqd6ZAK2FYMV/Q=
-  file: "app/build/outputs/apk/zhihu.apk"
+  file: "app/build/outputs/apk/$RELEASE_APK_FILE"
   skip_cleanup: true
   on:
     tags: true

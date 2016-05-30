@@ -6,9 +6,13 @@ DATE="$(date +'%Y-%m-%d')"
 
 echo "$APK_PATH"
 
-RELEASE_APK_NAME="$(find $APK_PATH -name '*release.apk')"
+TARGET_APK_NAME="$(find $APK_PATH -name '*release.apk')"
 
-echo "$RELEASE_APK_NAME"
+RELEASE_APK_FILE="zhihu-$TRAVIS_TAG-$DATE-release.apk"
 
-mv "$RELEASE_APK_NAME" "$APK_PATH/zhihu.apk"
+echo "$TARGET_APK_NAME"
+
+mv "$TARGET_APK_NAME" "$APK_PATH/$RELEASE_APK_FILE"
+
+export RELEASE_APK_FILE
 
