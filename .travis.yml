@@ -2,6 +2,7 @@ language: android
 jdk: oraclejdk7
 cache: false
 sudo: required
+
 env:
   global:
     - MALLOC_ARENA_MAX=2
@@ -18,8 +19,7 @@ android:
     - android-23
     - extra-android-m2repository
     - extra-android-support
-# git:  
-#   submodules: false
+
 before_install:  
   - chmod +x gradlew
 
@@ -27,6 +27,7 @@ script:
   - ./gradlew assembleRelease -PdisablePreDex --info
 before_deploy:  
   - mv "app/build/outputs/apk/app-$TRAVIS_TAG-release.apk" "app/build/outputs/apk/zhihu.apk"
+
 deploy:  
   provider: releases
   api_key: "9736ac63ffcc8aa654543dee348bfaf3b424fcb5"
