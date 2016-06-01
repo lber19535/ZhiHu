@@ -2,7 +2,7 @@
 
 PROJECT_PATH="$(pwd)"
 APK_PATH="$PROJECT_PATH/app/build/outputs/apk/"
-DATE="$(date +'%Y-%m-%d')"
+DATE="$(date +'%Y%m%d')"
 
 echo "$APK_PATH"
 

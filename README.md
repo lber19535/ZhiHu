@@ -1,4 +1,4 @@
-# ZhiHu
+# ZhiHu   [![Build Status](https://travis-ci.org/lber19535/ZhiHu.svg?branch=master)](https://travis-ci.org/lber19535/ZhiHu)
 一个简单的知乎app， 支持Android 4.0以上，这个项目算是日常工作学习的积累。
 
 最开始的几个版本是模拟浏览器行为做的，但是由于网页经常变动，所以使用 jsoup 解析的时候没办法很好的解析出想要的内容，现在直接使用官方的接口。
